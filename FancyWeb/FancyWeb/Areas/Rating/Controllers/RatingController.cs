@@ -71,7 +71,7 @@ namespace FancyWeb.Areas.Rating.Controllers
         {
             ProductEvaluation pe = new ProductEvaluation();
             pe.ProductID =Convert.ToInt32(post["pid"]);
-            pe.UserID = 16;
+            pe.UserID = Int32.Parse(Request.Cookies["upid"].Value); //16;
             pe.Grade = Convert.ToInt32(post["grade"]);
             pe.Comment = post["comment"];
             pe.EvaluationDate = DateTime.Now;
