@@ -6,6 +6,8 @@
 <html style="height: 100%">
 <head>
     <link href="~/Areas/Management/style/Dashboard.css" rel="stylesheet" />
+    <link href="~/Areas/HomePage/Plugin/slick/slick-theme.css" rel="stylesheet" />
+
 </head>
 
 <body style="height: 100%;">
@@ -70,10 +72,10 @@
     </div>
 
     <div class="row mb-3 ">
-        <div class="col-md-6 ">
-            <div class="card h-100">
+        <div class="col-md-6 flex-row">
+            <div class="col-md-12 card">
                 <div class="card-header">
-                    最近評價
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">最近評價</span> 
                 </div>
                 <div class="card-body Evaluationcomme style-1">
                     @foreach (var item in Model.recentEvaluation)
@@ -85,7 +87,7 @@
                                 <strong class="h5 mt-0">@item.Username</strong>
                                 <div>
                                     <p class="comment-text">
-                                        @item.Comment 不管是要選品，還是為了提升自己的產品品質，總會需要參考買家的評價與評論，但商品和 Review 這麼多，如果把每個商品的 Review 下載下來，再自己分析是多麼累人的事，再加上不是自己的語言就覺得更累了
+                                        @item.Comment
                                     </p>
                                 </div>
                                 <p class="text-secondary text-right mb-0">評論於 @item.Date</p>
@@ -95,20 +97,50 @@
 
                 </div>
             </div>
+            <div class="col-md-12 card bg-danger-my mt-2 mb-2">
+                <div class="card-body">
+                    <div class="text-center text-white py-2">
+                        @*<h5 class="mt-0 mb-4 text-dark font-16"></h5>*@
+                        <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">今日最熱門商品</span>
+                        @if (Model.PopularProducts != null)
+                        {
+                            <div class=" d-flex justify-content-lg-around">
+                                @for (int i = 0; i < 3; i++)
+                                {
+                                    <div class="card mx-1 border-0" style="width:100%;">
+                                        <div class="bg-cover imgbody" style="background-image:url(/ProductDisplay/Product/ByteImage/@Model.PopularProducts[i].Pid)">
+                                            @{
+                                                int co = i + 1;
+                                                <span class="badge badge-danger border-0">@co</span>
+                                            }
+                                        </div>
+                                        <div class="card-body">
+                                            <span style="font-size:.8rem" class="text-dark">@Model.PopularProducts[i].Pname</span>
+                                        </div>
+                                        <div class="card-footer">
+                                            <small class="text-muted">賣出 @Model.PopularProducts[i].count 件</small>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-md-6">
             <div class="mmmcard">
                 <div class="row">
-                    <div class="col-md-6 mb-2">
+                    <div class="col-md-12 mb-2">
                         <div class="card text-center h-100">
                             <div class="card-header">
-                                最近訂單
+                                <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">最近訂單</span>
                             </div>
                             <div class="card-body">
                                 <div class="text-right">
                                     <a href="@Url.Action("Index", "Shipment", new { Area = "Backend" })" class="btn btn-outline-secondary">訂單管理</a>
                                 </div>
-                                <table class="table mb-0 table-responsive-lg">
+                                <table class="table mb-0">
                                     <thead>
                                         <tr>
                                             <td class="border-0">會員</td>
@@ -153,29 +185,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6  mb-2">
-                        <div class="card bg-danger h-100">
-                            <div class="card-body">
-                                <div class="text-center text-white py-2">
-                                    <h5 class="mt-0 mb-4 text-white-50 font-16">最熱門商品</h5>
-                                    @if (Model.PopularProducts != null)
-                                    {
-                                        <h2>@Model.PopularProducts.Pname</h2>
-                                        <p>賣出 @Model.PopularProducts.count 件</p>
-                                        <img style="height:200px" class="img-fluid" src="/ProductDisplay/Product/ByteImage/@Model.PopularProducts.Pid" />
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
                 <div class="row">
                     <div class="col-md-6 h-100">
                         <div class="card h-100 flex-column">
                             <div class="card-header text-center">
-                                用戶來源
+                                <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">用戶來源</span>
                             </div>
-                            <div id="ec03" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
+                            <div id="ec03" class="px-4 pt-4" style="height: 100%;min-height:450px;"></div>
                             <div class="px-3 h-50">
                                 <ul class="list-inline widget-chart text-center">
                                     <li class="list-inline-item">
@@ -233,7 +251,7 @@
                     <div class="col-md-6 h-100">
                         <div class="card h-100">
                             <div class="card-header text-center">
-                                男女佔比
+                                <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">男女佔比</span>
                             </div>
                             <div id="ec02" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
                             <div class="px-3 h-50">
@@ -248,7 +266,6 @@
                                     <tbody>
                                         @foreach (var item in Model.MemberGender)
                                         {
-
                                             double t = item.Value[0] + item.Value[1];
                                             double m = (item.Value[0] / t) * 100;
                                             double f = (item.Value[1] / t) * 100;
@@ -288,7 +305,7 @@
         <div class="col-12 col-md-6 mb-2">
             <div class="card h-100 flex-column">
                 <div class="card-header">
-                    近三年類別銷售成長趨勢
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">近三年類別銷售成長趨勢</span>
                 </div>
                 <ul class="list-inline widget-chart my-4 text-center" id="top3">
                     <li class="list-inline-item">
@@ -334,7 +351,7 @@
         <div class="col-md-6 mb-2">
             <div class="card h-100 mb-2">
                 <div class="card-header">
-                    區域成交趨勢
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">區域成交趨勢</span>
                 </div>
                 <div id="ec05" style="height: 100%;min-height:400px;" class="card-body d-flex align-items-center">
                 </div>
@@ -356,7 +373,7 @@
         <div class="col-md-6">
             <div class="card h-100 mb-2">
                 <div class="card-header">
-                    類別營收占比
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">類別營收占比</span>
                 </div>
                 <div id="ec01" style="height: 100%;min-height:400px;" class="card-body">
                 </div>
@@ -365,7 +382,7 @@
         <div class="col-md-6">
             <div class="card h-100">
                 <div class="card-header">
-                    總營收成長
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">總營收成長</span>
                 </div>
                 <div id="ec06" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
                 <div class="px-3 h-50">
@@ -393,7 +410,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <span class=" mr-auto">每年下單數分析</span>
+                    <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">每年下單數分析</span>
                     <item class="myitem">
                         <select class="myselect">
                             <option value="0">ALL</option>
@@ -414,6 +431,7 @@
     <script src="~/Areas/Management/Plugin/E-Charts/echarts.min.js"></script>
     <script src="~/Areas/Management/Plugin/E-Charts/ecStat.min.js"></script>
     <script src="~/Areas/Management/Plugin/E-Charts/echarts-gl.min.js"></script>
+    <script src="~/Areas/HomePage/Plugin/slick/slick.js"></script>
     <script src="~/Areas/Management/Script/Dashboard.js"></script>
     @*銷售總額類別占比*@
     <script>
@@ -540,7 +558,7 @@
                          formatter: 'NT${value}',
                          textStyle: { fontSize: '1rem' }
                      }
-                     
+
 
                  },
                  series: data.clsRevenueGroup
@@ -753,7 +771,7 @@
                  tooltip: {},
                  lable: {
                      normal: {
-   
+
                      }
                  },
                  color: ['#ff4040', '#4ca3dd', '#00c300', '#ffb6c1','#f6c502'],
