@@ -27,18 +27,20 @@ namespace FancyWeb.Areas.Management.Service
                 m = n.Where(m => !m.Gender).Count(),
             }).ToDictionary(p => p.Key.ToString(), p => new double[] { p.f, p.m });
             dashboard.MemberGender = gender;
-
             var pupp = db.OrderDetails.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString())
-                       .GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).FirstOrDefault();
+                       .GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).Take(3).ToList();
             if (pupp != null)
             {
-                var product = db.Products.Find(pupp.Key);
-                dashboard.PopularProducts = new PopularProducts
+                foreach (var item in pupp)
                 {
-                    Pid = product.ProductID,
-                    Pname = product.ProductName,
-                    count = pupp.sum
-                };
+                    var product = db.Products.Find(item.Key);
+                    dashboard.PopularProducts.Add(new PopularProducts
+                    {
+                        Pid = product.ProductID,
+                        Pname = product.ProductName,
+                        count = item.sum
+                    });
+                }
             }
             var rO = db.OrderHeaders.Where(n => n.OrderStatusID == 1).OrderByDescending(n => n.CreateDate).Take(3).ToList();
             dashboard.recentOrders = rO;

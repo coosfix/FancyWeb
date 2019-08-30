@@ -46,7 +46,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     string[] CA = Session["RequestURL"].ToString().Split('-');
                     return RedirectToAction(CA[1], CA[0]);
                 }
-                else return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                else return RedirectToAction("Index", "Home", new { area = "HomePage" });
             }
             else
             {
