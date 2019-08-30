@@ -1,0 +1,220 @@
+﻿@model IEnumerable<FancyWeb.Areas.Rating.ViewModel.RatingProductViewModel>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>商品評價</h2>
+
+@section styles{
+    <head>
+        <link href="~/Scripts/rating/starability-all.min.css" rel="stylesheet" />
+        <link href="~/Scripts/rating/starability-fade.min.css" rel="stylesheet" />
+    </head>
+
+    <style>
+
+        .src {
+        }
+
+        .good {
+            color: #745d26;
+            border-color: #745d26;
+            background: #ffffff;
+            border-radius: 10px;
+            border: 2px solid #745d26;
+            font-weight: 700;
+        }
+
+        .rating_comment {
+            background: #8b7c61;
+            border-radius: 5px;
+            color: #ffffff;
+            height: 45px;
+        }
+    </style>
+}
+
+@*<div class="btn-group" role="group" aria-label="Basic example">
+<button type="button" class="btn">待評價商品</button>
+<button type="button" class="btn">已評價商品</button>
+</div>*@
+<hr />
+
+<div class="row">
+    @foreach (var rp in Model)
+    {
+        <div class="col-md-4 card mb-3" style="max-width: 650px;">
+            <div class="row">
+                <div class="col-md-4">
+                    <img style="width:200px; height:250px; margin:20px 10px 20px 10px" ; src="@Url.Action("GetImageByte", "Rating", new { id = rp.PhotoID })" class="card-img" object-fit="cover" title="@rp.ProductName">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <label class="card-text">訂單編號：</label>
+                        <span class="orderNum">@rp.OrderNum</span>
+                        <br />
+                        <label class="card-text">購買日期：</label>
+                        <span>@rp.CreateDate</span>
+                        <br />
+                        <label class="card-text">商品名稱：</label>
+                        <span class="prodName">@rp.ProductName</span>
+                        <br />
+                        <label class="card-text">顏色：</label>
+                        <span>@rp.ColorName</span>
+                        <br />
+                        <label class="card-text">尺寸：</label>
+                        <span>@rp.SizeName</span>
+                        <br />
+                        <button class="rating_comment" type="button" data-userid="@rp.UserID" data-prodid="@rp.ProductID" data-toggle="modal" data-target="#editModal">評價此商品</button>
+                    </div>
+                </div>
+               </div>
+            </div>
+
+    }
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="editModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="padding:15px 15px 10px 15px;height:50px">
+                <h5 class="modal-title">商品評價</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="padding:5px 20px 20px 20px;">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label style="margin:0px 0px 10px 0px">訂單編號：</label>
+                <span id="OrderNum"></span>
+                <br />
+                <label style="margin:0px 0px 10px 0px">商品名稱：</label>
+                <span id="ProuductName"></span>
+                <br />
+                <label>評價分數：</label>
+                <fieldset class="starability-slot" id="Grade">
+                    <input type="radio" id="slot-rate1" name="rating" value="1">
+                    <label for="slot-rate1" title="Terrible"></label>
+
+                    <input type="radio" id="slot-rate2" name="rating" value="2">
+                    <label for="slot-rate2" title="Not good"></label>
+
+                    <input type="radio" id="slot-rate3" name="rating" value="3">
+                    <label for="slot-rate3" title="Average"></label>
+
+                    <input type="radio" id="slot-rate4" name="rating" value="4">
+                    <label for="slot-rate4" title="Very good"></label>
+
+                    <input type="radio" id="slot-rate5" name="rating" value="5" checked="checked">
+                    <label for="slot-rate5" title="Amazing"></label>
+                </fieldset>
+                <span>-左右滑動或直接點選星星-</span>
+                <hr />
+                <button type="button" class="good">質感超好</button>
+                <button type="button" class="good">超級喜歡</button>
+                <button type="button" class="good">CP值超高</button>
+                <button type="button" class="good">實品超美</button>
+                <br />
+                <br />
+                <label for="Comment">留言評論：</label>
+                <textarea cols="50" rows="5" class="form-control" id="Comment" placeholder="告訴別人你有多喜歡這個商品" required></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="close">關閉</button>
+                <button type="button" class="btn btn-primary" id="buttonSend" data-dismiss="modal">送出</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(function () {
+            var userid = 0;
+            var prodid = 0;
+            var ordernum = 0;
+            var prodname = 0;
+
+            $(".rating_comment").click(function () {
+
+                userid = $(this).data("userid");
+                prodid = $(this).data("prodid");
+               ordernum = $(this).parent().children('.orderNum').text();
+               prodname = $(this).parent().children('.prodName').text();
+                $("#OrderNum").text(ordernum);
+                $("#ProuductName").text(prodname);
+                
+
+            });
+
+            $("#buttonSend").click(function () {
+
+                var rate = $('input[name=rating]:checked').val();
+                var com = $("#Comment").val();
+                if (!com)
+                {
+                    alert("請輸入評價內容")
+                }
+                else {
+                   
+                    //console.log(comment);
+                    $.post("/Rating/Rating/SaveComment", {
+                        pid: prodid,
+                        uid: userid,
+                        grade: rate,
+                        comment: com,
+                        ordernumber: ordernum,
+                        
+                    }).done(function (json) {
+                        if (json.Status) {
+                            alert("評價完成 !");
+                        }
+                        else {
+                            alert(json.Message);
+                        }
+                        location.reload();
+                    });
+                }
+                   
+               
+            });
+
+            //按按鈕顯示文字
+            $(".good").click(function () {
+                //var ans = $(".good").val();
+                // $("#Comment").val(ans);
+                var q1 = $(this).text();
+                var q2 = $("#Comment").val()
+                $("#Comment").val(q2 + q1)
+
+            })
+
+            //點選關閉清空comment textarea內容
+            $("#close").click(function () {
+                
+                $("#Comment").val("");
+                $("input[name=rating]:checked").prop('checked', false);
+                $("#slot-rate5").prop("checked", true);
+               
+                
+
+
+                
+             
+                
+            })
+
+            
+
+
+
+
+        });
+
+
+
+    </script>
+}
