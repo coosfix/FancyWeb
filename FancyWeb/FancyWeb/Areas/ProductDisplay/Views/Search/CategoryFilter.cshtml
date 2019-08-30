@@ -1,0 +1,26 @@
+﻿@model  IEnumerable<FancyWeb.Areas.ProductDisplay.Models.CategoryFilter>
+@{
+    int a = 1;
+}
+@foreach (var filter in Model)
+{
+<h4 class="tle1">
+    <img src="~/Areas/ProductDisplay/Images/cate_icon{@a}.svg" />@filter.FilterName
+</h4>
+    <div class="p-3 tle1">
+        <div>
+            <div class="row">
+                @foreach (var category in filter.Filter)
+                {
+                    <div class="col-md-4 mb-2">
+                        <div class="custom-control custom-radio">
+                            <input type="checkbox" id="@category.Value" value="@category.Value" name="category" class="custom-control-input">
+                            <label class="custom-control-label" for="@category.Value"><span>@category.Key</span></label>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    a += 1;
+}

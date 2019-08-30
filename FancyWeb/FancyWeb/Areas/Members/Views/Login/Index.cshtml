@@ -1,0 +1,393 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <title>登入</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+
+    <link href="~/Areas/Members/Content/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link href="~/Areas/Members/Content/Site.css" rel="stylesheet" />
+    <link href="~/Areas/Members/Content/pushbar/pushbar.css" rel="stylesheet" />
+    <link href="~/Areas/Members/Content/LoginMainpage.css" rel="stylesheet" />
+    <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/reboundgen.css" rel="stylesheet" />
+</head>
+<body>
+    @* 登入畫面 *@
+    @*<video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <source src="~/Areas/Members/Image/bg.mp4" type="video/mp4" />
+        </video>*@
+    <div id="Login">
+        <div class="Login">
+            @*<div class="left-img d-none d-md-block"></div>*@
+            <div class="d-flex justify-content-center align-items-center">
+                <div class="row w-100">
+                    <div class="col-md-6">
+                        <div class="right-Login">
+                            <div class="title_img">
+                                <h1>Fancy</h1>
+                            </div>
+                            <form class="mt-2 w-100 needs-validation" method="post" novalidate>
+                                <div class="form-group">
+                                    <label for="UserName">使用者帳號</label>
+                                    <input type="text" class="form-control" id="UserName" name="UserName" placeholder="請輸入你的帳號" required>
+                                    <div class="valid-tooltip">
+                                        看起來可以
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        我們不會告訴任何人您的資料，請您放心。
+                                    </small>
+                                </div>
+                                <div class="form-group">
+                                    <label for="Password">使用者密碼</label>
+                                    <input type="password" class="form-control" id="Password" name="Password" placeholder="密碼" required>
+                                    <div class="valid-tooltip">
+                                        看起來可以
+                                    </div>
+                                </div>
+
+                                <div class="custom-control custom-checkbox my-2">
+                                    @Html.CheckBox("AutoLogin", new { @class = "custom-control-input", id = "AutoLogin" })
+                                    <label class="custom-control-label" for="AutoLogin">保持登入</label>
+                                </div>
+                                <button type="submit" class="btn btn-Fancy btn-block text-white p-2">登入</button>
+                                <div class="d-flex w-100 mt-2">
+                                    <a id="register" href="#" class="btn btn-Fancy w-50 text-white border-right">加入我們</a>
+                                    <a href="" data-pushbar-target="top" class="btn btn-Fancy w-50 text-white">忘記密碼</a>
+                                </div>
+                                @*<button type="submit" class="btn btn-outline-info btn-block">註冊</button>*@
+                            </form>
+                            <p class="text-danger text-center">@ViewBag.Message</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6 d-flex align-items-center">
+                        <div class="right-Login left-a mt-3 w-100 d-flex flex-column">
+                            <div class="title h2"> <span>連結社群帳號</span></div>
+                            <a href="@Url.Action("OAuthLogin",new { Method="Facebook"})" class="btn btn-FB btn-block text-white rounded-0"><i class="fab fa-facebook-f fa-lg mr-2"></i>登入</a>
+                            <a href="@Url.Action("OAuthLogin",new { Method="LINE"})" class="btn btn-Line btn-block text-white rounded-0"><i class="fab fa-line fa-lg mr-2"></i>登入</a>
+                            <a href="@Url.Action("OAuthLogin",new { Method="Google"})" class="btn btn-Google btn-block rounded-0"><i class="fab fa-google fa-lg mr-2"></i>登入</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @* 註冊 *@
+    <div id="Register" class="d-none">
+        <div class="Login d-flex ">
+            @*<div class="left-img d-none d-md-block"></div>*@
+            <div class="right-Login d-flex flex-column justify-content-center align-items-center">
+                <div class="title_img">
+                    <h1>註冊</h1>
+                </div>
+                <p id="message" class="text-danger"></p>
+                <form class="mt-2 w-100 needs-validation" id="regpost" novalidate>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="rUserName">使用者名稱</label>
+                            <input type="text" class="form-control" id="rUserName" name="UserName" placeholder="使用者名稱" required>
+                            <div class="invalid-tooltip">
+                                請輸入使用者名稱
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="rUserPassword">使用者密碼</label>
+                            <input type="password" class="form-control" id="rUserPassword" name="UserPassword" placeholder="使用者密碼" required>
+                            <div class="invalid-tooltip">
+                                請輸入密碼
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="City">城市</label>
+                            <select id="City" class="form-control" name="City">
+                                <option selected>台北市</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="Region">地區</label>
+                            <select id="Region" class="form-control" name="Region">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="rPhone">手機</label>
+                            <input type="text" class="form-control" id="rPhone" name="Phone" placeholder="手機" required>
+                            <div class="invalid-tooltip">
+                                請輸入手機號碼
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="rEmail">電子信箱</label>
+                            <input type="text" class="form-control" id="rEmail" name="Email" placeholder="電子信箱" required>
+                            <div class="invalid-tooltip">
+                                請輸入電子信箱
+                            </div>
+                        </div>
+                        <div class="form-group col">
+                            <label for="rAddress">地址</label>
+                            <input type="text" class="form-control" id="rAddress" name="Address" placeholder="宅配地址">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="custom-control custom-radio custom-control-inline">
+                            <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input" required>
+                            <label class="custom-control-label" for="gender1">男</label>
+                        </div>
+                        <div class="custom-control custom-radio custom-control-inline w-100">
+                            <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input" required>
+                            <label class="custom-control-label" for="gender2">女</label>
+                            <div class="invalid-tooltip">
+                                請輸入正確資料
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="d-flex w-100 mt-2 col">
+                            <button type="button" class=" h-100 btn btn-Fancy btn-block text-white" id="Register_post">註冊</button>
+                        </div>
+                        <div class="d-flex w-100 mt-2 col">
+                            <button type="button" id="backtoLogin" class="btn btn-Fancy w-100 text-white border-right">登入</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @* 忘記密碼 *@
+    <div class="pushbar_forgot from_top forgot_main" data-pushbar-id="top">
+        <div id="forgot_Email" class="d-flex justify-content-around align-items-center flex-column h-100">
+            <i data-pushbar-close class="fas fa-times close push_right"></i>
+            <h2>忘記密碼?</h2>
+            <h3>輸入電子信箱取的您的新密碼</h3>
+            <div class="my-input-group w-75">
+                <div class="my-input-group-prepend">
+                    <span class="my-input-group-text text-mygreen text-white"><i class="fas fa-envelope"></i></span>
+                </div>
+                <input class="my-input w-100" type="email">
+                <button id="forgot_Eb" class="btn btn-lg btn-Fancy text-white" type="button">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <div id="forgot_Account" class="d-none justify-content-around align-items-center flex-column h-100">
+            <i class="fas fa-arrow-left"></i>
+            <h3>輸入你的帳號</h3>
+            <div id="awd">
+                <div class="wrapper d-none">
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="circle"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                    <div class="shadow"></div>
+                    <span>Loading</span>
+                </div>
+            </div>
+
+            <div class="my-input-group w-75">
+                <div class="my-input-group-prepend">
+                    <span class="my-input-group-text text-mygreen text-white"><i class="fas fa-user"></i></span>
+                </div>
+                <input class="my-input w-100" type="text">
+                <button id="forgot_Ab" class="btn btn-lg btn-Fancy text-white" type="button">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="bottom_nav text-white">
+        <span>關於</span>
+        <span>條款</span>
+        <span>品牌</span>
+        <span>© @DateTime.Now.Year Fancy</span>
+        <span><i class="fab fa-line"></i></span>
+        <span><i class="fab fa-twitter"></i></span>
+        <span><i class="fab fa-facebook-f"></i></span>
+    </div>
+
+    <ul class="social-media-container">
+        <li class="social-media Line">
+            <i class="fab fa-line fa-3x"></i>
+            <a href="#">分享到LINE</a>
+        </li>
+        <li class="social-media twitter">
+            <i class="fab fa-twitter"></i>
+            <a href="#">分享到Twitter</a>
+        </li>
+
+        <li class="social-media facebook">
+            <i class="fab fa-facebook-f"></i>
+            <a href="#">分享到Facebook</a>
+        </li>
+
+    </ul>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+            integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+            integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="~/Areas/Members/Content/pushbar/pushbar.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        (function () {
+            'use strict';
+            window.addEventListener('load', function () {
+                // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                var forms = document.getElementsByClassName('needs-validation');
+                var forms2 = document.getElementById('regpost');
+                var formsbutton = document.getElementById('Register_post');
+                // Loop over them and prevent submission
+                var validation = Array.prototype.filter.call(forms, function (form) {
+                    form.addEventListener('submit', function (event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+                var validation2 = Array.prototype.filter.call(forms, function (forms2) {
+                    formsbutton.addEventListener('click', function (event) {
+                        if (forms2.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        forms2.classList.add('was-validated');
+                    }, false);
+                });
+
+            }, false);
+        })();
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#register").click(function () {
+                getRegion(3);
+
+                $("#Login").toggleClass("fadeOut");
+                setTimeout(() => {
+                    $("#Login").toggleClass(["d-none", "fadeOut"]);
+                    $("#Register").toggleClass(["d-none", "animation-in"]);
+                }, 500);
+                setTimeout(() => {
+                    $("#Register").removeClass("animation-in");
+                }, 1000);
+            });
+            $("#backtoLogin").click(() => {
+                $("#Register").toggleClass("fadeOut");
+                setTimeout(() => {
+                    $("#Register").toggleClass(["d-none", "fadeOut"]);
+                    $("#Login").toggleClass(["d-none", "animation-in"]);
+                }, 500);
+                setTimeout(() => {
+                    $("#Login").removeClass("animation-in");
+                }, 1000);
+            });
+            new Pushbar({
+                blur: false,
+                overlay: true,
+            });
+            $(".Line").click(() => {
+                let url = location.href;
+                let x = $(window).width() / 2 - 250;
+                let y = $(window).height() / 2 - 250;
+                window.open("https://social-plugins.line.me/lineit/share?url=" + url, "Line Share",
+                    `top=${y},left=${x},width=500,height=500`);
+            });
+            $(".twitter").click(() => {
+                let url = location.href;
+                let x = $(window).width() / 2 - 250;
+                let y = $(window).height() / 2 - 250;
+                window.open(`https://twitter.com/intent/tweet?hashtags=Fancy&text=分享這項商品到你的朋友圈吧!&url=${url}&via=twitterdev`, "Tweet Share",
+                    `top=${y},left=${x},width=500,height=500`);
+            });
+
+            $.getJSON("@Url.Action("ReturnCity","Login")", function (data) {
+            let Citylist = $(document.createDocumentFragment());
+            $.each(data, function (index, value) {
+                var o = new Option(value.name, value.id);
+                Citylist.append(o);
+            });
+            $("#City").html(Citylist);
+        });
+            $("#City").change(function () {
+                let cid = $(this).val();
+                getRegion(cid);
+            })
+            $("#Register_post").click(function () {
+                $.post(`@Url.Action("Register")`, $("#regpost").serialize(), function (data) {
+                    $("#message").html(data);
+                    if (data === "成功") {
+                        $("#backtoLogin").trigger('click');
+                    }
+                    });
+            });
+            function getRegion(cid) {
+                $.getJSON("@Url.Action("ReturnRegion", "Login")?cid=" + cid, function (data) {
+                let Regionlist = $(document.createDocumentFragment());
+                $.each(data, function (index, value) {
+                    var o = new Option(value.name, value.id);
+                    Regionlist.append(o);
+                });
+                $("#Region").html(Regionlist);
+            });
+            }
+            $("#forgot_Eb").click(function () {
+                $.post(`@Url.Action("ForgotPw_step1")`, { Email: $("#forgot_Email input").val() }, function (data) {
+                    if (data == "done") {
+                        $("#forgot_Email").toggleClass("d-flex").toggleClass("d-none");
+                        $("#forgot_Account").toggleClass("d-none").toggleClass(["d-flex", "glideInRight"]);
+                        setTimeout(() => {
+                            $("#forgot_Account").removeClass("glideInRight")
+                        },1000)
+                    }
+                });
+            });
+            $(".fa-arrow-left").click(function () {
+                $("#forgot_Email").toggleClass(["d-flex", "glideInLeft"]).toggleClass("d-none");
+                $("#forgot_Account").toggleClass("d-none").toggleClass("d-flex");
+                setTimeout(() => {
+                    $("#forgot_Email").removeClass("glideInLeft");
+                }, 1000)
+            });
+
+            $("#forgot_Ab").click(function () {
+                $("#forgot_Account .wrapper").toggleClass("d-none");
+                $.post(`@Url.Action("ForgotPw_step2")`,
+                    {
+                        Account: $("#forgot_Account input").val(),
+                        Email: $("#forgot_Email input").val()
+                    }, function (data) {
+                    if (data == "done") {
+                     $("#awd").html("<h4>新密碼已寄出，準備跳轉。</h4>");
+                        $("#forgot_Account .wrapper").toggleClass("d-none");
+                        setInterval(function () {
+
+                        },1000);
+                        setTimeout(function () {
+                            window.location.href = "https://mail.google.com";
+                        },2000);
+                    }
+                });
+            });
+      })
+    </script>
+</body>
+</html>

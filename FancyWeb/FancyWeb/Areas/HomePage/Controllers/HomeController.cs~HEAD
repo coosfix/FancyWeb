@@ -1,0 +1,19 @@
+﻿using FancyWeb.Areas.HomePage.Service;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace FancyWeb.Areas.HomePage.Controllers
+{
+    public class HomeController : Controller
+    {
+        // GET: HomePage/Home
+        public ActionResult Index()
+        {
+            HomePageService service = new HomePageService();
+            return View(service.HomePageData());
+        }
+    }
+}

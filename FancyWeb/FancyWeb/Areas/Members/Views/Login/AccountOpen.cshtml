@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "AccountOpen";
+}
+<style>
+    body, html {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        font-family: 'Raleway', sans-serif,"微軟正黑體";
+        align-items: center;
+        background-image: url('https://images.pexels.com/photos/2312369/pexels-photo-2312369.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260');
+    }
+
+    .navbar {
+        width: 100%;
+        height: 50px;
+        position: absolute;
+        top: 0;
+        padding: 10px 0;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-pack: justify;
+        justify-content: space-around;
+        background-color: #313131;
+    }
+
+    .conten {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        flex-direction: column;
+        margin: 0 auto;
+        align-items: center;
+        width: 70%;
+        height: 500px;
+        margin-top: 10px;
+        background: hsla(0,0%,100%,.5);
+        overflow: hidden;
+        box-shadow: 0px 2px 5px grey;
+        border-radius: 10px;
+        font-size: 1.3rem;
+    }
+
+    .text1 {
+        padding: 20px;
+        width: 70%;
+        text-align: center;
+    }
+
+    .btn1 {
+        width: 70%;
+        text-align: right;
+        position: relative;
+    }
+
+    a {
+        text-decoration: none;
+        display: inline-block;
+    }
+
+    .btn {
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        -webkit-transition: all .3s ease-out;
+        -o-transition: all .3s ease-out;
+        transition: all .3s ease-out;
+    }
+
+    .text {
+        padding: 0 50px;
+        visibility: hidden;
+    }
+
+    .flip-front,
+    .flip-back {
+        position: absolute;
+        font-family: "微軟正黑體";
+        right: 0;
+        bottom: 0;
+        width: 100px;
+        -webkit-transform-style: flat;
+        transform-style: flat;
+        -webkit-transition: -webkit-transform .3s ease-out;
+        -o-transition: -o-transform .3s ease-out;
+        transition: transform .3s ease-out;
+    }
+
+    .flip-front {
+        color: #313131;
+        border: 2px solid #313131;
+        background-color: transparent;
+        -webkit-transform: rotateX(0deg) translateZ(25px);
+        -ms-transform: rotateX(0deg) translateZ(25px);
+        -o-transform: rotateX(0deg) translateZ(25px);
+        transform: rotateX(0deg) translateZ(25px);
+    }
+
+    .flip-back {
+        color: #fff;
+        background-color: #313131;
+        border: 2px solid #313131;
+        -webkit-transform: rotateX(90deg) translateZ(25px);
+        -ms-transform: rotateX(90deg) translateZ(25px);
+        -o-transform: rotateX(90deg) translateZ(25px);
+        transform: rotateX(90deg) translateZ(25px);
+    }
+
+    .btn:hover .flip-front {
+        -webkit-transform: rotateX(-90deg) translateZ(25px);
+        -ms-transform: rotateX(-90deg) translateZ(25px);
+        -o-transform: rotateX(-90deg) translateZ(25px);
+        transform: rotateX(-90deg) translateZ(25px);
+    }
+
+    .btn:hover .flip-back {
+        -webkit-transform: rotateX(0deg) translateZ(25px);
+        -ms-transform: rotateX(0deg) translateZ(25px);
+        -o-transform: rotateX(0deg) translateZ(25px);
+        transform: rotateX(0deg) translateZ(25px);
+    }
+
+    .navspan {
+        color: white;
+        font-size: 2rem;
+    }
+</style>
+<nav class="navbar">
+    <span class="navspan">Fancy</span>
+</nav>
+<div class="conten">
+    <div class="text1">
+        歡迎您來到Fancy大家庭，系統已將新密碼開通，點擊按鈕前往登入畫面重新登入。
+    </div>
+    <div class="btn1">
+        <a href="@Url.Action("Index","Login",new { area="Members"})" class="btn">
+            <span class="text">Text</span>
+            <span class="flip-front">
+                登入畫面
+            </span>
+            <span class="flip-back">前往</span>
+        </a>
+    </div>
+    <img style="position:absolute; right:5px;bottom:5px;" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/38816/bantha.png" />
+</div>

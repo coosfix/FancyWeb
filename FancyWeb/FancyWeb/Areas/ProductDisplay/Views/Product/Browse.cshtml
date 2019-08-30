@@ -1,0 +1,262 @@
+﻿
+@{
+    ViewBag.Title = "Browse";
+}
+@section styles{
+    <style>
+        body {
+            font-family: "微軟正黑體";
+        }
+
+        #display h6, #display a, .list-group-flush {
+            font-size: 13px;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 25vh;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .i1 {
+            flex: 0 0 25%;
+            max-width: 20%;
+        }
+
+        .card.active {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
+            background-color: rgba(188, 171, 143,0.7);
+            transition: .5s;
+        }
+
+        a.card {
+            color: black;
+        }
+
+        #route span a {
+            color: black;
+            font-weight: bold;
+        }
+
+            #route span a:hover {
+                color: red;
+            }
+
+        .sale {
+            position: absolute;
+            background-color: crimson;
+            top: 0;
+            left: 10px;
+            width: 20px;
+            text-align: center;
+            color: wheat;
+            font-family: "微軟正黑體";
+        }
+
+        li > a.active {
+            background-color: rgba(188, 171, 143,0.7) !important;
+        }
+
+        .col-md-2 a, #route span, #olist {
+            font-size: 17px;
+        }
+
+        .tle1 {
+            background-color: rgb(217, 207, 191);
+            line-height: 3.5rem;
+            padding-left: 1rem;
+            margin-bottom: 0;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+        }
+
+        .search-field {
+            position: relative;
+            width: 150px;
+        }
+
+            .search-field select {
+                opacity: 0;
+                z-index: 10;
+            }
+
+            .search-field .select-block {
+                position: absolute;
+                background-color: white;
+                cursor: pointer;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0
+            }
+
+                .search-field .select-block i {
+                    position: absolute;
+                    top: 10px;
+                    right: 10px;
+                }
+
+        #activity > a, #category > a {
+            background-color: rgba(217, 207, 191,.2);
+            border-radius: 0 !important;
+        }
+
+            #activity > a:hover, #category > a:hover {
+                background-color: rgba(217, 207, 191,.7);
+                border-radius: 0 !important;
+            }
+    </style>
+}
+<div class="row">
+    <div class="col-md-2">
+        <div class=""><h4 class="tle1">活動專區</h4></div>
+        <div class="list-group-flush" id="activity">
+        </div>
+        <hr />
+        <div class=""><h4 class="tle1">商品類別</h4></div>
+        <div class="list-group-flush" id="category">
+        </div>
+    </div>
+    <div class="col-md-10" id="showarea">
+        <div class="d-md-flex justify-content-md-between mb-md-2 pr-md-3">
+            <div id="route" class="align-items-center d-flex">
+                <span class=""><a href="@Url.Action("Index", "Home", new { area = "HomePage" })">首頁</a></span>
+                <span class="">><a href="~/ProductDisplay/Product/Browse/@ViewBag.categorymid">@ViewBag.categorymname</a></span>
+                @if (ViewBag.categorysid != null && ViewBag.categorysname != null)
+                {
+                    <span class="">><a href="~/ProductDisplay/Product/Browse/@ViewBag.categorymid?sid=@ViewBag.categorysid">@ViewBag.categorysname</a></span>
+                }
+            </div>
+            <div class="search-field">
+                <div class="select-block border p-2">
+                    <strong class="ml-4">價格由低到高</strong>
+                    <i class="fas fa-sort"></i>
+                </div>
+                <select id="olist" class="form-control-sm">
+                    <option value="1">價格由低到高</option>
+                    <option value="2">價格由高到低</option>
+                    <option value="3">由新到舊</option>
+                    <option value="4">由舊到新</option>
+                </select>
+            </div>
+        </div>
+        <div class="flex-md-row" id="display">
+        </div>
+        <div class="container d-flex justify-content-center w-100" id="pagelist">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        let nowmid = @ViewBag.categorymid;
+        let nowsid = @ViewBag.categorysid;
+        let nowoid = @TempData["oid"];
+
+        $.getJSON(`@Url.Action("GetCategory","Product", new { area = "ProductDisplay" })/${nowmid}`, function (datas) {
+            let Docfrag = $(document.createDocumentFragment());
+            $.each(datas, function (index, category) {
+                let a = $('<a></a>').addClass('list-group-item list-group-item-action border-0').text(`${category.CategorySName}    (${category.count})`).attr({ 'href': `@Url.Action("Browse","Product", new { area = "ProductDisplay" })/?sid=${category.CategorySID}` }).data('name', category.CategorySName);
+                if (category.CategorySID == nowsid) {
+                    a.css({ 'backgroundColor': 'rgb(188, 171, 143)', 'color':'crimson'});
+                    //a.css('color', 'rgb(188, 171, 143)');
+                }
+                Docfrag.append(a);
+            });
+            $('#category').html(Docfrag);
+        });
+
+        $.getJSON(`@Url.Action("GetActivity", "Product", new { area = "ProductDisplay" })`, function (datas) {
+            let Docfrag = $(document.createDocumentFragment());
+            $.each(datas, function (index, activity) {
+                let a = $('<a></a>').addClass('list-group-item list-group-item-action border-0').text(activity.ActivityName).attr({ 'href': `@Url.Action("Browse","Activity", new { area = "ProductDisplay" })/?id=${activity.ActivityID}` }).data('name', activity.ActivityName);
+                Docfrag.append(a);
+            });
+            $('#activity').html(Docfrag);
+        });
+
+
+        $('#olist').on('change', function () {
+            $(".select-block strong").text($(this).find(":selected").text());
+            display(nowmid, nowsid, $(this).val(),1);
+            document.cookie = `oid = ${$(this).val()}`;
+        });
+
+        function display(id,sid,oid,page) {
+            $.getJSON(`@Url.Action("GetProduct", "Product", new { area = "ProductDisplay" })/${id}?sid=${sid}&orderid=${oid}`, function (datas) {
+                let Docfrag = $(document.createDocumentFragment());
+                let Docfrag2 = $(document.createDocumentFragment());
+                let count = datas.length;
+                let pages = Math.ceil(count / 16);
+                for (let i = 1; i <= pages; i++) {
+                    let apage = $('<a></a>').addClass('page-link').text(`${i}`);
+                    if (i == page)
+                        apage.addClass('active');
+                    let dpage = $('<li></li>').addClass('page-item').append(apage);
+
+                    Docfrag2.append(dpage);
+                }
+                $('#pagelist ul').html(Docfrag2);
+
+                $.each(datas, function (index, product) {
+                    let image = `@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`;
+                    let Img = $('<img/>').addClass('card-img-top').attr("src", `${image}`);
+                    let Lname = $('<h6></h6>').addClass('card-title').text(product.ProductName);
+                    let Lprice = $('<span></span>').addClass('card-text').html(`NT$${product.UnitPrice}`);
+                    let Sprice = $('<span></span>').addClass('card-text').css('color', 'red');
+                    let Sale = $('<div></div>').addClass('sale');
+                    if (product.ActivityName != null) {
+                        $.getJSON(`@Url.Action("GetSale", "Product", new { area = "ProductDisplay" })/${product.ProductID}`, function (Discount) {
+                            Lprice.css('text-decoration', 'line-through');
+                            Sprice.text(`   NT$${parseInt(product.UnitPrice * Discount)}`);
+                            Sale.text(`${product.ActivityName}`);
+                        })
+                    }
+                    let Sdiv = $('<div></div>').addClass('card-body').append([Lname, Lprice, Sprice]);
+                    let divcol = $('<div>').addClass('col-md-3 mb-3 p-md-0 pr-md-3');
+                    let Acontent = $('<a></a>').attr('href', `@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`).addClass('card border-0 shadow position-relative').append([Img, Sdiv, Sale]);
+                    divcol.append(Acontent);
+                    if ((page - 1) * 16 <= index && index < page * 16)
+                    Docfrag.append(divcol);
+                });
+                $('#display').html(Docfrag);
+                window.sr = ScrollReveal();
+
+                sr.reveal('#display .mb-3:nth-child(even)', {
+                    delay: 200,
+                    scale: 0
+                });
+                sr.reveal('#display .mb-3:nth-child(odd)', {
+                    delay: 400,
+                    scale: 0
+                });
+                $('#display>div').on("mouseenter mouseleave",'a.card',function () {
+                    $(this).toggleClass('active');
+                })
+            });
+        }
+
+        $('#pagelist ul').on('click', 'li', function () {
+            display(nowmid, nowsid, nowoid, $(this).children('a').text());
+        })
+
+        display(nowmid, nowsid,nowoid,1);
+        $('#olist').val(nowoid);
+
+
+
+    </script>
+}

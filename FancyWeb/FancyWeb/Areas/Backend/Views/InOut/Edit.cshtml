@@ -1,0 +1,74 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.ProductViewModel
+@{
+    ViewBag.Title = "商品修改";
+}
+
+<div class="row">
+    <div class="offset-2 col-10">
+        <h2 style="color:blue; width:400px;">商品上下架日期修改</h2>
+    </div>
+</div>
+<div class="container">
+    <hr />
+    @using (Html.BeginForm("Edit", "InOut", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(p => p.ProductID)
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ProductID, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-4">
+                @Html.DisplayFor(p => p.ProductID, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ProductName, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-10">
+                @Html.DisplayFor(p => p.ProductName, new { htmlAttributes = new { @class = "form-control", placeholder = "商品名稱" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.CategoryMSName, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-10">
+                @Html.DisplayFor(p => p.CategoryMSName, new { htmlAttributes = new { @class = "form-control", placeholder = "商品分類" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.SupplierName, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-10">
+                @Html.DisplayFor(p => p.SupplierName, new { htmlAttributes = new { @class = "form-control", placeholder = "供應商" } })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.UnitPrice, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-10">
+                @Html.DisplayFor(p => p.UnitPrice, new { htmlAttributes = new { @class = "form-control", placeholder = "單價" } })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ProductInDate, new { @class = "col-sm-2 col-form-label", style = "text-align:right; color:red" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.ProductInDate, new { htmlAttributes = new { @class = "form-control", placeholder = "上架日期" } })
+                @Html.ValidationMessageFor(p => p.ProductInDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ProductOutDate, new { @class = "col-sm-2 col-form-label", style = "text-align:right; color:red" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.ProductOutDate, new { htmlAttributes = new { @class = "form-control", placeholder = "下架日期" } })
+                @Html.ValidationMessageFor(p => p.ProductOutDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="存檔" class="btn btn-success" />
+            </div>
+        </div>
+    }
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        @Html.ActionLink("返回", "Product", "InOut", new { area = "Backend" }, null)
+    </div>
+</div>
+

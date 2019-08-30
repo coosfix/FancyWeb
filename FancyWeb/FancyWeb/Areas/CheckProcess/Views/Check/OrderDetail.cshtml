@@ -1,0 +1,171 @@
+﻿@model FancyWeb.Models.User
+@{
+    ViewBag.Title = "OrderDetail";
+}
+
+@section styles{
+    }
+
+<h2>CartDetail</h2>
+<div class="container">
+    <a class="btn btn-dark mb-5 mx-3 " style="color:white" id="fold">@ViewBag.orderHeader.OrderAmount</a>
+    <table class="table table-bordered d-md-none" id="table">
+        <tbody>
+            @foreach (var cartItem in ViewBag.cartItems)
+            {
+                <tr data-pid="@cartItem.ProductID" data-pname="@cartItem.ProductName" data-pcid="@cartItem.ProductColorID" data-cid="@cartItem.ColorID" data-cname="@cartItem.ColorName" data-psid="@cartItem.ProductSizeID" data-sid="@cartItem.SizeID" data-sname="@cartItem.SizeName" data-did="@cartItem.DiscountID">
+                    <td>
+                        <div class="card p-3">
+                            <div class="row no-gutters">
+                                <div class="col-md-2">
+                                    <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@cartItem.ProductID?colorid=@cartItem.ColorID' class="card-img mx-3" style="width:100px">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@cartItem.ProductName</h5>
+                                        <p class="card-text">
+                                            <label>@cartItem.ColorName</label><br />
+                                            <label>@cartItem.SizeName</label><br />
+                                            @{
+                                                if (cartItem.SUnitPrice > 0)
+                                                {
+                                                    <label style="text-decoration:line-through">$<label id="price" style="text-decoration:line-through">@cartItem.UnitPrice</label></label>
+                                                    <label style="color:red">$<label id="sprice" style="color:red">@cartItem.SUnitPrice</label></label>
+                                                }
+                                                else
+                                                {
+                                                    <label>$<label id="price">@cartItem.UnitPrice</label></label>
+                                                }
+                                            }
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row col-md-3">
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title">數量</h5>
+                                            <label>@cartItem.OrderQTY</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 d-flex align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title">小計</h5>
+                                            @{
+                                                int a;
+                                                if (cartItem.SUnitPrice > 0)
+                                                {
+                                                    a = cartItem.OrderQTY * cartItem.SUnitPrice;
+                                                }
+                                                else
+                                                {
+                                                    a = cartItem.OrderQTY * cartItem.UnitPrice;
+                                                }
+                                            }
+                                            <label class="total">@a</label>
+                                            <label hidden>@cartItem.DiscountID</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @*<table class="table table-bordered">
+            <tbody>
+                @{
+                    foreach (var cartItem in ViewBag.cartItems)
+                    {
+                        <tr>
+                            <td>
+                                @cartItem.ProductName
+                            </td>
+                            <td>
+                                @cartItem.ColorName
+                            </td>
+                            <td>
+                                @cartItem.SizeName
+                            </td>
+                            <td>
+                                @cartItem.UnitPrice
+                            </td>
+                            <td>
+                                @cartItem.OrderQTY
+                            </td>
+                            <td>
+                                @{
+                                    int pamount = cartItem.UnitPrice * cartItem.OrderQTY;
+                                }
+                                @pamount
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>*@
+    <form>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputEmail4">收件人</label>
+                <input type="text" class="form-control" id="inputEmail4" value="@Model.UserName">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="inputPassword4">手機</label>
+                <input type="text" class="form-control" id="inputPassword4" value="@Model.Phone">
+            </div>
+        </div>
+        @*<div class="form-group">
+                <label for="inputAddress">Address</label>
+                <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+            </div>
+            <div class="form-group">
+                <label for="inputAddress2">Address 2</label>
+                <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+            </div>*@
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="inputCity">城市</label>
+                @Html.DropDownListFor(u => u.Region.CityID, new SelectList(ViewBag.city, "CityID", "CityName", Model.Region.CityID), new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputState">地區</label>
+                @Html.DropDownListFor(u => u.RegionID, new SelectList(ViewBag.region, "RegionID", "RegionName", Model.RegionID), new { @class = "form-control" })
+            </div>
+            <div class="form-group col-md-4">
+                <label for="inputPassword4">地址</label>
+                <input type="text" class="form-control" id="inputPassword4" value="@Model.Address">
+            </div>
+            @*<div class="form-group col-md-2">
+                    <label for="inputZip">Zip</label>
+                    <input type="text" class="form-control" id="inputZip">
+                </div>*@
+        </div>
+        @*<div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="gridCheck">
+                    <label class="form-check-label" for="gridCheck">
+                        Check me out
+                    </label>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign in</button>*@
+    </form>
+    <div class="text-md-center">
+        <a class="btn btn-dark mb-5 mx-3" style="color:white" href="@Url.Action("Browse","Product",new {area="ProductDisplay", id=1})" id="last1">繼續購物</a>
+        <a class="btn btn-dark mb-5 mx-3" style="color:white" href="#top" id="next1">下一步</a>
+        <a class="btn btn-dark mb-5 mx-3 d-none" style="color:white" href="#top" id="last2">回到購物車</a>
+        <a class="btn btn-dark mb-5 mx-3 d-none" style="color:white" href="#top" id="next2">下一步</a>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $('#fold').click(function () {
+            $('#table').toggleClass('d-none');
+        })
+
+    </script>
+    }

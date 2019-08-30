@@ -1,0 +1,350 @@
+﻿@model IEnumerable<FancyWeb.Areas.ProductDisplay.Models.ProductCell>
+@{
+    ViewBag.Title = "Result";
+}
+@section styles{
+    <style>
+
+        body {
+            font-family: "微軟正黑體";
+        }
+
+        /*外框*/
+        .custom-radio .custom-control-label::before {
+            width: 20px;
+            height: 20px;
+            top: 1px;
+            border-radius: 0;
+        }
+
+        /*離開圈圈*/
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: white;
+            border-color: white;
+            border-radius: 0;
+        }
+
+        /*白點和外圓*/
+        .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(188, 171, 143);
+            border-color: rgb(188, 171, 143);
+            /*border-radius: 50%;*/
+        }
+
+        /*外圓*/
+        .custom-control-label::after {
+            width: 2rem;
+            height: 2rem;
+            top: 1px;
+        }
+
+        /*選項內容*/
+        .custom-control-label span {
+            font-size: 17px;
+            margin-left: 10px
+        }
+
+        /*li {
+            padding: 3px
+        }*/
+
+        .card-img-top {
+            width: 100%;
+            height: 30vh;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .i1 {
+            flex: 0 0 25%;
+            max-width: 20%;
+        }
+
+        .card.active {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
+            background-color: rgba(188, 171, 143,0.7);
+            transition: .5s;
+        }
+
+        a.card, #route span a {
+            color: black;
+        }
+
+        .sale {
+            position: absolute;
+            background-color: crimson;
+            top: 0;
+            left: 10px;
+            width: 20px;
+            text-align: center;
+            color: wheat;
+            font-family: "微軟正黑體";
+        }
+
+        li > a.active {
+            background-color: rgba(188, 171, 143,0.7) !important;
+        }
+
+        .col-md-3 span {
+            font-weight: normal;
+        }
+
+        .tle1 label:hover {
+            color: crimson;
+            cursor: pointer;
+        }
+
+        .box {
+            /*width: 20px;
+            height: 20px;*/
+            border: 3px solid transparent;
+            display: inline-block;
+            padding: 0.75rem;
+            /*opacity: .3;*/
+        }
+
+            .box:hover {
+                border-color: crimson;
+            }
+
+            .box.active {
+                /*opacity: 1;*/
+                border-color: rgb(188, 171, 143);
+            }
+
+        h4.tle1 {
+            background-color: rgb(217, 207, 191);
+            line-height: 190%;
+            padding-left: 3%;
+            margin-bottom: 0;
+            /*width: 25%*/
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+        }
+
+        div.tle1 {
+            background-color: rgba(217, 207, 191,.2);
+        }
+
+        .tle1 > img {
+            height: 2rem;
+            margin-right: 0.5rem;
+        }
+    </style>
+}
+<div class="row" id="filters">
+    <div class="col-md-3">
+        @Html.Action("ActivityFilter", "Search", new { area = "ProductDisplay" })
+        @Html.Action("CategoryFilter", "Search", new { area = "ProductDisplay" })
+        @Html.Action("ColorFilter", "Search", new { area = "ProductDisplay" })
+        @Html.Action("SizeFilter", "Search", new { area = "ProductDisplay" })
+        <hr />
+        <div>
+            <h4 class="tle1">
+                <img src="~/Areas/ProductDisplay/Images/price_icon.svg" />價格
+            </h4>
+            <div class="p-3 tle1">
+                <ul>
+                    <li class="py-md-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="price1" name="price" class="custom-control-input" data-max="350" data-min="0">
+                            <label class="custom-control-label" for="price1"><span>NT$350 以下</span></label>
+                        </div>
+                    </li>
+                    <li class="py-md-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="price2" name="price" class="custom-control-input" data-max="650" data-min="350">
+                            <label class="custom-control-label" for="price2"><span>NT$350 ~ NT$650</span></label>
+                        </div>
+                    </li>
+                    <li class="py-md-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="price3" name="price" class="custom-control-input" data-max="950" data-min="650">
+                            <label class="custom-control-label" for="price3"><span>NT$650 ~ NT$950</span></label>
+                        </div>
+                    </li>
+                    <li class="py-md-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="price4" name="price" class="custom-control-input" data-max="1250" data-min="950">
+                            <label class="custom-control-label" for="price4"><span>NT$950 ~ NT$1250</span></label>
+                        </div>
+                    </li>
+                    <li class="py-md-2">
+                        <div class="custom-control custom-radio">
+                            <input type="radio" id="price5" name="price" class="custom-control-input" data-max="1550" data-min="1250">
+                            <label class="custom-control-label" for="price5"><span>NT$1250 ~ NT$1550</span></label>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <h4 style="line-height:2.5rem">搜尋結果</h4>
+        <div class="flex-md-row" id="display">
+        </div>
+        <div class="container d-flex justify-content-center w-100" id="pagelist">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination"></ul>
+            </nav>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        let keyword = '@ViewBag.keyword';
+        let categories, colors, sizes;
+
+        $('.Search-input').val(keyword)
+
+        let searchfilters = {
+            Keyword: keyword,
+            CategorySID: categories,
+            ColorID: colors,
+            SizeID: sizes,
+            MaxSunitPrice: $('input[type=radio][name=price]:checked').data('max'),
+            MinSunitPrice: $('input[type=radio][name=price]:checked').data('min'),
+            ActivityID: $('input[type=radio][name=activity]:checked').val()
+        };
+
+        let asame = null;
+        $('input[type = radio][name = activity]').click(function () {
+            console.log($(this));
+            console.log(asame);
+            if ($(this)[0] == asame)
+                $(this).prop('checked', false);
+            asame = $('input[type = radio][name = activity]:checked')[0];
+        });
+
+        let psame = null;
+        $('input[type = radio][name = price]').click(function () {
+            console.log($(this));
+            console.log(psame);
+            if ($(this)[0] == psame)
+                $(this).prop('checked', false);
+            psame= $('input[type = radio][name = price]:checked')[0];
+        })
+
+        //$('input[name=color]').click(function () {
+        //    $(this).children('a').removeClass('active');
+        //    $(this).next().children('a').addClass('active');
+        //})
+
+        $('#filters input').on('click', function () {
+            categories = [];
+            colors = [];
+            sizes = [];
+            $('input[type = checkbox][name = category]:checked').each(function () {
+                categories.push($(this).val());
+            })
+            $('input[type = checkbox][name = color]:checked').each(function () {
+                $(this).next().children('a').addClass('active');
+                colors.push($(this).val());
+            })
+            $('input[type = checkbox][name = color]:not(:checked)').each(function () {
+                $(this).next().children('a').removeClass('active');
+            })
+            $('input[type = checkbox][name = size]:checked').each(function () {
+                sizes.push($(this).val());
+            })
+
+            searchfilters = {
+                Keyword: keyword,
+                CategorySID: categories,
+                ColorID: colors,
+                SizeID: sizes,
+                MaxSunitPrice: $('input[type=radio][name=price]:checked').data('max'),
+                MinSunitPrice: $('input[type=radio][name=price]:checked').data('min'),
+                ActivityID: $('input[type=radio][name=activity]:checked').val()
+            };
+            //console.log(searchfilters.ActivityID);
+            display(1);
+        });
+
+
+        function display(page) {
+            $.post(`@Url.Action("GetProduct", "Search", new { area = "ProductDisplay" })`, { searchFilters: searchfilters }, function (datas) {
+                let Docfrag = $(document.createDocumentFragment());
+                let Docfrag2 = $(document.createDocumentFragment());
+                let count = datas.length;
+                let pages = Math.ceil(count / 16);
+                for (let i = 1; i <= pages; i++) {
+                    let apage = $('<a></a>').addClass('page-link').text(`${i}`);
+                    if (i == page)
+                        //apage.css('backgroundColor', 'red !important');
+                        apage.addClass('active');
+                    let dpage = $('<li></li>').addClass('page-item').append(apage);
+
+                    Docfrag2.append(dpage);
+                }
+                $('#pagelist ul').html(Docfrag2);
+
+                if (datas != "noanswer") {
+                    $.each(datas, function (index, product) {
+                        let image = `@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`;
+                        let Img = $('<img/>').addClass('card-img-top').attr("src", `${image}`);
+                        let Lname = $('<h6></h6>').addClass('card-title').text(product.ProductName);
+                        let Lprice = $('<span></span>').addClass('card-text').html(`NT$${product.UnitPrice}`);
+                        let Sprice = $('<span></span>').addClass('card-text').css('color', 'red');
+                        let Sale = $('<div></div>').addClass('sale');
+                        if (product.ActivityName != null) {
+                            $.getJSON(`@Url.Action("GetSale", "Product", new { area = "ProductDisplay" })/${product.ProductID}`, function (Discount) {
+                                Lprice.css('text-decoration', 'line-through');
+                                Sprice.text(`   NT$${parseInt(product.UnitPrice * Discount)}`);
+                                Sale.text(`${product.ActivityName}`);
+                            })
+                        }
+                        let Sdiv = $('<div></div>').addClass('card-body').append([Lname, Lprice, Sprice]);
+                        let divcol = $('<div>').addClass('col-md-3 mb-md-3 px-md-0 pr-md-3 ');
+                        let Acontent = $('<a></a>').attr('href', `@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`).addClass('card border-0 shadow position-relative').append([Img, Sdiv, Sale]);
+                        divcol.append(Acontent);
+                        if ((page - 1) * 16 <= index && index < page * 16)
+                            Docfrag.append(divcol);
+                    });
+                    $('#display').html(Docfrag);
+                    window.sr = ScrollReveal();
+
+                    sr.reveal('#display .mb-md-3:nth-child(even)', {
+                        delay: 200,
+                        scale: 0
+                    });
+                    sr.reveal('#display .mb-md-3:nth-child(odd)', {
+                        delay: 400,
+                        scale: 0
+                    });
+
+                    $('#display>div').on("mouseenter mouseleave", 'a.card', function () {
+                        $(this).toggleClass('active');
+                    })
+                }
+                else {
+                    let Docfrag = $(document.createDocumentFragment());
+                    let noanswer = $("<div></div>").css({ 'font-size':'200%','text-align':'center'}).html("查無相關結果");
+                    Docfrag.append(noanswer);
+                    $('#display').html(Docfrag);
+                }
+            });
+        }
+
+        display(1);
+
+        $('#pagelist ul').on('click', 'li', function () {
+            display($(this).children('a').text());
+        })
+
+        $('h4.color').click(function () {
+            $(this).next().children('div').slideToggle('d-md-none');
+        });
+    </script>
+}

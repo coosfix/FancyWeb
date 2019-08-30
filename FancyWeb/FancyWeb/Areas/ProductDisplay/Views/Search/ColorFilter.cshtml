@@ -1,0 +1,35 @@
+﻿@model  IEnumerable<FancyWeb.Models.Color>
+<style>
+    .Trapezoid {
+        width: 70%;
+        border-left: 300px solid transparent;
+        border-top: 180px solid ivory;
+        position: absolute;
+        right: 0;
+        top: 1rem;
+    }
+</style>
+
+<hr />
+<h4 class="color tle1">
+    <img src="~/Areas/ProductDisplay/Images/color_icon.svg" />顏色
+</h4>
+<div class="p-md-3 tle1 position-relative">
+    @*<div class="Trapezoid"></div>*@
+    <div class="row">
+        @foreach (var filter in Model)
+        {
+            <div class="col-md-2 mb-md-2">
+                <input type="checkbox" id="color_@filter.ColorID" value="@filter.ColorID" name="color" class="custom-control-input">
+                <label class="" for="color_@filter.ColorID" title="@filter.ColorName"><a class="box" style="background-color:rgb(@filter.R,@filter.G,@filter.B)"></a></label>
+            </div>
+        }
+        @*<div class="col-md-4 mb-2">
+                <div class="custom-control custom-radio">
+                    <input type="radio" id="allcolor" value="0" name="color" class="custom-control-input">
+                    <label class="custom-control-label" for="allcolor"><span>全部</span></label>
+                </div>
+            </div>*@
+    </div>
+</div>
+<hr />

@@ -1,0 +1,64 @@
+﻿@model FancyWeb.Models.Color
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row">
+    <div class="offset-2 col-10">
+        <h2 style="color:blue; width:400px;">顏色新增</h2>
+    </div>
+</div>
+<div class="container">
+    <hr />
+    @using (Html.BeginForm("Create", "Color", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @*@Html.HiddenFor(p => p.CategoryMID)*@
+
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ColorName, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.ColorName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入顏色名稱" } })
+                @Html.ValidationMessageFor(p => p.ColorName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.R, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.R, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入R代碼" } })
+                @Html.ValidationMessageFor(p => p.R, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.G, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.G, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入G代碼" } })
+                @Html.ValidationMessageFor(p => p.G, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.B, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.B, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入B代碼" } })
+                @Html.ValidationMessageFor(p => p.B, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="存檔" class="btn btn-success" />
+            </div>
+        </div>
+    }
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        @Html.ActionLink("返回", "Index", "Color", new { area = "Backend" }, null)
+    </div>
+</div>
+
+
+
+
+

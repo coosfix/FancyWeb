@@ -1,0 +1,91 @@
+﻿@model FancyWeb.Areas.Members.ViewModels.MemberDetailView
+
+<style>
+    .title_p {
+        padding: 5px;
+        border-left: 5px solid gray;
+    }
+</style>
+<div class="text-left title_p mb-3 d-flex justify-content-start w-100">
+    <h2 class="mb-0">基本資料</h2>
+</div>
+@*<h1 class="border-bottom w-100 p-3">基本資料</h1>*@
+<form class="flipInBottom w-75 h-75" id="detail_form">
+    <div class="form-row mb-2">
+        <label for="inputEmail4">使用者</label>
+        <input disabled type="text" class="form-control" value="@Model.UserName">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="inputEmail4">電子信箱</label>
+            <input type="email" class="form-control" id="inputEmail4" name="Email" placeholder="電子信箱" value="@Model.Email">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="inputPassword4">手機</label>
+            <input type="text" class="form-control" id="inputPassword4" name="Phone" placeholder="常用手機" value="@Model.Phone">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="City">城市</label>
+            @Html.DropDownListFor(p => p.City, (SelectList)ViewBag.Citylist, "請選擇", new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Region">地區</label>
+            <select id="Region" class="form-control" name="Region">
+                <option selected>南港區</option>
+                <option>...</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputAddress">地址</label>
+        <input type="text" class="form-control" id="inputAddress" name="Address" placeholder="宅配地址" value="@Model.Address">
+    </div>
+    <hr />
+    <div id="chang_message" class="text-white p-2"></div>
+    <div class="text-center text-white mt-3">
+        <button id="chang_bb" type="button" class="btn btn-success rounded-0 w-25">修改</button>
+    </div>
+</form>
+<script>
+    $.getJSON("@Url.Action("ReturnRegion", "Login")?cid=" +@Model.City, function (data) {
+        let Regionlist = $(document.createDocumentFragment());
+        $.each(data, function (index, value) {
+            var o = new Option(value.name, value.id);
+            Regionlist.append(o);
+        });
+
+        $("#Region").html(Regionlist).val(@Model.Region);
+    });
+    $("#City").change(function () {
+        let cid = $(this).val();
+        $.getJSON("@Url.Action("ReturnRegion", "Login")?cid=" + cid, function (data) {
+            let Regionlist = $(document.createDocumentFragment());
+            $.each(data, function (index, value) {
+                var o = new Option(value.name, value.id);
+                Regionlist.append(o);
+            });
+          $("#Region").html(Regionlist);
+        });
+    });
+
+    $("#chang_bb").click(function () {
+        console.log("hi");
+        $.post("@Url.Action("UserDetail","Detail")", $("#detail_form").serialize(), function (data) {
+            if (data == "success") {
+                $("#chang_message").addClass("bg-success flipInTop").html("修改成功")
+                setTimeout(function () {
+                    $("#chang_message").removeClass("bg-success flipInTop").html("");
+                }, 2000);
+            }
+            else {
+                $("#chang_message").addClass("bg-danger hoverJiggle").html("修改失敗")
+                setTimeout(function () {
+                    $("#chang_message").removeClass("bg-danger hoverJiggle").html("");
+                }, 2000);
+            }
+        });
+    });
+</script>
+

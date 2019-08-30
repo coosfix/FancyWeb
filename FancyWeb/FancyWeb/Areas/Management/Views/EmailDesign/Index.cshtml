@@ -1,0 +1,625 @@
+﻿
+@section styles{
+
+    <link href="~/Areas/Management/Plugin/pushbar/pushbar.css" rel="stylesheet" />
+    <link href="~/Areas/Management/Plugin/pushbar/demo.css" rel="stylesheet" />
+    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
+    <style>
+        * {
+            font-family: "Helvetica", "Arial", "LiHei Pro", "微軟正黑體";
+        }
+
+        .mycard {
+            width: 100%;
+            max-width: 190px;
+            min-width: 190px;
+            border-radius: 0.6rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.22);
+            position: relative;
+            min-height: 240px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin: 1rem;
+            transition: all .3s;
+        }
+
+        .my-cardtitle {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.50);
+            color: white;
+            font-size: 0.5rem;
+            text-align: center;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .mycard:hover {
+            transform: scale(1.1);
+        }
+
+        .mynav {
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+            padding: 10px;
+            text-align: center;
+            flex: 1;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+
+        .mynav.active {
+            background-color: #cab49a;
+        }
+
+        .templateblock {
+            position: fixed;
+            bottom: 0;
+            padding: 10px;
+            background-color: rgba(0, 0, 0, 0.55)
+        }
+
+        .addblocktool {
+            width: 100%;
+            text-align: center;
+            font-weight: 900;
+            color: white;
+            background-color: crimson;
+            cursor: pointer;
+            margin-top: 5px;
+            transition: all .3s;
+            margin-bottom: 5px;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+        }
+
+            .addblocktool:hover {
+                transform: scale(1.1);
+                box-shadow: 0 1px 8px rgba(0,0,0,0.5);
+            }
+
+        #add, #output {
+            box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+            border-radius: 5px;
+            background-color: rgb(72, 69, 69);
+            border: none;
+            transition: all .3s;
+            color: white;
+            font-size: 12px;
+            padding: 10px;
+            font-weight: 900;
+        }
+
+            #add:hover, #output:hover {
+                cursor: pointer;
+                transform: scale(1.05, 1.05);
+            }
+
+        .mymessage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+        }
+
+        .new {
+            text-align: center;
+        }
+
+        .new__button {
+            position: fixed;
+            left: 300px;
+            bottom: 20px;
+            background: #9f9b80;
+            border: 0;
+            border-radius: 50px;
+            color: #262626;
+            cursor: pointer;
+            font-size: 1.6rem;
+            height: 50px;
+            outline: 0;
+            transition: transform .2s ease;
+            width: 50px;
+        }
+
+            .new__button:hover {
+                transform: scale(1.1);
+            }
+
+            .new-block,
+            .new__button.active {
+                transform: scale(0);
+            }
+
+        .new-block {
+            border: 1px solid hsla(0, 0%, 50.2%, .2);
+            border-radius: 7px;
+            padding-top: 50px;
+            bottom: 20px;
+            background-color: white;
+            box-shadow: 0 11px 20px 0 transparent;
+            left: 300px;
+            opacity: 0;
+            position: fixed;
+            transform-origin: bottom left;
+            transition-duration: .3s;
+            transition-property: transform, visibility, opacity;
+            transition-timing-function: ease-in-out;
+            visibility: hidden;
+            width: 400px;
+            z-index: 99;
+        }
+
+        .templateblock-header {
+            position: absolute;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            background: rgb(55, 55, 55);
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+
+        .new-block.active {
+            box-shadow: 0 11px 20px 0 rgba(0, 0, 0, .2);
+            opacity: 1;
+            transform: scale(1);
+            visibility: visible;
+        }
+
+        .new-block-toggle i:hover {
+            cursor: pointer;
+        }
+
+        .btn-back-to-top.btn-back-to-top_body {
+            background-color: #a09b81;
+            right: 400px;
+        }
+
+        .btn-back-to-top {
+            display: flex;
+            position: fixed;
+            width: 35px;
+            height: 35px;
+            bottom: -40px;
+            right: 40px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            cursor: pointer;
+            box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+            transition: all 0.4s;
+        }
+
+            .btn-back-to-top:hover {
+                transform: scale(1.3);
+                opacity: 1;
+            }
+
+        .symbol-btn-back-to-top {
+            font-size: 18px;
+            color: rgb(0, 0, 0);
+            line-height: 1em;
+        }
+
+        .show-btn-back-to-top {
+            bottom: 10px;
+        }
+        #zoom{
+            position:fixed;
+            text-align:center;
+            width:150px;
+            top:100px;
+            right:-100px;
+            padding:10px;
+            background-color:#9f9b80;
+            box-shadow:1px 2px 5px gray;
+            color:white;
+            transition:all .3s;
+            font-size:1.3rem;
+            font-weight:900;
+        }
+            #zoom:hover {
+                right: 0;
+                cursor: pointer;
+            }
+    </style>
+}
+
+@model FancyWeb.Areas.Management.ViewModels.AllPrdlist
+
+@Html.Partial("template")
+
+
+<aside data-pushbar-id="right" class="pushbar from_right">
+    <div class="title text-center"><span data-pushbar-close class="close push_right"></span>商品瀏覽</div>
+    <div class="d-flex justify-content-lg-around my-2">
+        <button type="button" id="add">新增</button>
+        <button type="button" id="output">匯出</button>
+    </div>
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="mynav active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">熱門</a>
+            <a class="mynav" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">最新</a>
+            <a class="mynav" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">活動</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            <ul class="list-unstyled">
+
+                @foreach (var item in Model.popu)
+                {
+                    <li class="m-2">
+                        <a target="_blank" draggable="true" class="draggable mycard autumn leaf transition hidden"
+                           style="background-image:url(@Url.Action("ByteImage", "Product", new { area = "ProductDisplay"})/@item.pgid);"
+                           data-coid="@item.pgid" href="@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/@item.pgid">
+                            <div class="my-cardtitle">@item.pname</div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <ul class="list-unstyled">
+
+                @foreach (var item in Model.news)
+                {
+                    <li class="m-2">
+                        <a target="_blank" draggable="true" class="draggable mycard autumn leaf transition hidden"
+                           style="background-image:url(@Url.Action("ByteImage", "Product", new { area = "ProductDisplay"})/@item.pgid);"
+                           data-coid="@item.pgid" href="@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/@item.pgid">
+                            <div class="my-cardtitle">@item.pname</div>
+
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <ul class="list-unstyled">
+
+                @foreach (var item in Model.eva)
+                {
+                    <li class="m-2">
+                        <a target="_blank" draggable="true" class="draggable mycard autumn leaf transition hidden"
+                           style="background-image:url(@Url.Action("ByteImage", "Product", new { area = "ProductDisplay"})/@item.pgid);"
+                           data-coid="@item.pgid" href="@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/@item.pgid">
+                            <div class="my-cardtitle">@item.pname</div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</aside>
+
+<div id="zoom" href="" data-pushbar-target="right">
+    <i class="far fa-list-alt"></i><span class="pl-3">商品列表</span>
+</div>
+<div class="btn-back-to-top" id="myBtn">
+    <span class="symbol-btn-back-to-top">
+        <span class="fas fa-angle-up"></span>
+    </span>
+</div>
+
+<div class="btn-back-to-top btn-back-to-top_body" id="bodyscroll">
+    <span class="symbol-btn-back-to-top">
+        <span class="fas fa-angle-up"></span>
+    </span>
+</div>
+<button class="new__button new-mail__toggle text-white"><i class="fas fa-plus"></i></button>
+
+<div class="templateblock new-block border-0">
+    <div class="new-block-toggle templateblock-header">
+        <span>區塊模板</span>
+        <i class="new-mail__toggle fas fa-times"></i>
+    </div>
+    <ul class="list-unstyled">
+        <li>
+            <img class="addblocktool" data-content="基本模板" data-variation="small" name="template_newitem" data-position="right center" draggable="true" style="object-fit: cover;" width="100%" height="200" src="~/Areas/Management/img/基本模板.png" />
+        </li>
+        <li>
+            <img class="addblocktool" data-content="限時優惠" data-variation="small" name="template_newitem2" data-position="right center" draggable="true" style="object-fit: cover;" width="100%" height="200" src="~/Areas/Management/img/限時優惠.png" />
+
+        </li>
+        <li>
+            <div draggable="true" class="addblocktool">
+                ...
+            </div>
+        </li>
+        <li>
+            <div draggable="true" class="addblocktool">
+                ....
+            </div>
+        </li>
+    </ul>
+</div>
+
+<div class="ui basic UImodal coupled first">
+    <div class="ui icon header">
+        <i class="archive icon"></i>
+        完成電子報
+    </div>
+    <div class="content">
+        <p class="text-center">
+            確定要將電子報寄出嗎?
+        </p>
+    </div>
+    <div class="actions text-center">
+        <div class="ui red basic cancel inverted button">
+            <i class="remove icon"></i>
+            先不要
+        </div>
+        <div class="ui green ok inverted button">
+            <i class="checkmark icon"></i>
+            好的
+        </div>
+    </div>
+</div>
+<div class="ui mini test UImodal transition hidden">
+    <div class="header">
+        <font style="vertical-align: inherit;">
+            <font style="vertical-align: inherit;">
+                信箱已寄出
+            </font>
+        </font>
+    </div>
+    <div class="content">
+        <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">是否重新設計？</font></font></p>
+    </div>
+    <div class="actions">
+        <div class="ui negative button">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">
+                    沒有
+                </font>
+            </font>
+        </div>
+        <div class="ui positive right labeled icon button">
+            <font style="vertical-align: inherit;">
+                <font style="vertical-align: inherit;">
+                    是
+                </font>
+            </font><i class="checkmark icon"></i>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Areas/Management/Plugin/pushbar/pushbar.js"></script>
+    <script src="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.min.js"></script>
+    @*<script src="https://cdn.ckeditor.com/4.6.0/standard/ckeditor.js"></script>*@
+    <script>
+
+        $('.addblocktool').popup();
+
+        try {
+            var asideh = $("aside").height() / 2;
+            var windowh = $(window).height() / 2;
+            $("aside").on('scroll', function () {
+                if ($(this).scrollTop() > asideh) {
+                    $("#myBtn").addClass('show-btn-back-to-top');
+                } else {
+                    $("#myBtn").removeClass('show-btn-back-to-top');
+                }
+            });
+            $('#myBtn').on("click", function () {
+                $('aside').animate({
+                    scrollTop: 0
+                }, 300);
+            });
+
+            $(window).on('scroll', function () {
+                if ($(this).scrollTop() > windowh) {
+                    $("#bodyscroll").addClass('show-btn-back-to-top');
+                } else {
+                    $("#bodyscroll").removeClass('show-btn-back-to-top');
+                }
+            });
+            $('#bodyscroll').on("click", function () {
+                $('html,body').animate({
+                    scrollTop: 0
+                }, 300);
+            });
+        } catch (er) {
+            console.log(er);
+        }
+
+        //取得整個範本
+        //emailbody
+        $(document).on("click", ".new-mail__toggle", function () {
+            $(".new-block").toggleClass("active");
+            $(".new__button").toggleClass("active");
+        })
+        $("#output").click(function () {
+            $('.ui.UImodal.coupled.first').modal({
+                closable: false,
+                duration:200,
+                onDeny: function () {
+
+
+                    return true;
+                },
+                onApprove: function () {
+                    $(".title_c_d").remove();
+                    $(".block-td").parent().parent().parent().remove()
+                    var email = JSON.stringify({ 'num': $("#allconten").html() });
+                    $.ajax({
+                        url: "@Url.Action("GetDoneEmail", "EmailDesign")",
+                        type: "POST",
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        data: email,
+                    }).done(function (data) {
+                        $('.mini.UImodal').modal({
+                            onApprove: function () {
+                                window.location.reload();
+                            },
+                        }).modal('show');
+                        console.log(data);
+                    })
+                }
+            }).modal('show');
+        });
+        //
+        //新增區塊
+        $("#add").click(function () {
+            $.get("@Url.Action("template_newitem")", function (data) {
+                let lasttr = $("#allconten>table>tbody>tr:last-child");
+                $(data).insertBefore(lasttr);
+
+                let scrollNow = $(document).height();
+                $('html, body').animate({
+                    scrollTop: scrollNow
+                }, 500);
+
+            });
+        })
+        $(document).on("click", "#zoom,.close.push_right", function () {
+            $('.autumn.leaf').transition('zoom');
+        })
+
+        //點擊開始編輯
+        $("#allconten").on("click", ".title_c i", function (e) {
+
+            let clickthis = $(e.target).prev();
+            let nowtext = $(e.target).next().find("[name = title_1],[name = conten1]").text();
+            console.log(nowtext);
+            if (clickthis.css("transform").split(',')[4] == 0) {
+                clickthis.css("transform", "translateX(-100%)");
+            } else {
+                clickthis.css("transform", "translateX(0)");
+                clickthis.find("[name=conten1_editer]").val(nowtext);
+            }
+        })
+        //確定編輯內容
+        $("#allconten").on("click", ".title_c_d button", function () {
+            let title_c_d = $(this).parents(".title_c_d");
+            let contentext = title_c_d.find("[name= conten1_editer]").val();
+            let editertarget = $(this).parents(".title_c").find("[name = title_1],[name = conten1]");
+            editertarget.text(contentext);
+
+            title_c_d.css("transform", "translateX(-100%)")
+        });
+
+
+        new Pushbar({
+            blur: true,
+            overlay: false,
+        });
+    </script>
+
+    <script>
+        let draggableElements = document.querySelectorAll(".draggable");
+        let templateblock = document.querySelectorAll(".addblocktool");
+        let droppableElements = document.querySelectorAll(".droppable");
+        $(document).on("dragstart", ".draggable", function (event) {
+            let href = event.target.getAttribute("href");
+            let name = event.target.innerText;
+            let coid = event.target.getAttribute("data-coid");
+            let itemdata = {
+                name: name,
+                coid: coid,
+                href: href
+            };
+            event.originalEvent.dataTransfer.setData("text", JSON.stringify(itemdata)); // or "text/plain"
+        });
+        //模板
+        var tempplatehtml;
+        $(document).on("dragstart", ".addblocktool", function (e) {
+            let name = $(e.target).attr("name");
+            console.log(name)
+            switch (name) {
+                case "template_newitem":
+                    $.get("@Url.Action("template_newitem")", function (data) {
+                        tempplatehtml = data;
+                    });
+                    break;
+                case "template_newitem2":
+                    $.get("@Url.Action("template_newitem2")", function (data) {
+                        tempplatehtml = data;
+                    });
+                default:
+                    break;
+            }
+
+        })
+        $(document).on("dragover", ".newblock", function (e) {
+            e.preventDefault();
+            $(e.target).parent("td").addClass("block-td-hover");
+            e.target.classList.add("newblock-hover");
+        })
+        $(document).on("dragleave", ".newblock", function (e) {
+            e.preventDefault();
+            $(e.target).parent("td").removeClass("block-td-hover");
+            event.target.classList.remove("newblock-hover");
+        })
+        $(document).on("drop", ".newblock", function (e) {
+            e.preventDefault();
+            $(e.target).parents("tr.parenttr").after(tempplatehtml);
+            e.target.classList.remove("newblock-hover");
+            $(e.target).parent("td").removeClass("block-td-hover");
+
+        })
+        //刪除自己
+        $(document).on("click", ".parenttr .deleteicon i", function (e) {
+            $(e.target).parents(".parenttr").addClass("out");
+            //$(e.target).parents(".parenttr").fadeOut();
+            setTimeout(function () {
+                $(e.target).parents(".parenttr").remove();
+            },500)
+        });
+        $(document).on("dragenter", ".droppable", function (event) {
+            if (event.target.classList && event.target.classList.contains("droppable") && !event.target.classList.contains("dropped")) {
+                event.target.classList.add("droppable-hover");
+            }
+        })
+
+        $(document).on("dragover", ".droppable", function (event) {
+            if (event.target.classList && event.target.classList.contains("droppable") && !event.target.classList.contains("dropped")) {
+                event.preventDefault();
+            }
+        })
+
+        $(document).on("dragleave", ".droppable", function (event) {
+            if (event.target.classList && event.target.classList.contains("droppable") && !event.target.classList.contains("dropped")) {
+                event.target.classList.remove("droppable-hover");
+            }
+        })
+        $(document).on("drop", ".droppable", function (event) {
+            let draggableElementBrand;
+            let img = $(event.target).next().find("[name=prdimg]");
+            let prdname = $(event.target).next().find("[name=prdname]");
+            let a = $(event.target).next().find("[name=prdlink]");
+            try {
+                draggableElementBrand = JSON.parse(event.originalEvent.dataTransfer.getData("text"));
+                event.preventDefault();
+                //drop後將區域隱藏
+                //$(event.target).css("z-index", "-1");
+                img.attr("src", "https://ia601508.us.archive.org/11/items/62_20190821/" + draggableElementBrand.coid + ".jpg");
+                a.attr("href", "{{imgurl}}@Url.Action("GetProductDetail", "Product",new { area= "ProductDisplay" })/" + draggableElementBrand.coid);
+                prdname.text(draggableElementBrand.name);
+
+            } catch (e) {
+
+            } finally {
+                event.target.classList.remove("droppable-hover");
+            }
+        });
+
+    </script>
+
+}

@@ -1,0 +1,480 @@
+﻿html, body {
+    font-family: '微軟正黑體';
+}
+
+body {
+    background-image: url('../Image/BANNER_1330x445_KOR.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    overflow: hidden;
+}
+
+#Login {
+    margin-top: 100px;
+    transition: all .5s;
+}
+#backtoLogin {
+    cursor: pointer;
+}
+.Login {
+    background-color: rgba(255, 255, 255,0.8);
+    max-width: 800px;
+    box-shadow: 0px 5px 10px rgba(17, 17, 17, 0.5);
+    margin: 0 auto;
+}
+video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -1;
+}
+.left-a .title {
+    font-weight:900;
+    text-align: center;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.title_img {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    width: 100%;
+    height: 100px;
+    color: white;
+    background-color: #795548;
+    background-size: cover;
+}
+
+.left-a a:hover {
+    -webkit-transform: scale(1.05, 1.05);
+    transform: scale(1.05, 1.05);
+    -webkit-box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.3);
+}
+
+.title_img h1{
+    display:inline;
+    margin-top:20px;
+}
+.fadeOut {
+    transform: translateX(2000px);
+}
+
+.left-img {
+    background-image: url('../Image/main.jpg');
+    background-position: center;
+    background-size: cover;
+    width: 180%;
+    z-index: -1;
+}
+
+.right-Login {
+    padding: 30px;
+    width: 100%;
+}
+
+.img {
+}
+
+.btn-Fancy {
+    background-color: #8b7c61;
+    border-radius: 0;
+    transition: all .5s;
+}
+
+    .btn-Fancy:hover {
+        background-color: #bcab8f;
+    }
+
+.btn-Line {
+    background-color: #00C300;
+    transition: all .1s;
+}
+
+    .btn-Line:hover {
+        background-color: #00E000;
+    }
+
+.btn-FB {
+    background-color: #3B5998;
+    transition: all .1s;
+}
+
+    .btn-FB:hover {
+        background: #8b9dc3;
+    }
+
+.btn-Twitter {
+    background-color: #38A1F3;
+    transition: all .1s;
+}
+
+    .btn-Twitter:hover {
+        background: #0c7abf;
+    }
+
+.btn-Google {
+    background: #ffffff;
+    transition: all .1s;
+}
+
+    .btn-Google:before {
+    }
+
+    .btn-Google:hover {
+        background: #4285f4;
+    }
+
+.OAuth_section {
+}
+
+.custom-control:not(.custom-radio) ~ .custom-control-label::before {
+    border-radius: 0;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+    color: #fff;
+    border-color: #007bff;
+    background-color: #8b7c61;
+}
+
+.form-control {
+    border-radius: 0;
+}
+
+#Register {
+    margin-top: 50px;
+    transition: all .5s;
+}
+
+.forgot_main {
+    border-radius: 5px;
+    overflow:hidden;
+    height: 100%;
+    background-color: rgba(255, 255, 255,0.8);
+    box-shadow: 0 13px 27px -5px hsla(240, 30.1%, 28%, 0.25), 0 8px 16px -8px hsla(0, 0%, 0%, 0.3), 0 -6px 16px -6px hsla(0, 0%, 0%, 0.03);
+}
+.my-input-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .my-input-group .my-input-group-prepend {
+        display: flex;
+        align-items: center;
+        height: 50px;
+        background-color: #8b7c61;
+        padding: 20px;
+    }
+
+    .my-input-group .my-input {
+        height: 50px;
+        padding: 5px;
+        background-color: #bfb9ab;
+        border: none;
+        outline: 0;
+    }
+
+    .my-input-group .btn-Fancy {
+        height: 50px;
+    }
+
+.close {
+    width: 20px;
+    height: 21px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.social-media-container {
+    position: fixed;
+    top: 80%;
+    left: calc(100% - 60px);
+    list-style-type: none;
+    padding: 0;
+    transform: translateY(-50%);
+    min-width: 150px;
+}
+
+    .social-media-container a {
+        color: white;
+        text-decoration: none;
+        font-size: 12px;
+    }
+
+.social-media {
+    align-items: center;
+    display: flex;
+    transition: transform .3s ease-in-out;
+}
+
+    .social-media:hover {
+        transform: translateX(calc(-100% + 60px));
+    }
+
+    .social-media.Line {
+        background-color: #00c300;
+    }
+
+    .social-media.facebook {
+        background-color: #3b5998;
+    }
+
+    .social-media.twitter {
+        background-color: #00aced;
+    }
+
+    .social-media i {
+        color: #fff;
+        font-size: 20px;
+        padding: 15px;
+        text-align: center;
+        width: 60px;
+    }
+
+.bottom_nav {
+    position: absolute;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    bottom: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(25, 25, 25, 0.60);
+}
+.bottom_nav span{
+    margin-left:25px;
+}
+
+.fa-arrow-left {
+    width: 20px;
+    height: 21px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.wrapper {
+    width: 200px;
+    height: 60px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    border-radius: 50%;
+    background-color: #000;
+    left: 15%;
+    transform-origin: 50%;
+    animation: circle .5s alternate infinite ease;
+}
+
+@keyframes circle {
+    0% {
+        top: 60px;
+        height: 5px;
+        border-radius: 50px 50px 25px 25px;
+        transform: scaleX(1.7);
+    }
+
+    40% {
+        height: 20px;
+        border-radius: 50%;
+        transform: scaleX(1);
+    }
+
+    100% {
+        top: 0%;
+    }
+}
+
+.circle:nth-child(2) {
+    left: 45%;
+    animation-delay: .2s;
+}
+
+.circle:nth-child(3) {
+    left: auto;
+    right: 15%;
+    animation-delay: .3s;
+}
+
+.shadow {
+    width: 20px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.5);
+    position: absolute;
+    top: 62px;
+    transform-origin: 50%;
+    z-index: -1;
+    left: 15%;
+    filter: blur(1px);
+    animation: shadow .5s alternate infinite ease;
+}
+
+@keyframes shadow {
+    0% {
+        transform: scaleX(1.5);
+    }
+
+    40% {
+        transform: scaleX(1);
+        opacity: .7;
+    }
+
+    100% {
+        transform: scaleX(.2);
+        opacity: .4;
+    }
+}
+
+.shadow:nth-child(4) {
+    left: 45%;
+    animation-delay: .2s
+}
+
+.shadow:nth-child(5) {
+    left: auto;
+    right: 15%;
+    animation-delay: .3s;
+}
+
+.wrapper span {
+    position: absolute;
+    top: 75px;
+    font-family: 'Lato';
+    font-size: 20px;
+    letter-spacing: 12px;
+    color: #000;
+    left: 15%;
+}
+
+
+
+
+
+
+
+/*  footer   */
+footer {
+    background-color: #222;
+    color: #fff;
+    font-size: 14px;
+    bottom: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    text-align: center;
+    z-index: 999;
+}
+
+    footer p {
+        margin: 10px 0;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida  Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    }
+
+    footer .fa-heart {
+        color: red;
+    }
+
+    footer .fa-dev {
+        color: #fff;
+    }
+
+    footer .fa-twitter-square {
+        color: #1da0f1;
+    }
+
+    footer .fa-instagram {
+        color: #f0007c;
+    }
+
+fotter .fa-linkedin {
+    color: #0073b1;
+}
+
+footer .fa-codepen {
+    color: #fff
+}
+
+footer a {
+    color: #3c97bf;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.youtubeBtn {
+    position: fixed;
+    left: 50%;
+    transform: translatex(-50%);
+    bottom: 45px;
+    cursor: pointer;
+    transition: all .3s;
+    vertical-align: middle;
+    text-align: center;
+    display: inline-block;
+}
+
+    .youtubeBtn i {
+        font-size: 20px;
+        float: left;
+    }
+
+    .youtubeBtn a {
+        color: #ff0000;
+        animation: youtubeAnim 1000ms linear infinite;
+        float: right;
+    }
+
+        .youtubeBtn a:hover {
+            color: #c9110f;
+            transition: all .3s ease-in-out;
+            text-shadow: none;
+        }
+
+    .youtubeBtn i:active {
+        transform: scale(.9);
+        transition: all .3s ease-in-out;
+    }
+
+    .youtubeBtn span {
+        font-family: 'Lato';
+        font-weight: bold;
+        color: #000;
+        display: block;
+        font-size: 12px;
+        float: right;
+        line-height: 20px;
+        padding-left: 5px;
+    }
+
+@keyframes youtubeAnim {
+    0%,100% {
+        color: #c9110f;
+    }
+
+    50% {
+        color: #ff0000;
+    }
+}
+/* footer  */

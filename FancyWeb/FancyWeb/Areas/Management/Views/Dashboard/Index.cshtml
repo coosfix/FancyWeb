@@ -1,0 +1,920 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+@model FancyWeb.Areas.Management.ViewModels.DashboardViewModel
+<!DOCTYPE html>
+<html style="height: 100%">
+<head>
+    <link href="~/Areas/Management/style/Dashboard.css" rel="stylesheet" />
+</head>
+
+<body style="height: 100%;">
+    <div class="page-title-box pt-0">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h3 class="font-weight-bold">儀表板</h3>
+                <small class="text-muted">歡迎來到Fancy儀表板</small>
+            </div>
+            <div class="col-md-6">
+            </div>
+        </div>
+    </div>
+    @*<img src="http://s.mmgo.io/t/Bbfs" alt="motionmailapp.com" />*@
+    <!--當天情報-->
+    <div class="row mb-2 ">
+        <div class="col-sm-12 col-md-3 mb-2">
+            <div class="card h-100 mb-2 bg-mycard mini-stat">
+                <div class="card-body d-flex align-items-center">
+                    <div class="fa fa-money-bill-alt fa-3x mr-2"></div>
+                    <div class="text-center w-100">
+                        <div class="h5">今日營收</div>
+                        <div class="h3">@Model.DaytotalReven</div>
+                    </div>
+                </div>
+                @*<div class="mini-stat-label bg-success"><p class="mb-0">+ 12%</p></div>*@
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 mb-2">
+            <div class="card h-100 mb-2  bg-mycard">
+                <div class="card-body d-flex align-items-center">
+                    <div class="fas fa-address-book fa-3x mr-2"></div>
+                    <div class="text-center w-100">
+                        <div class="h5">會員增加</div>
+                        <div class="display-4">@Model.DayMembers</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 mb-2">
+            <div class="card  h-100 mb-2  bg-mycard">
+                <div class="card-body d-flex align-items-center">
+                    <div class="fas fa-align-left fa-3x mr-2"></div>
+                    <div class="text-center w-100">
+                        <div class="h5">訂單數</div>
+                        <div class="display-4">@Model.DayOrders</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 mb-2">
+            <div class="card h-100 mb-2 bg-mycard">
+                <div class="card-body d-flex align-items-center">
+                    <div class="fas fa-archive fa-3x mr-2 d-none d-sm-block"></div>
+                    <div class="text-center w-100">
+                        <div class="h5">待出貨數</div>
+                        <div class="display-4">@Model.WaitShip</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3 ">
+        <div class="col-md-6 ">
+            <div class="card h-100">
+                <div class="card-header">
+                    最近評價
+                </div>
+                <div class="card-body Evaluationcomme style-1">
+                    @foreach (var item in Model.recentEvaluation)
+                    {
+                        <div class="media mb-3 border-bottom p-1">
+                            <img class="mr-3 thumb-sm rounded-circle mr-2" style="width:64px;height:64px;" src="@Url.Action("GetImageByte","Detail",new { area="Members"})/@item.Uid" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5>@item.productname</h5>
+                                <strong class="h5 mt-0">@item.Username</strong>
+                                <div>
+                                    <p class="comment-text">
+                                        @item.Comment 不管是要選品，還是為了提升自己的產品品質，總會需要參考買家的評價與評論，但商品和 Review 這麼多，如果把每個商品的 Review 下載下來，再自己分析是多麼累人的事，再加上不是自己的語言就覺得更累了
+                                    </p>
+                                </div>
+                                <p class="text-secondary text-right mb-0">評論於 @item.Date</p>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mmmcard">
+                <div class="row">
+                    <div class="col-md-6 mb-2">
+                        <div class="card text-center h-100">
+                            <div class="card-header">
+                                最近訂單
+                            </div>
+                            <div class="card-body">
+                                <div class="text-right">
+                                    <a href="@Url.Action("Index", "Shipment", new { Area = "Backend" })" class="btn btn-outline-secondary">訂單管理</a>
+                                </div>
+                                <table class="table mb-0 table-responsive-lg">
+                                    <thead>
+                                        <tr>
+                                            <td class="border-0">會員</td>
+                                            <td class="text-right border-0">地區</td>
+                                            <td class="text-right border-0">價格</td>
+                                            <td class="text-right border-0">時間</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.recentOrders)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-primary">
+                                                        <font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">@item.User.UserName</font>
+                                                        </font>
+                                                    </span>
+                                                </td>
+
+                                                <td class="text-right">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">@item.User.Region.RegionName</font>
+                                                    </font>
+                                                </td>
+                                                <td class="text-right">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">NT$@item.OrderAmount</font>
+                                                    </font>
+                                                </td>
+                                                <td class="text-right">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">@item.CreateDate.Value.ToShortDateString()</font>
+                                                    </font>
+                                                </td>
+                                            </tr>
+
+                                        }
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6  mb-2">
+                        <div class="card bg-danger h-100">
+                            <div class="card-body">
+                                <div class="text-center text-white py-2">
+                                    <h5 class="mt-0 mb-4 text-white-50 font-16">最熱門商品</h5>
+                                    @if (Model.PopularProducts != null)
+                                    {
+                                        <h2>@Model.PopularProducts.Pname</h2>
+                                        <p>賣出 @Model.PopularProducts.count 件</p>
+                                        <img style="height:200px" class="img-fluid" src="/ProductDisplay/Product/ByteImage/@Model.PopularProducts.Pid" />
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 h-100">
+                        <div class="card h-100 flex-column">
+                            <div class="card-header text-center">
+                                用戶來源
+                            </div>
+                            <div id="ec03" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
+                            <div class="px-3 h-50">
+                                <ul class="list-inline widget-chart text-center">
+                                    <li class="list-inline-item">
+                                        <h5 class="mb-0">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">@Model.MemberSource["F"]人</font>
+                                            </font>
+                                        </h5>
+                                        <p class="text-muted">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Facebook</font>
+                                            </font>
+                                        </p>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h5 class="mb-0">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">@Model.MemberSource["G"]人</font>
+                                            </font>
+                                        </h5>
+                                        <p class="text-muted">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">Google</font>
+                                            </font>
+                                        </p>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <h5 class="mb-0">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">@Model.MemberSource["L"]人</font>
+                                            </font>
+                                        </h5>
+                                        <p class="text-muted">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">LINE</font>
+                                            </font>
+                                        </p>
+                                    </li>
+                                    <li class="list-inline-item mr-2">
+                                        <h5 class="mb-0">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">@Model.MemberSource["N"]人</font>
+                                            </font>
+                                        </h5>
+                                        <p class="text-muted">
+                                            <font style="vertical-align: inherit;">
+                                                <font style="vertical-align: inherit;">一般會員</font>
+                                            </font>
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 h-100">
+                        <div class="card h-100">
+                            <div class="card-header text-center">
+                                男女佔比
+                            </div>
+                            <div id="ec02" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
+                            <div class="px-3 h-50">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr>
+                                            <td class="border-0">年</td>
+                                            <td class="text-right border-0">男性</td>
+                                            <td class="text-right border-0">女性</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model.MemberGender)
+                                        {
+
+                                            double t = item.Value[0] + item.Value[1];
+                                            double m = (item.Value[0] / t) * 100;
+                                            double f = (item.Value[1] / t) * 100;
+                                            <tr>
+                                                <td>
+                                                    <span class="badge badge-primary">
+                                                        <font style="vertical-align: inherit;">
+                                                            <font style="vertical-align: inherit;">@item.Key</font>
+                                                        </font>
+                                                    </span>
+                                                </td>
+                                                <td class="text-right">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">@m.ToString("0.0")%</font>
+                                                    </font>
+                                                </td>
+                                                <td class="text-right">
+                                                    <font style="vertical-align: inherit;">
+                                                        <font style="vertical-align: inherit;">@f.ToString("0.0")％</font>
+                                                    </font>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!--熱門商品前三、周銷售-->
+    <div class="row mb-3">
+        <div class="col-12 col-md-6 mb-2">
+            <div class="card h-100 flex-column">
+                <div class="card-header">
+                    近三年類別銷售成長趨勢
+                </div>
+                <ul class="list-inline widget-chart my-4 text-center" id="top3">
+                    <li class="list-inline-item">
+                        <h5 class="mb-0">
+                            <font style="vertical-align: inherit;">
+                                NT$<font style="vertical-align: inherit;">86541</font>
+                            </font>
+                        </h5>
+                        <p class="text-muted">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">配件</font>
+                            </font>
+                        </p>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="mb-0">
+                            <font style="vertical-align: inherit;">
+                                NT$<font style="vertical-align: inherit;">2541</font>
+                            </font>
+                        </h5>
+                        <p class="text-muted">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">衣料品</font>
+                            </font>
+                        </p>
+                    </li>
+                    <li class="list-inline-item">
+                        <h5 class="mb-0">
+                            <font style="vertical-align: inherit;">
+                                NT$<font style="vertical-align: inherit;">102030</font>
+                            </font>
+                        </h5>
+                        <p class="text-muted">
+                            <font style="vertical-align: inherit;">
+                                <font style="vertical-align: inherit;">下半身</font>
+                            </font>
+                        </p>
+                    </li>
+                </ul>
+                <div id="ec04" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-2">
+            <div class="card h-100 mb-2">
+                <div class="card-header">
+                    區域成交趨勢
+                </div>
+                <div id="ec05" style="height: 100%;min-height:400px;" class="card-body d-flex align-items-center">
+                </div>
+                <div class="px-3 h-50">
+                    <table id="regionre" class="table table-hover table-responsive-sm mb-0">
+                        <thead class="table-dark">
+                            <tr>
+                                <td class="text-center border-0">地區</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--營收成展、類別年成長-->
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="card h-100 mb-2">
+                <div class="card-header">
+                    類別營收占比
+                </div>
+                <div id="ec01" style="height: 100%;min-height:400px;" class="card-body">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card h-100">
+                <div class="card-header">
+                    總營收成長
+                </div>
+                <div id="ec06" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
+                <div class="px-3 h-50">
+                    <table id="totalre" class="table table-hover mb-0">
+                        <thead class="table-info">
+                            <tr>
+                                <td class="text-center border-0">近三年</td>
+                                <td class="text-right border-0">第一季</td>
+                                <td class="text-right border-0">第二季</td>
+                                <td class="text-right border-0">第三季</td>
+                                <td class="text-right border-0">第四季</td>
+                                <td class="text-right border-0">總營收</td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!--時段分析-->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <span class=" mr-auto">每年下單數分析</span>
+                    <item class="myitem">
+                        <select class="myselect">
+                            <option value="0">ALL</option>
+                            @foreach (var item in ViewBag.yearlist)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        </select>
+                    </item>
+                </div>
+                <div id="ec07" class="px-4 pt-4" style="height: 100%;min-height:800px;"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@section scripts{
+    <script src="~/Areas/Management/Plugin/E-Charts/echarts.min.js"></script>
+    <script src="~/Areas/Management/Plugin/E-Charts/ecStat.min.js"></script>
+    <script src="~/Areas/Management/Plugin/E-Charts/echarts-gl.min.js"></script>
+    <script src="~/Areas/Management/Script/Dashboard.js"></script>
+    @*銷售總額類別占比*@
+    <script>
+        var ec01 = echarts.init(document.getElementById("ec01"));
+        $.getJSON("@Url.Action("Totalpercent", "Dashboard")", function (data) {
+            option = null;
+            option = {
+                //title: {
+                //    left: 'center',
+                //    text: '會員分布比',
+
+                //},
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: $NT {c}({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data: ['下半身', '衣料品', '配件']
+                },
+                series: [
+                    {
+                        name: '性別比',
+                        color: ['#3cb2ef', '#ff7da1'],
+                        type: 'pie',
+                        selectedMode: 'single',
+                        radius: [0, '30%'],
+
+                        label: {
+                            normal: {
+                                position: 'inner'
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data: [
+                            { value: data.Memberspercent["男性"], name: '男性會員' },
+                            { value: data.Memberspercent["女性"], name: '女性會員' },
+                        ]
+                    },
+                    {
+                        name: '統計',
+                        color: ['#5499C7', '#48C9B0', '#EB984E'],
+                        type: 'pie',
+                        radius: ['40%', '55%'],
+                        label: {
+                            normal: {
+                                formatter: '{a|{a}}{abg|}\n{hr|}\n {b|{b}:} $NT {c} {per|{d}%}  ',
+                                backgroundColor: '#eee',
+                                borderColor: '#aaa',
+                                borderWidth: 1,
+                                borderRadius: 4,
+                                // shadowBlur:3,
+                                // shadowOffsetX: 2,
+                                // shadowOffsetY: 2,
+                                // shadowColor: '#999',
+                                // padding: [0, 7],
+                                rich: {
+                                    a: {
+                                        color: '#999',
+                                        lineHeight: 22,
+                                        align: 'center'
+                                    },
+                                    abg: {
+                                        backgroundColor: '#333',
+                                        width: '100%',
+                                        align: 'right',
+                                        height: 22,
+                                        borderRadius: [4, 4, 0, 0]
+                                    },
+                                    hr: {
+                                        borderColor: '#aaa',
+                                        width: '100%',
+                                        borderWidth: 0.5,
+                                        height: 0
+                                    },
+                                    b: {
+                                        fontSize: 16,
+                                        lineHeight: 33
+                                    },
+                                    per: {
+                                        color: '#eee',
+                                        backgroundColor: '#334455',
+                                        padding: [2, 4],
+                                        borderRadius: 2
+                                    }
+                                }
+                            }
+                        },
+                        data: data.Productspercent
+                    }
+                ]
+            };
+            if (option && typeof option === "object") {
+                ec01.setOption(option, true);
+            }
+        });
+    </script>
+    @*//< !--三大分類近三年成長趨勢-->*@
+    <script>
+        var ec04 = echarts.init(document.getElementById("ec04"));
+        $.getJSON("@Url.Action("YearTop3growing", "Dashboard")", function (data) {
+            var total = data.clsRevenueGroup.map(function (data) {
+                return data.data.reduce((a, b) => a + b);
+            });
+            $("#top3 li h5 font font").each(function (index, value) {
+                $(value).text(total[index]);
+            })
+             var app = {};
+             option = {
+                 legend: {},
+                 tooltip: {},
+                 color: ['#5499C7', '#48C9B0', '#EB984E'],
+                 xAxis: {
+                     data: data.year
+                 },
+                 yAxis: {
+                     type: 'value',
+                     axisLabel: {
+                         formatter: 'NT${value}',
+                         textStyle: { fontSize: '1rem' }
+                     }
+                     
+
+                 },
+                 series: data.clsRevenueGroup
+             };
+             if (option && typeof option === "object") {
+                 ec04.setOption(option, true);
+            }
+
+        });
+    </script>
+    <script>
+        var ec02 = echarts.init(document.getElementById("ec02"));
+        var app = {};
+        option = null;
+        option = {
+            //title: {
+            //    text: '男女占比',
+            //    subtext: '每日更新',
+            //    x: 'center'
+            //},
+            color: ['#56a9ef', '#ef729a'],
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['男性', '女性']
+            },
+            series: [
+                {
+                    name: '來源',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['50%', '60%'],
+                    data: [
+                        {
+                            value: @Model.MemberGender["2019"][0], name: '男性'
+                        },
+                        { value: @Model.MemberGender["2019"][1], name: '女性' },
+                    ],
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            ec02.setOption(option, true);
+        }
+    </script>
+    <script>
+        var ec05 = echarts.init(document.getElementById("ec05"));
+        $.getJSON("@Url.Action("RegionSell", "Dashboard")", function (data) {
+            var app = {};
+            var regionGroup = data.regionGroup;
+            var region = regionGroup.map(function (data) {
+                 return data.name;
+            });
+            var maxlegnth = Math.max.apply(null, regionGroup.map(function (data) {
+                return data.data.length;
+            }));
+            $.each(regionGroup, function (index, value) {
+                let dalength = value.data.length;
+                if (dalength < maxlegnth) {
+                    for (var i = 0; i < maxlegnth - dalength; i++) {
+                        value.data.push(0);
+                    }
+                }
+            })
+            let trtitle = $(document.createDocumentFragment());
+            for (var i = 0; i < data.month.length ; i++) {
+                trtitle.append(`<td class="text-right border-0">${data.month[i]}</td>`)
+            }
+            $("#regionre thead tr").append(trtitle);
+
+            let trbody = $(document.createDocumentFragment());
+            for (var j = 0; j < data.regionGroup.length ; j++) {
+                let tr = $("<tr>").append(`<td class=" text-center"><span class="badge badge-primary">${data.regionGroup[j].name}</span></td>`)
+                for (var i = 0; i < data.month.length; i++) {
+                    tr.append(`<td class="text-right">NT$ ${data.regionGroup[j].data[i]}</td>`)
+                }
+                trbody.append(tr);
+            }
+            $("#regionre tbody").html(trbody);
+             option = null;
+             option = {
+                 tooltip: {
+                     trigger: 'axis'
+                 },
+                 legend: {
+                     data: region
+                 },
+                 grid: {
+                     left: '3%',
+                     right: '4%',
+                     bottom: '15%',
+                     containLabel: true
+                 },
+
+                 xAxis: {
+                     type: 'category',
+                     boundaryGap: false,
+                     data: data.month
+                 },
+                 yAxis: {
+                     type: 'value',
+                     axisLabel: {
+                         formatter: 'NT${value}',
+                         textStyle: { fontSize: '1rem' }
+                     },
+                 },
+                 series: data.regionGroup
+             };
+             if (option && typeof option === "object") {
+                 ec05.setOption(option, true);
+             }
+        });
+    </script>
+    <!--用戶占比圖表-->
+    <script>
+        var ec03 = echarts.init(document.getElementById("ec03"));
+        var app = {};
+        option = null;
+        option = {
+            color: ['#a6ccff', '#5383ff', '#414e98', '#4dd300'],
+            tooltip: {
+                trigger: 'item',
+                formatter: "{a} <br/>{b}: {c} ({d}%)"
+            },
+            legend: {
+                orient: 'vertical',
+                x: 'left',
+                data: ['Facebook', 'Line', 'Google', '一般用戶']
+            },
+            series: [
+                {
+                    name: '來源',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        normal: {
+                            show: false,
+                            position: 'center'
+                        },
+                        emphasis: {
+                            show: true,
+                            textStyle: {
+                                fontSize: '30',
+                                fontWeight: 'bold'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            show: false
+                        }
+                    },
+                    data: [
+                        { name: '一般用戶', value: @Model.MemberSource["N"] },
+                        { name: 'Google', value: @Model.MemberSource["G"] },
+                        { name: 'Facebook', value: @Model.MemberSource["F"] },
+                        { name: 'Line', value: @Model.MemberSource["L"] },
+                    ]
+                }
+            ]
+        };
+        if (option && typeof option === "object") {
+            ec03.setOption(option, true);
+        }
+    </script>
+
+    <!--今年 季總營收成-->
+    <script>
+        var ec06 = echarts.init(document.getElementById("ec06"));
+        $.getJSON("@Url.Action("Totalrevenue", "Dashboard")", function (data) {
+            let total = (function (data) {
+                let tt = [0, 0, 0];
+                for (var i = 0; i < 3; i++) {
+                    for (var j = 0; j < data.totalGroup[i].data.length; j++) {
+                        tt[i] += data.totalGroup[j].data[i];
+                    }
+                }
+                return tt;
+            }(data))
+            data.totalGroup.push({
+                name: "季總額",
+                type: "line",
+                data: total
+            });
+
+            let fag = $(document.createDocumentFragment());
+            for (var i = 3-1; i >= 0; i--) {
+                let tr = $("<tr>").append(`<td class=" text-center"><span class="badge badge-primary">${data.year[i]}</span></td>`);
+                for (var j = 0; j < data.totalGroup.length; j++) {
+                    tr.append(`<td class="text-right">NT$ ${data.totalGroup[j].data[i] == undefined ? 0 : data.totalGroup[j].data[i]}</td>`)
+                }
+                fag.append(tr);
+            }
+            $("#totalre tbody").html(fag);
+             var app = {};
+             option = {
+                 legend: {},
+                 tooltip: {},
+                 lable: {
+                     normal: {
+   
+                     }
+                 },
+                 color: ['#ff4040', '#4ca3dd', '#00c300', '#ffb6c1','#f6c502'],
+                 xAxis: {
+                     data: data.year
+                 },
+                 yAxis: {
+                     type: 'value',
+                     axisLabel: {
+                         formatter: 'NT${value}',
+                         textStyle: { fontSize: '1rem' }
+                     }
+                 },
+
+                 series: data.totalGroup
+             };
+             if (option && typeof option === "object") {
+                 ec06.setOption(option, true);
+            }
+
+        });
+    </script>
+
+
+    <!--時段分析-->
+    <script>
+        // 基於準備好的dom，初始化echarts實例
+        var ec07 = echarts.init(document.getElementById('ec07'), 'walden');
+
+        $.getJSON("@Url.Action("AllOrderDate", "Dashboard")", { year: 0 }, function (data) {
+                func_04(data);
+           });
+        $(".myselect").change(function () {
+           $.getJSON("@Url.Action("AllOrderDate", "Dashboard")", { year: $(this).val() }, function (data) {
+                func_04(data);
+           });
+        });
+
+        function func_04(data) {
+
+            let days = [];
+            for (var i = 0; i < 31; i++) {
+                days[i] = `${i + 1}日`;
+            }
+            let hours = [];
+            for (var i = 0; i < 12; i++) {
+                hours[i] = `${i + 1}月`;
+            }
+            var dd = [];
+            for (let i = 0; i < 31; i++) {
+                dd[i] = [];
+                for (let j = 0; j < 12; j++) {
+                    dd[i][j] = 0;
+                }
+            }
+            var date = [];
+            var max_v = 0;
+
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
+                let time = new Date(item);
+                let day = time.getDate() - 1;
+                let month = time.getMonth();
+                dd[day][month] += 1;
+            }
+            for (var i = 0; i < dd.length; i++) {
+                for (var j = 0; j < dd[i].length; j++) {
+                    date.push([i, j, dd[i][j]]);
+                    if (max_v < dd[i][j]) {
+                        max_v = dd[i][j];
+                    }
+                }
+            }
+            date = date.map(function (item) {
+                return [item[1], item[0], item[2] || '-'];
+            });
+
+            option = {
+                textStyle: {//全域文字大小
+                    fontSize: 16
+                },
+                tooltip: {
+                    position: 'top'
+                },
+
+                animation: false,
+                grid: {
+                    height: '88%',
+                    y: '0%',
+                    containLabel: true //確保文字都能顯示出來
+                },
+                xAxis: {
+                    type: 'category',
+                    data: hours,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                yAxis: {
+                    type: 'category',
+                    data: days,
+                    splitArea: {
+                        show: true
+                    }
+                },
+                visualMap: {
+                    min: 0,
+                    max: max_v,
+                    calculable: true,
+                    orient: 'horizontal',
+                    left: 'center',
+                    top: '90%',
+                    inRange: {
+                        color: ['#FFEBEE', '#F44336'],
+                    },
+                },
+                series: [{
+                    name: '當天下單數',
+                    type: 'heatmap',
+                    data: date,
+                    label: {
+                        normal: {
+                            show: true
+                        }
+                    },
+                    itemStyle: {
+                        emphasis: {
+                            shadowBlur: max_v,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }]
+            };
+
+
+            // 使用剛指定的配置項和數據顯示圖表。
+            ec07.setOption(option);
+        }
+
+    </script>
+    <script>
+        //螢幕改變大小時，重新調整圖表的大小
+        window.onclick = function () {
+            ec01.resize();
+            ec02.resize();
+            ec03.resize();
+            ec04.resize();
+            ec05.resize();
+            ec06.resize();
+            ec07.resize();
+
+        }
+        window.onresize = function () {
+            ec01.resize();
+            ec02.resize();
+            ec03.resize();
+            ec04.resize();
+            ec05.resize();
+            ec06.resize();
+            ec07.resize();
+        };
+    </script>
+}
+

@@ -1,0 +1,259 @@
+﻿
+
+body {
+    font-family: "微軟正黑體";
+}
+
+/*外框*/
+.custom-radio .custom-control-label::before {
+    width: 20px;
+    height: 20px;
+    top: 1px;
+    border-radius: 0;
+}
+
+/*離開圈圈*/
+.custom-control-input:checked ~ .custom-control-label::before {
+    background-color: white;
+    border-color: white;
+    border-radius: 0;
+}
+
+/*白點和外圓*/
+.custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+    width: 20px;
+    height: 20px;
+    background-color: rgb(188, 171, 143);
+    border-color: rgb(188, 171, 143);
+    /*border-radius: 50%;*/
+}
+
+/*外圓*/
+.custom-control-label::after {
+    width: 2rem;
+    height: 2rem;
+    top: 1px;
+}
+
+/*選項內容*/
+.custom-control-label span {
+    font-size: 17px;
+    margin-left: 10px;
+    font-weight: normal
+}
+
+#display h6, #display a, .list-group-flush {
+    font-size: 13px;
+}
+
+#ColorBox .box {
+    position: relative;
+    width: 1.7rem;
+    height: 1.7rem;
+    border: 2px solid rgb(233, 236, 239);
+    display: inline-block;
+    margin-right: 1.2rem;
+    /*opacity: 0.2;*/
+    top: 0.3rem;
+    padding: 0.75rem;
+}
+
+    #ColorBox .box:hover {
+        cursor: pointer;
+        border-color: crimson;
+    }
+
+    #ColorBox .box.active {
+        /*opacity: 1;*/
+        border-color: rgb(188, 171, 143);
+    }
+
+.color {
+    font-size: 5px;
+}
+
+#SizeBox label:hover {
+    color: crimson;
+    cursor: pointer;
+}
+
+#mainpic {
+    width: auto;
+    height: 690px;
+    border: 0px;
+}
+
+#OrderQTY {
+    width: 80%;
+    display: inline-block;
+    text-align-last: center;
+    position: absolute;
+    left: 50px;
+    border-radius: 0.3rem;
+    border-color: transparent;
+    background-color: #dee2e6
+}
+
+.pinput {
+    width: 80%;
+    text-align: center;
+}
+
+.content {
+    font-size: 30px;
+}
+
+.pbtn {
+    width: 80%;
+}
+
+#route span a {
+    color: black;
+    font-weight: bold;
+}
+
+    #route span a:hover {
+        color: red;
+    }
+
+.qbtn {
+    position: absolute;
+    text-align-last: center;
+    border: none;
+    background-color: #a2babb;
+    height: 26px;
+    width: 50px;
+    color: white;
+    line-height: 10px;
+    /*font-size: 23px;*/
+    border-radius: 0;
+}
+
+    .qbtn.minus {
+        top: 0;
+        left: 50px;
+        border-top-left-radius: 0.3rem;
+        border-bottom-left-radius: 0.3rem;
+    }
+
+    .qbtn.add {
+        top: 0;
+        left: 80%;
+        border-top-right-radius: 0.3rem;
+        border-bottom-right-radius: 0.3rem;
+    }
+
+    .qbtn:hover {
+        cursor: not-allowed
+    }
+
+    .qbtn.active:hover {
+        cursor: pointer;
+    }
+
+#btncart {
+    background-color: rgb(110, 127, 157);
+}
+
+    #btncart:enabled {
+        transition: 0.5s
+    }
+
+#btnfav, #btncart {
+    font: 15px bold;
+    color: white;
+    font-family: "微軟正黑體"
+}
+
+    #btnfav.active {
+        color: palevioletred;
+    }
+
+.card-img-top {
+    width: 100%;
+    height: 10vw;
+    object-fit: cover;
+}
+
+.card-body {
+    padding: 10px;
+}
+
+.card-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.i1 {
+    flex: 0 0 25%;
+    max-width: 20%;
+}
+
+.card.active {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
+    background-color: rgba(188, 171, 143,0.7);
+    transition: .5s;
+}
+
+a.card, #route span a {
+    /*text-decoration: none;*/
+    color: black;
+}
+
+.sale {
+    position: absolute;
+    background-color: crimson;
+    top: 0;
+    left: 10px;
+    width: 20px;
+    text-align: center;
+    color: wheat;
+    font-family: "微軟正黑體";
+}
+
+.alpha {
+    opacity: 0.7;
+}
+
+.note {
+    position: fixed;
+    background-color: black;
+    border-radius: 5%;
+    width: 350px;
+    height: 200px;
+    top: 30%;
+    left: 40%;
+    opacity: 0;
+    transition: .5s;
+    z-index: -1;
+}
+
+    .note.active {
+        opacity: 0.5;
+        z-index: 1;
+    }
+
+.col-md-2 a, #route span, #olist {
+    font-size: 17px;
+}
+
+.tle1 {
+    background-color: rgb(217, 207, 191);
+    line-height: 3.5rem;
+    padding-left: 1rem;
+    margin-bottom: 0;
+    border-top-left-radius: 0.3rem;
+    border-top-right-radius: 0.3rem;
+}
+
+#activity > a, #category > a {
+    background-color: rgba(217, 207, 191,.2);
+    border-radius: 0 !important;
+}
+
+@media screen and (max-width:500px) {
+    #mainpic {
+        margin-bottom: 10px;
+    }
+}

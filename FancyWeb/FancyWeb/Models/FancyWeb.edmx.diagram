@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="11a49db28b02468985141c129dc7e85a" Name="Diagram1">
+        <EntityTypeShape EntityType="FancyStoreModel.Activity" Width="1.5" PointX="5.25" PointY="22" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ActivityProduct" Width="1.5" PointX="7.5" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.BrowseHistory" Width="1.5" PointX="7.5" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Cart" Width="1.5" PointX="10.5" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.CategoryMiddle" Width="1.5" PointX="0.75" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.CategorySmall" Width="1.5" PointX="3" PointY="17.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.City" Width="1.5" PointX="1.5" PointY="50.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Color" Width="1.5" PointX="8.25" PointY="26.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.DiscountMethod" Width="1.5" PointX="8.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Employee" Width="1.5" PointX="7.5" PointY="29.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.KeyWord" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.MyFavorite" Width="1.5" PointX="7.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.NewsList" Width="1.5" PointX="7.5" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.OrderDetail" Width="1.5" PointX="10.5" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.OrderHeader" Width="1.5" PointX="8.25" PointY="45" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.OrderStatusList" Width="1.5" PointX="6" PointY="40.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.PayMethod" Width="1.5" PointX="6" PointY="43" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Photo" Width="1.5" PointX="5.25" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Product" Width="1.5" PointX="5.25" PointY="15.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductColor" Width="1.5" PointX="10.5" PointY="20.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductEvaluation" Width="1.5" PointX="7.5" PointY="37.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductPhoto" Width="1.5" PointX="7.5" PointY="11.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductSize" Width="1.5" PointX="13.5" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductStock" Width="1.5" PointX="15.75" PointY="18.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.ProductWashing" Width="1.5" PointX="7.5" PointY="23.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Question" Width="1.5" PointX="10.5" PointY="48" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Region" Width="1.5" PointX="3.75" PointY="50.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Role" Width="1.5" PointX="5.25" PointY="31" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Shipping" Width="1.5" PointX="6" PointY="45.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Size" Width="1.5" PointX="11.25" PointY="24.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Supplier" Width="1.5" PointX="3" PointY="14" IsExpanded="true" />
+        <EntityTypeShape EntityType="FancyStoreModel.Washing" Width="1.5" PointX="5.25" PointY="25.5" IsExpanded="true" />
+        <AssociationConnector Association="FancyStoreModel.FK_Activity_DiscountMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ActivityProduct_Activity" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ActivityProduct_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_BrowseHistory_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Cart_Product" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Cart_ProductColor" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Cart_ProductSize" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_CategoryS_CategoryM" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Products_CategoryS" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Region_City" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductColor_Color" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_OrderDetail_DiscountMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Employee_Photo" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Employee_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Employees_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_MyFavorite_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_News_Photo" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_OrderDetail_ProductColor" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_OrderDetail_ProductSize" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_OrderDetails_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_OrderDetails_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Orders_PayMethod" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Orders_Shipping" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Orders_Status" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Questions_Orders" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductPhoto_Photo" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductEvaluation_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductPhoto_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductPhoto_Products1" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_Products_Supplier" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductSize_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductStock_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductWashing_Products" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductStock_ProductColor" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductSize_Size" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductStock_ProductSize" ManuallyRouted="false" />
+        <AssociationConnector Association="FancyStoreModel.FK_ProductWashing_Washing" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FancyStoreModel.VW_EW_CategorySM" Width="1.5" PointX="3.75" PointY="3.75" />
+        <EntityTypeShape EntityType="FancyStoreModel.VW_EW_OrderDetail" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FancyStoreModel.VW_EW_ProductColor" Width="1.5" PointX="5.75" PointY="4.75" />
+        <EntityTypeShape EntityType="FancyStoreModel.VW_EW_ProductSize" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="FancyStoreModel.VW_EW_Supplier" Width="1.5" PointX="2.75" PointY="6.75" />
+        <EntityTypeShape EntityType="FancyStoreModel.Message" Width="1.5" PointX="8.25" PointY="51.375" />
+        <EntityTypeShape EntityType="FancyStoreModel.User" Width="1.5" PointX="5.875" PointY="51.125" />
+        <AssociationConnector Association="FancyStoreModel.FK_BrowseHistory_User" />
+        <AssociationConnector Association="FancyStoreModel.FK_Cart_User" />
+        <AssociationConnector Association="FancyStoreModel.FK_Message_User" />
+        <AssociationConnector Association="FancyStoreModel.FK_Message_User1" />
+        <AssociationConnector Association="FancyStoreModel.FK_MyFavorite_Users" />
+        <AssociationConnector Association="FancyStoreModel.FK_Orders_Users" />
+        <AssociationConnector Association="FancyStoreModel.FK_User_Photo" />
+        <AssociationConnector Association="FancyStoreModel.FK_Questions_Users" />
+        <AssociationConnector Association="FancyStoreModel.FK_Users_Region" />
+        <EntityTypeShape EntityType="FancyStoreModel.UserNotice" Width="1.5" PointX="0.75" PointY="9.75" />
+        <AssociationConnector Association="FancyStoreModel.FK_UserNotice_User" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

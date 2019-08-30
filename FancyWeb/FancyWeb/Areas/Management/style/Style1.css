@@ -1,0 +1,298 @@
+﻿.tabbar {
+    border-radius: 6px;
+    min-width:400px;
+    background: #fff;
+    box-shadow: 0 4px 12px -1px rgba(18, 22, 33, 0.08);
+    position: relative;
+}
+
+    .tabbar ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: flex;
+        position: relative;
+        z-index: 1;
+    }
+
+        .tabbar ul li {
+            position: relative;
+            flex-grow: 1;
+        }
+
+            .tabbar ul li a {
+                cursor: pointer;
+                display: table;
+                position: relative;
+                display: flex;
+                z-index: 1;
+                justify-content: center;
+                align-items: center;
+                height: 60px;
+                -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+            }
+
+
+#navBarHover {
+    position: absolute;
+    width: 240px;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    background: #2d3e50;
+    box-shadow: 0 0 4px 0px #2d3e50;
+    border: 1px solid #2d3e50;
+    box-sizing: border-box;
+    pointer-events: none;
+    cursor: pointer;
+    transition: all .3s;
+}
+.controlbuttom{
+    display:flex;
+    justify-content:space-between;
+}
+.btn-addu {
+    color: white;
+    background: #2d3e50;
+}
+.Main-Table {
+    border-radius: 6px;
+    width: 100%;
+    max-height: 420px;
+    overflow: auto;
+    background: #fff;
+    box-shadow: 0 4px 12px -1px rgba(18, 22, 33, 0.08);
+}
+.uphoto {
+    width: 50px;
+    height: 50px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px -1px rgba(18, 22, 33, 0.08);
+}
+.Main-Table tbody tr td {
+    padding:5px;
+    text-align:center;
+}
+.Main-Table tbody tr i {
+    cursor: pointer;
+    transition:all .3s;
+}
+
+    .Main-Table tbody tr i:hover {
+        color: #9d9ea0;
+    }
+.page-link {
+    color: #000000;
+}
+    .page-link:focus {
+        z-index: 2;
+        outline: 0;
+         box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0); 
+    }
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    z-index: 2;
+    color: #ffffff;
+    cursor: default;
+    background-color: #56626c;
+    border-color: #428bca;
+}
+.page-item.active .page-link {
+    z-index: 1;
+    color: #fff;
+    background-color: #2d3e50;
+    border-color: #626262;
+}
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1040;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+}
+    .modal-backdrop.show {
+        opacity: 0.2;
+    }
+
+.ud-img {
+    width: 200px;
+    height: 200px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px -1px rgba(18, 22, 33, 0.5);
+}
+.d-table li {
+    display: table-row;
+}
+    .d-table li span:first-child {
+        color: #6c757d;
+    }
+.d-table li span:first-child i{
+    width:20px;
+}
+    .d-table li>span:last-child{
+        font-size:.5rem;
+        text-align:right;
+        display: table-cell;
+        vertical-align: middle;
+        width: 46%;
+    }
+.modal-header {
+    color:white;
+    background-color: #363b3f;
+}
+#udform .btn-udchang {
+    background: #2d3e50;
+}
+#udform .btn-udchangVC {
+    background: #3c536b;
+}
+
+.statustd {
+    position:relative;
+    overflow:hidden;
+}
+    .statustd>div {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction:column;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #2c3849;
+        transform: translateX(-100%);
+        font-size:.3rem;
+        font-weight:900;
+        transition: all 0.3s;
+    }
+
+.mybutton {
+    position: relative;
+    background-color: #EF5350;
+    color: white;
+    border-radius: 0.2em;
+    border: none;
+    box-shadow: 0 0.125em 0.125em rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    font-family: inherit;
+    font-size: .3rem;
+    line-height: normal;
+    font-weight: bold;
+    text-align: center;
+    outline: none;
+    padding: 0.6em;
+    margin: 0.2em;
+    transition: all 0.1s;
+    min-width: 2em;
+}
+
+    button:focus:not(:disabled),
+    .button:focus:not(:disabled),
+    button:hover:not(:disabled),
+    .button:hover:not(:disabled) {
+        opacity: 0.8;
+        top: -0.1em;
+        box-shadow: 0 0.2em 0.1em rgba(0, 0, 0, 0.2);
+    }
+
+    button:hover:active,
+    .button:hover:active {
+        top: 0.1em;
+        box-shadow: 0 0.02em 0.125em rgba(0, 0, 0, 0.4);
+        transition: all 0.05s;
+    }
+
+.messageBox {
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    display: block;
+    margin: auto;
+    width: 350px;
+    background-color: #fff;
+    position:fixed;
+    right: 20px;
+    bottom: 0;
+    transform: translateY(100%);
+    transition: all .3s;
+}
+
+    .messageBox .messageBoxHeader {
+        background: #3498db;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        width: 100%;
+        height: 150px;
+    }
+
+        .messageBox .messageBoxHeader .icon {
+            color: #fff;
+            line-height: 150px;
+            font-size: 48px;
+            text-align: center;
+            width: 100%;
+        }
+
+    .messageBox .messgbtn {
+        float: right;
+        margin: 15px;
+        color: #2980b9;
+        font-size: 19px;
+        text-transform: uppercase;
+        font-weight: 400;
+    }
+
+    .messageBox .disabled {
+        color: #666;
+    }
+
+    .messageBox .messgbtn:hover {
+        cursor:pointer;
+        color: #3498db;
+    }
+
+    .messageBox .disabled:hover {
+        color: #7f8c8d;
+    }
+
+    .messageBox h1 {
+        margin: 15px !important;
+        font-size: 24px;
+        font-weight: normal;
+        color: #333;
+        text-align: left;
+    }
+    .messageBox form {
+        margin: 15px !important;
+    }
+    .messageBox p {
+        margin: 15px;
+        color: #888;
+    }
+.bg-01 {
+
+}
+.manaMain{
+    overflow:hidden;
+}
+.main-mamn>div{
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    transition:all .2s;
+}
+#memberlist {
+}
+
+
+
+
+
+
+

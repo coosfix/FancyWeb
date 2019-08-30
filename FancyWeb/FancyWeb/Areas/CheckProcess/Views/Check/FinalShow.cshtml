@@ -1,0 +1,152 @@
+﻿@model FancyWeb.Models.OrderHeader
+@{
+    ViewBag.Title = "FinalShow";
+}
+@section scripts{
+    <style>
+        * {
+            font-family: "微軟正黑體"
+        }
+
+        .process {
+            border: 5px solid wheat;
+            position: relative;
+            border-radius: 50%;
+            width: 8rem;
+            height: 8rem;
+            background-color: rgb(188, 171, 143);
+        }
+
+        .processimg {
+            position: absolute;
+            font-size: 4.5rem;
+            color: white;
+            top: 23%;
+        }
+
+            .processimg.active {
+                color: #db2828;
+            }
+
+                .processimg.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .processtext {
+            position: absolute;
+            font-family: "微軟正黑體";
+            font-size: 1.75rem;
+            font-weight: bold;
+            top: 120%;
+            left: -8%;
+            background-color: rgb(188, 171, 143);
+            border-radius: 1rem;
+            width: 115%;
+            color: white;
+        }
+
+            .processtext.active {
+                color: #db2828;
+            }
+
+                .processtext.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .line {
+            position: absolute;
+            background-color: rgba(88, 89, 91,0.7);
+            top: 25%;
+            left: 5%;
+            width: 90%;
+            height: 15%;
+        }
+
+        .inline {
+            position: absolute;
+            background-color: wheat;
+            top: 30%;
+            left: 5%;
+            height: 5%;
+            width: 90%;
+            transition: .5s
+        }
+    </style>
+}
+<div class="container">
+    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+        <div class="line"></div>
+        <div class="inline"></div>
+        <div class="process">
+            <i class="fa fa-shopping-cart processimg active done" id="process1" style="left:23%;"></i>
+            <p class="processtext active done text-center px-1">購物清單</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-truck processimg  active done" id="process2" style="left:20%"></i>
+            <p class="processtext active done text-center px-1">付款方式</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-pencil-square processimg active done" id="process3" style="left:28%"></i>
+            <p class="processtext  active done text-center px-1">填寫資料</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-handshake-o processimg active" id="process4" style="left:15%"></i>
+            <p class="processtext active text-center px-1">完成訂購</p>
+        </div>
+    </div>
+    <div class="  justify-content-center">
+        <h2 class="text-center my-md-3" style="color:red">訂單已送出，訂購完成</h2>
+        <h3 class="text-center">訂單資料</h3>
+        <table class="table table-striped">
+            <tbody>
+                <tr>
+                    <td>訂單編號    :</td>
+                    <td>@Model.OrderNum</td>
+                </tr>
+                <tr>
+                    <td>訂購人姓名    :</td>
+                    <td>@Model.ReceipterName</td>
+                </tr>
+                <tr>
+                    <td>訂單成立時間    :</td>
+                    <td>@Model.OrderDate@*.ToString("yyyy/MM/dd")*@</td>
+                </tr>
+                <tr>
+                    <td>訂單狀態    :</td>
+                    <td>@Model.OrderStatusList.OrderStatusName</td>
+                </tr>
+                <tr>
+                    <td>付款方式    :</td>
+                    <td>@Model.PayMethod.PayMethodName</td>
+                </tr>
+                <tr>
+                    <td>訂單總金額    :</td>
+                    <td>@Model.OrderAmount.ToString("C0")</td>
+                </tr>
+            </tbody>
+        </table>
+        <hr />
+        <h3 class="text-center">訂單明細</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>商品名稱    :</th>
+                    <th>商品顏色    :</th>
+                    <th>商品尺寸    :</th>
+                    <th>商品數量    :</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var detail in ViewBag.details)
+                {
+                    <tr>
+                        <td>@detail.Product.ProductName</td>
+                        <td>@detail.ProductColor.Color.ColorName</td>
+                        <td>@detail.ProductSize.Size.SizeName</td>
+                        <td>@detail.OrderQTY</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

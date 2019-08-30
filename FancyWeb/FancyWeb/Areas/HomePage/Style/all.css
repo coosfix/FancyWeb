@@ -1,0 +1,272 @@
+﻿* {
+    font-family: '微軟正黑體';
+}
+
+
+body {
+    overflow-x: hidden;
+}
+
+.products_items a {
+    color: #2e90b7;
+}
+
+#st2, #st3, #st4, #st5 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.banner {
+    position: relative;
+}
+
+.banner-img {
+    height: 50vh;
+}
+
+.st_title {
+    margin-bottom: 10px;
+}
+
+    .st_title span {
+        padding-left: 10px;
+        padding-right: 10px;
+        border-left: 5px solid #534437;
+        border-right: 5px solid #534437;
+    }
+
+.banner:before, .banner:after {
+    /*content: "";*/
+    position: absolute;
+    width: 655px;
+    background-color: white;
+    opacity: 0.8;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+}
+
+#st4 {
+    background-color: #C3BAAC;
+}
+
+.banner::before {
+    right: 0;
+}
+
+.banner::after {
+    left: 0;
+}
+
+.nav-box {
+    position: relative;
+    height: 20vw;
+    transition: all .3s;
+    max-height: 300px;
+    border: 2px solid white;
+    box-shadow: 1px 1px 6px rgba(0, 0, 0,.3);
+}
+
+
+    .nav-box a {
+        color: white;
+    }
+
+
+    .nav-box:hover, .nav-box:hover a {
+        background-position: bottom;
+        color: #bcab8f;
+    }
+
+.atv {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    writing-mode: vertical-lr;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 900;
+}
+
+.nav-box:nth-child(2) {
+    border-left: none;
+    border-right: none;
+}
+
+.imgbody {
+    position: relative;
+    width: 100%;
+    height: 250px;
+}
+
+    .imgbody i.fa-heart {
+        position: absolute;
+        font-size: 2rem;
+        transition: all .3s;
+        right: 5px;
+        bottom: 5px;
+        z-index: 1;
+        color: white;
+        opacity: 0;
+    }
+
+        .imgbody i.fa-heart:hover {
+            cursor: pointer;
+            color: #e22f2f;
+            bottom: 10px;
+        }
+
+
+            .imgbody i.fa-heart.active {
+                animation-name: jumps;
+                animation-duration: 0.3s;
+            }
+
+    .imgbody:after {
+        position: absolute;
+        content: "";
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(255, 255, 255, 0.30);
+        opacity: 0;
+        transition: all .3s;
+    }
+
+    .imgbody:hover:after, .imgbody:hover i {
+        opacity: 1;
+    }
+
+.bg-cover {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.bgcover {
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+}
+
+    .bgcover:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.57);
+        z-index: -1;
+    }
+
+.card {
+    border: none;
+    border-radius: 0;
+}
+
+
+    .card a:hover {
+        color: #bcab8f;
+    }
+
+.card-body.pca {
+    padding: 0;
+}
+
+.card p {
+    margin-bottom: 0;
+}
+
+.card .title {
+    font-weight: 900;
+    color: #39393e;
+    margin: 0;
+    margin-top: 6px;
+    font-size: 16px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    white-space: normal;
+    height: 30px;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    line-height: 1.4
+}
+
+.card .newflag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-family: Arial;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #F44336;
+    color: white;
+}
+
+
+.card .card-text {
+    height: 40px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical
+}
+
+.favBage {
+    position: fixed;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 50px;
+    transition: all .3s;
+    background-color: rgba(188, 171, 143, 0.70);
+    z-index: 999;
+}
+
+    .favBage.active {
+        bottom: 0;
+    }
+
+@keyframes jumps{
+    0% {
+        bottom: 10px;
+    }
+
+    50% {
+        bottom: 20px;
+    }
+
+    100% {
+        bottom: 10px;
+    }
+}
+
+@media (max-width: 1280px) {
+    .banner:before, .banner::after {
+        width: 448px;
+    }
+}
+
+@media (max-width: 768px) {
+    .banner:before, .banner::after {
+        display: none;
+    }
+}

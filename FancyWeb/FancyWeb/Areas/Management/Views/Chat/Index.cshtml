@@ -1,0 +1,624 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<style>
+    .slimScrollDiv {
+        height: auto !important;
+    }
+
+    .header-title {
+        font-size: 16px;
+    }
+
+    .conversation-list {
+        list-style: none;
+        padding: 0 10px;
+        max-height: 350px;
+    }
+
+        .conversation-list .chat-avatar img {
+            width: 100%;
+            border-radius: 100%;
+        }
+
+        .conversation-list .chat-avatar {
+            width: 40px;
+            display: inline-block;
+            text-align: center;
+            float: left;
+        }
+
+            .conversation-list .chat-avatar .time {
+                font-size: 12px;
+                font-style: normal;
+            }
+
+        .conversation-list .conversation-text {
+            display: inline-block;
+            font-size: 12px;
+            float: left;
+            margin-left: 12px;
+            width: 70%;
+        }
+
+        .conversation-list li {
+            margin-bottom: 24px;
+        }
+
+    .conversation-list {
+        list-style: none;
+        padding: 0 10px;
+        max-height: 350px;
+    }
+
+        .conversation-list .ctext-wrap {
+            padding: 10px 18px;
+            background: #e2e4f7;
+            border-radius: 0 7px 7px 7px;
+            position: relative;
+            display: inline-block;
+            box-shadow: 2px 3px 5px rgba(128, 128, 128, 0.46);
+        }
+
+            .conversation-list .ctext-wrap p {
+                margin-bottom: 0;
+            }
+
+            .conversation-list .ctext-wrap:after {
+                content: "";
+                position: absolute;
+                right: 100%;
+                top: 0;
+                border: solid transparent;
+                border-right-color: #e2e4f7;
+                border-top-color: #e2e4f7;
+                border-width: 5px;
+            }
+
+        .conversation-list .odd .chat-avatar {
+            float: right !important
+        }
+
+        .conversation-list .odd .conversation-text {
+            width: 70% !important;
+            margin-right: 12px;
+            text-align: right;
+            float: right !important
+        }
+
+        .conversation-list .odd .ctext-wrap {
+            background: #eff1f3 !important;
+            border-radius: 7px 0 7px 7px
+        }
+
+            .conversation-list .odd .ctext-wrap p {
+                color: #6c757d
+            }
+
+            .conversation-list .odd .ctext-wrap:after {
+                left: 100% !important;
+                top: 0 !important;
+                border-color: rgba(238,238,242,0) !important;
+                border-left-color: #eff1f3 !important;
+                border-top-color: #eff1f3 !important
+            }
+
+            .conversation-list .odd .ctext-wrap.active:before {
+                position: absolute;
+                font-family: "Font Awesome 5 Free";
+                content: "\f058";
+                color: #808080;
+                font-weight: 900;
+                left: -20px;
+                bottom: 0;
+                border-radius: 50%;
+            }
+    /*左右*/
+    .chat_left {
+        position: relative;
+        width: 25%;
+        background-image: url("https://i.ibb.co/S7ZrZnG/image.png");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        flex-direction: column;
+        z-index: 1;
+        max-height: 600px;
+    }
+
+        .chat_left:before {
+            position: absolute;
+            content: "";
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: -1;
+            background-color: rgba(0,0,0,.3);
+        }
+
+        .chat_left .user_list {
+            width: 100%;
+            overflow: auto;
+        }
+
+            .chat_left .user_list .user li {
+                padding: 10px 10px;
+                border-bottom: 3px solid #eff1f3;
+            }
+
+                .chat_left .user_list .user li:hover {
+                    cursor: pointer;
+                    background-color: rgba(255, 255, 255, 0.2);
+                }
+
+                .chat_left .user_list .user li .uItem img {
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 50%;
+                }
+
+                .chat_left .user_list .user li .uItem {
+                    display: flex;
+                    position: relative;
+                    flex-direction: row;
+                    color: white;
+                    justify-content: space-between;
+                }
+
+                    .chat_left .user_list .user li .uItem > span {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .chat_left .user_list .user li .uItem:before {
+                        content: "";
+                        position: absolute;
+                        width: 12px;
+                        height: 12px;
+                        background-color: red;
+                        border-radius: 50%;
+                        left: 0;
+                        top: 2px;
+                    }
+
+                    .chat_left .user_list .user li .uItem.active:before {
+                        background-color: limegreen;
+                    }
+
+            .chat_left .user_list .user .uItem .user_data p:first-child {
+                font-size: 1rem;
+                font-weight: 900;
+            }
+
+            .chat_left .user_list .user .uItem .user_data p:last-child {
+                font-size: 0.5rem;
+                color: #000000;
+            }
+
+        .chat_left .user_waite li {
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+            .chat_left .user_waite li .unread {
+                position: absolute;
+                align-content: center;
+                right: 0;
+                bottom: 0;
+                border-radius: 50%;
+            }
+
+        .chat_left .user_waite img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+
+    .seach_item .cnt-search-div {
+        padding: 15px;
+    }
+
+    .seach_item .cnt-search-inpt {
+        padding: 10px;
+        outline: none;
+        border: none;
+        background-color: rgba(255, 255, 255, 0.69);
+        color: black;
+        border-radius: 10px;
+    }
+
+        .seach_item .cnt-search-inpt:after {
+            content: "";
+        }
+    /*scrollbar*/
+    .style-1::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 0 rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        background-color: #444753;
+    }
+
+    .style-1::-webkit-scrollbar {
+        width: 5px;
+        background-color: white;
+    }
+
+    .style-1::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(143, 143, 143, 0.3);
+        background-color: white;
+    }
+</style>
+<div class="d-flex flex-row">
+    <div class="chat_left">
+        <div class="seach_item">
+            <div class="cnt-search-div">
+                <input class="cnt-search-inpt w-100" type="text" placeholder="搜尋..." />
+            </div>
+        </div>
+        <div class="user_list style-1 border-bottom ">
+            <ul class="user list-unstyled">
+                <li>
+                    <div class="uItem active">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span>2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+                <li>
+                    <div class="uItem">
+                        <img src="~/Areas/Members/Image/17.jpg" />
+                        <div class="user_data py-1 text-center">
+                            <p class="my-0">
+                                <span class="badge badge-pill badge-dark">陳志堅</span>
+                            </p>
+                            <p class="my-0">Jay@gmail.com</p>
+                        </div>
+                        <span class="py-2">2019/08/21</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="user_waite h-50">
+            <h5 class="font-weight-bold text-center text-white border-bottom">紀錄</h5>
+            <ul class="list-inline text-center mt-3">
+                <li class="list-inline-item" title="Tooltip on top">
+                    <img class="img-thumbnail" src="~/Areas/Members/Image/17.jpg" />
+                </li>
+                <li class="list-inline-item">
+                    <img class="img-thumbnail" src="~/Areas/Members/Image/17.jpg" />
+                    <span class="badge badge-danger unread">9</span>
+                </li>
+                <li class="list-inline-item">
+                    <img class="img-thumbnail" src="~/Areas/Members/Image/17.jpg" />
+                    <span class="badge badge-danger unread">18</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="card rounded-0 w-100">
+        <div class="card-header bg-dark rounded-0 text-white ">
+            <h5 class="mb-0 text-center">訊息視窗</h5>
+        </div>
+        <div class="card-body">
+            <div class="chat-conversation">
+                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 443.594px;">
+                    <ul class="conversation-list style-1" style=" max-height: 400px; overflow: auto; width: auto; height: 443.594px;">
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:00</span>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">John Deo</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:01</span>
+                            </div>
+                            <div class="conversation-text">
+                                <div class="ctext-wrap active">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+
+                                <span class="time">10:04</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">John Deo</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+
+                                <span class="time">10:04</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">John Deo</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+
+                                <span class="time">10:04</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">John Deo</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+
+                                <span class="time">10:04</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">John Deo</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="clearfix odd">
+                            <div class="chat-avatar">
+                                <img src="~/Areas/Members/Image/17.jpg" />
+                                <span class="time">10:05</span>
+                            </div><div class="conversation-text">
+                                <div class="ctext-wrap">
+                                    <span class="user-name">Smith</span>
+                                    <p>你好!你好!你好!你好!你好!你好!你好!你好!</p>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="row">
+                    <div class="col-sm-9 col-8 chat-inputbar">
+                        <input type="text" class="form-control chat-input" placeholder="送出訊息">
+                    </div>
+                    <div class="col-sm-3 col-4 chat-send">
+                        <button type="button" class="btn btn-success btn-block">
+                            送出
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

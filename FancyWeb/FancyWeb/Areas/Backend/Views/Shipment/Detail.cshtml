@@ -1,0 +1,96 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.ShipmaneAllViewModel
+
+@{
+    ViewBag.Title = "Detail";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4 style="color:blue;">訂單資料</h4>
+        </div>
+    </div>
+</div>
+
+<div>
+    @using (Html.BeginForm("Edit", "Shipment", new { area = "Backend", page = TempData["savepage"] }, FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(p => p.OrderID)
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.OrderNum)</th>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.OrderDate)</th>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.PayMethodName)</th>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.OrderStatusName)</th>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.ShippingID)</th>
+                    <th>@Html.DisplayNameFor(p => p.shipheader.CanShip)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>@Html.DisplayFor(p => p.shipheader.OrderNum)</td>
+                    <td>@Html.DisplayFor(p => p.shipheader.OrderDate)</td>
+                    <td>@Html.DisplayFor(p => p.shipheader.PayMethodName)</td>
+                    <td>@Html.DisplayFor(p => p.shipheader.OrderStatusName)</td>
+                    <td>
+                        @{
+                            var shippings = new SelectList(ViewBag.datas, "ShippingID", "ShippingName");
+                        }
+                        @Html.DropDownListFor(p => p.ShippingID, shippings, new { @class = "form-control" ,id= "ShippingID", name= "ShippingID" })
+                    </td>
+                    <td>@Html.DisplayFor(p => p.shipheader.CanShip)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="存檔" class="btn btn-success" />
+            </div>
+        </div>
+    }
+</div>
+<div class="py-3"></div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4 style="color:blue;">明細</h4>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().ProductID)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().ProductName)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().PhotoID)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().ProductColor)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().ProductSize)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().OrderQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().StockQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.shipdetailList.First().BalanceQTY)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.shipdetailList)
+        {
+            <tr>
+                <td>@Html.DisplayFor(p => item.ProductID)</td>
+                <td>@Html.DisplayFor(p => item.ProductName)</td>
+                <td>
+                    <img src="@Url.Action("GetImageByte","AddStock",new { id=item.PhotoID})" class="card-img-top" style="width:60px;height:60px">
+                </td>
+                <td>@Html.DisplayFor(p => item.ProductColor)</td>
+                <td>@Html.DisplayFor(p => item.ProductSize)</td>
+                <td>@Html.DisplayFor(p => item.OrderQTY)</td>
+                <td>@Html.DisplayFor(p => item.StockQTY)</td>
+                <td>@Html.DisplayFor(p => item.BalanceQTY)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div>
+    @Html.ActionLink("返回", "Index", "Shipment", new { area = "Backend", page = TempData["savepage"] }, null)
+</div>

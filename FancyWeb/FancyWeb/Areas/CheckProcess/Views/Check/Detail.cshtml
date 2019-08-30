@@ -1,0 +1,628 @@
+﻿@model  IEnumerable<FancyWeb.Areas.ProductDisplay.Models.CartItem>
+@{
+    ViewBag.Title = "Detail";
+}
+@section styles{
+    <style>
+        body {
+            font-family: "微軟正黑體";
+        }
+
+        /*外框*/
+        .custom-radio .custom-control-label::before {
+            width: 20px;
+            height: 20px;
+            top: 1px;
+            border-radius: 0;
+        }
+
+        /*離開圈圈*/
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: white;
+            border-color: white;
+            border-radius: 0;
+        }
+
+        /*白點和外圓*/
+        .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(188, 171, 143);
+            border-color: rgb(188, 171, 143);
+            /*border-radius: 50%;*/
+        }
+
+        /*外圓*/
+        .custom-control-label::after {
+            width: 2rem;
+            height: 2rem;
+            top: 1px;
+        }
+
+        /*選項內容*/
+        .custom-control-label span {
+            font-size: 17px;
+            margin-left: 10px;
+            font-weight: normal
+        }
+
+        i.active {
+            color: brown;
+        }
+
+        .text {
+            font-size: 17px;
+            margin-bottom: 0
+        }
+
+        .fee {
+            display: table;
+            border-collapse: separate;
+            border-spacing: 15px;
+        }
+
+        .feecontent {
+            background-color: rgb(208, 196, 176);
+            width: 100%;
+            height: 6rem;
+            overflow: hidden;
+            transition: 0.5s;
+        }
+
+            .feecontent.active {
+                height: 16rem;
+            }
+
+        .qty {
+            text-align-last: center;
+            width: 80px
+        }
+
+        .cbtn {
+            color: white !important;
+            vertical-align: middle;
+        }
+
+        .total:before {
+            content: "NT$";
+        }
+
+        .amount:before {
+            content: "NT$";
+        }
+
+        .transcharge:before {
+            content: "NT$";
+        }
+
+        .card-img {
+            height: 200px;
+            width: 100%;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 10vw;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .i1 {
+            flex: 0 0 25%;
+            max-width: 20%;
+        }
+
+        .card.active {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
+            background-color: rgba(188, 171, 143,0.7);
+            transition: .5s;
+        }
+
+        a.card, #route span a {
+            /*text-decoration: none;*/
+            color: black;
+        }
+
+        .sale {
+            position: absolute;
+            background-color: red;
+            top: 0;
+            left: 10px;
+            width: 20px;
+            text-align: center;
+            color: white;
+        }
+
+        #table * {
+            font-size: 15px;
+        }
+
+        .process {
+            border: 5px solid wheat;
+            position: relative;
+            border-radius: 50%;
+            width: 8rem;
+            height: 8rem;
+            background-color: rgb(217, 207, 191);
+        }
+
+        .processimg {
+            position: absolute;
+            font-size: 4.5rem;
+            color: rgb(88, 89, 91);
+            top: 23%;
+        }
+
+            .processimg.active {
+                color: rgb(209, 0, 36);
+            }
+
+                .processimg.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .processtext {
+            position: absolute;
+            font-family: "微軟正黑體";
+            font-size: 1.75rem;
+            font-weight: bold;
+            top: 120%;
+            left: -8%;
+            background-color: rgb(217, 207, 191);
+            border-radius: 1rem;
+            width: 115%;
+            color: rgb(88, 89, 91);
+        }
+
+            .processtext.active {
+                color: rgb(209, 0, 36);
+            }
+
+                .processtext.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .line {
+            position: absolute;
+            background-color: rgba(88, 89, 91,0.7);
+            top: 25%;
+            left: 5%;
+            width: 90%;
+            height: 15%;
+        }
+
+        .inline {
+            position: absolute;
+            background-color: wheat;
+            top: 30%;
+            left: 5%;
+            height: 5%;
+            width: 20%;
+            transition: .5s
+        }
+
+        .note {
+            position: fixed;
+            background-color: black;
+            border-radius: 5%;
+            width: 350px;
+            height: 200px;
+            top: 30%;
+            left: 40%;
+            opacity: 0;
+            transition: .5s;
+            z-index: -1;
+        }
+
+            .note.active {
+                opacity: 0.5;
+                z-index: 1;
+            }
+
+        .Trapezoid {
+            width: 70%;
+            border-left: 300px solid transparent;
+            border-top: 180px solid rgb(217, 207, 191);
+            position: absolute;
+            right: 0;
+            top: 1rem;
+        }
+
+        #payform label:hover {
+            color: crimson;
+            cursor: pointer
+        }
+    </style>
+}
+<div id="top" class="container">
+    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+        <div class="line"></div>
+        <div class="inline"></div>
+        <div class="process">
+            <i class="fa fa-shopping-cart processimg active" id="process1" style="left:23%;"></i>
+            <p class="processtext active text-center px-1">購物清單</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-truck processimg" id="process2" style="left:20%"></i>
+            <p class="processtext text-center px-1">付款方式</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-pencil-square processimg" id="process3" style="left:28%"></i>
+            <p class="processtext text-center px-1">填寫資料</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-handshake-o processimg" id="process4" style="left:15%"></i>
+            <p class="processtext text-center px-1">完成訂購</p>
+        </div>
+    </div>
+    <div id="nothing" style="height:200px" class="justify-content-center border align-items-center mt-md-3">
+        <div>
+            <h3>購物車無商品</h3>
+        </div>
+    </div>
+    <div name="cartitems" id="cartitems">
+        <table class="table mb-md-0">
+            <tbody>
+                @{foreach (var item in Model)
+                    {
+                        <tr data-pid="@item.ProductID" data-pname="@item.ProductName" data-pcid="@item.ProductColorID" data-cid="@item.ColorID" data-cname="@item.ColorName" data-psid="@item.ProductSizeID" data-sid="@item.SizeID" data-sname="@item.SizeName" data-did="@item.DiscountID" data-price="@item.UnitPrice" data-sprice="@item.SUnitPrice" data-aname="@item.ActivityName">
+                            <td class="border-0 px-md-0 py-md-0">
+                                <div class="card">
+                                    <div class="row" style="height:200px;">
+                                        <div class="col-md-2" style="overflow:hidden;">
+                                            <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@item.ProductID?colorid=@item.ColorID' class="card-img">
+                                        </div>
+                                        <div class="col-md-6 d-flex justify-content-center align-items-center">
+                                            <div class="card-body ">
+                                                <h5 class="card-title">@item.ProductName</h5>
+                                                <p class="card-text">
+                                                    <label>@item.ColorName</label><br />
+                                                    <label>@item.SizeName</label><br />
+                                                    @{
+                                                        if (item.SUnitPrice > 0)
+                                                        {
+                                                            <label style="text-decoration:line-through"><label id="price" style="text-decoration:line-through">@item.UnitPrice.ToString("C0")</label></label>
+                                                            <label style="color:red"><label id="sprice" style="color:red">@item.SUnitPrice.ToString("C0")</label></label><br />
+                                                        }
+                                                        else
+                                                        {
+                                                            <label><label id="price">@item.UnitPrice.ToString("C0")</label></label><br />
+                                                        }
+                                                    }
+                                                    <label id="aname" class="text-center" style="color:wheat;background-color:crimson;width:50%">@item.ActivityName</label>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-3">
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">數量</h5>
+                                                    @{
+                                                        if (item.SUnitPrice > 0)
+                                                        {
+                                                            <input type="number" value="@item.OrderQTY" min="1" max="99" class="qty" data-price="@item.SUnitPrice" onkeydown="return false;" />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="number" value="@item.OrderQTY" min="1" max="99" class="qty" data-price="@item.UnitPrice" onkeydown="return false;" />
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6 d-flex align-items-center">
+                                                <div class="card-body">
+                                                    <h5 class="card-title">小計</h5>
+                                                    @{
+                                                        int a;
+                                                        if (item.SUnitPrice > 0)
+                                                        {
+                                                            a = item.OrderQTY * item.SUnitPrice;
+                                                        }
+                                                        else
+                                                        {
+                                                            a = item.OrderQTY * item.UnitPrice;
+                                                        }
+                                                    }
+                                                    <label class="total">@a</label>
+                                                    <label hidden>@item.DiscountID</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="card-body float-md-right">
+                                                <a class="delete"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="pay" class="d-none">
+        <form id="payform">
+            <table class="table table-bordered mt-md-2 mb-md-0">
+                <tbody>
+                    @foreach (var item in ViewBag.paymethod)
+                    {
+                        <tr>
+                            <td>
+                                <div class="card-body">
+                                    <div class="custom-control custom-radio">
+                                        <input type="radio" id="@item.PayMethodID" data-charge="@item.Freight" class="custom-control-input" name="method" value="@item.PayMethodID" />
+                                        <label class="custom-control-label" for="@item.PayMethodID"><span>@item.PayMethodName</span></label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </form>
+    </div>
+    <div class="mb-md-3 feecontent position-relative">
+        <div class="Trapezoid"></div>
+        <div class="col-md-12" style="background-color:rgb(88, 89, 91);height:15px"></div>
+        <div class="col-md-2 offset-md-2">
+            <div class="my-md-4 text">
+                <label>購買數量 :</label>
+                <label id="bqty"></label>
+            </div>
+        </div>
+        <div class="col-md-4 offset-md-4 over">
+            <table class="fee my-md-1">
+                <tbody>
+                    <tr class="m-md-3">
+                        <td><label class="text">商品總額:</label></td>
+                        <td><label class="amount text mx-md-5 my-md-0" id="pamount"></label></td>
+                    </tr>
+                    <tr class="m-md-3">
+                        <td><label class="text">商品運費:</label></td>
+                        <td><label class="transcharge text mx-md-5 my-md-0" id="pcharge">0</label></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <hr class="my-md-2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label class="text ">訂單總額:</label></td>
+                        <td><label class="text mx-md-5 my-md-0 amount" id="camount"></label></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="note d-flex justify-content-center align-items-center"></div>
+    <div class="text-md-center">
+        <a class="btn btn-dark m-md-3 cbtn" href="@Url.Action("Browse","Product",new {area="ProductDisplay", id=1})" id="last1">繼續購物</a>
+        <a class="btn btn-dark m-md-3 cbtn" href="#header" id="next1">下一步</a>
+        <a class="btn btn-dark m-md-3 cbtn d-none" href="#" id="last2">回到購物車</a>
+        <a class="btn btn-dark m-md-3 cbtn d-none" id="next2">下一步</a>
+    </div>
+    @if (ViewBag.recent != null)
+    {
+        <h2>最近瀏覽過的商品</h2>
+        <div class="row" id="recent">
+            @foreach (var item in ViewBag.recent)
+            {
+                <div class="col-md-3 mb-3">
+                    <a href="/ProductDisplay/Product/GetProductDetail/@item.ProductID" class="card border-0 shadow position-relative">
+                        <img class="card-img-top" src="/ProductDisplay/Product/ByteImage/@item.ProductID">
+                        <div class="card-body">
+                            <h6 class="card-title">@item.ProductName</h6>
+                            @if (item.SUnitPrice > 0)
+                            {
+                                <span class="card-text" style="text-decoration: line-through;">@item.UnitPrice.ToString("C0")</span>
+                                <span class="card-text" style="color: red;">@item.SUnitPrice.ToString("C0")</span>
+                            }
+                            else
+                            {
+                                <span class="card-text">@item.UnitPrice.ToString("C0")</span>
+                            }
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+        let orderurl = `@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })`;
+        $(document).ready(function () {
+            count();
+            if (document.referrer.substring(url.lastIndexOf("/") + 4) == orderurl) {
+                //$('#top').text('付款方式');
+                $('#process1').addClass('done');
+                $('#process1').next().addClass('done');
+                $('#process2').addClass('active');
+                $('#process2').next().addClass('active');
+                $('.inline').css('width', '50%');
+                $('#cartitems,#next1,#last1').addClass('d-none');
+                $('#pay,#last2,#next2').removeClass('d-none');
+                $('.feecontent').addClass('active');
+                $(this).addClass('d-none');
+            }
+            calc(0);
+            itemcount();
+        });
+
+        $('input.qty').on('change', function () {
+            let part = $(this).data('price') * $(this).val();
+            $(this).parent().parent().next().children(1).children().filter('label').text(`${part}`);
+            calc(0);
+            change($(this).closest('tr').data('pid'), $(this).closest('tr').data('pcid'), $(this).closest('tr').data('psid'), $(this).val());
+            count();
+        });
+
+        function change(pid, pcid, psid, qty) {
+            $.post(`@Url.Action("ChangeQty", "Check", new { area = "CheckProcess" })/${pid}?cid=${pcid}&sid=${psid}&qty=${qty}`, function (datas) {
+                generatecart(datas);
+            })
+        };
+
+        function itemcount() {
+            if ($('#cartitems  tr').children().length <= 0) {
+                $('#nothing').addClass('d-flex');
+                $('#next1,.feecontent').addClass('d-none');
+            }
+            else {
+                $('#nothing').addClass('d-none');
+            }
+        };
+
+        let total = 0;
+        function calc(charge) {
+            $.each($('label.total'), function () {
+                total += parseInt($(this).text());
+            })
+            total += parseInt(charge);
+            $('label.amount').text(total);
+            total = 0;
+        }
+
+        function count() {
+            let qty = 0;
+            $.each($('input.qty'), function () {
+                qty += parseInt($(this).val());
+            })
+            $('#bqty').text(qty);
+        }
+
+        $('a.delete').on('click', function () {
+            let pid = $(this).closest('tr').data('pid');
+            let pcid = $(this).closest('tr').data('pcid');
+            let psid = $(this).closest('tr').data('psid');
+            remove(pid, pcid, psid);
+            $(this).closest("tr").remove();
+            calc(0);
+            itemcount();
+            count();
+        });
+
+        function remove(pid, pcid, psid) {
+            $.getJSON(`@Url.Action("RemoveCart", "Check", new { area = "CheckProcess" })/${pid}?cid=${pcid}&sid=${psid}`,
+                function (datas) {
+                    if (datas == 0) {
+                        $('#cartlist>tbody>tr').remove();
+                        $('.dropdown>a>div.qty').text(0);
+                    }
+                    else {
+                        generatecart(datas);
+                    }
+                }
+            );
+        };
+
+        $('a.delete').on("mouseenter mouseleave", function () {
+            $(this).children().filter('i').toggleClass('active');
+        });
+
+        $('#paymethod').on('change', function () {
+            calc(parseInt($(this).find(':selected').data('charge')));
+        });
+
+        $('#next1').click(function () {
+            toggleclass();
+            $('.inline').css('width', '50%');
+        });
+
+        $('#last2').on('click', function () {
+            toggleclass();
+            $('#pcharge').text(0);
+            $('#camount').text($('#pamount').text());
+            $('.inline').css('width', '20%');
+            $('input[name=method]', '#payform').attr("checked", false);
+        });
+
+        function toggleclass() {
+            $('#process1').toggleClass('done');
+            $('#process1').next().toggleClass('done');
+            $('#process2').toggleClass('active');
+            $('#process2').next().toggleClass('active');
+            $('#cartitems').slideToggle('d-none');
+            $('#pay,#last2,#next2,#last1,#next1').toggleClass('d-none');
+            $('.feecontent').toggleClass('active');
+        }
+
+        $('#pay input').click(function () {
+            $('#pcharge').text($(this).data('charge'));
+            $('#camount').text(parseInt($('#pamount').text()) + parseInt($(this).data('charge')));
+        });
+
+        let timer;
+        $('#next2').on('click', function () {
+            if ($('input[name=method]:checked', '#payform').val() != null) {
+                sendcart();
+            }
+            else {
+                //alert("尚未選擇付款方式");
+                let icon = $('<h1><i class="fa fa-times  mx-3" style="color:white"></i></h1>');
+                let word = $('<h3 style="color:white"  class="mb-md-0">  尚未選擇付款方式</h3>');
+                $('.note').html([icon, word]);
+                note();
+            }
+        });
+
+        function note() {
+            $('.note').addClass('active');
+
+            clearInterval(timer);
+
+            timer = setInterval(function () {
+                $('.note').removeClass('active');
+            }, 500);
+            timer;
+        }
+
+        $('#recent>div').on("mouseenter mouseleave", 'a.card', function () {
+            $(this).toggleClass('active');
+        })
+
+        let url = "@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })";
+
+        function sendcart() {
+            let cartitems = new Array();
+            $.each($('#cartitems  tr'), function () {
+                let cartitem={
+                    ProductID: $(this).data('pid'),
+                    ProductName: $(this).data('pname'),
+                    ProductColorID: $(this).data('pcid'),
+                    ColorID: $(this).data('cid'),
+                    ColorName: $(this).data('cname'),
+                    ProductSizeID: $(this).data('psid'),
+                    SizeID: $(this).data('sid'),
+                    SizeName: $(this).data('sname'),
+                    UnitPrice: $(this).data('price'),
+                    SUnitPrice: $(this).data('sprice'),
+                    ActivityName: $(this).data('aname'),
+                    OrderQTY: $(this).find('input.qty').val(),
+                    DiscountID: $(this).data('did')
+                }
+                cartitems.push(cartitem);
+            })
+
+            let orderheader = {
+                PayMethodID: $('input[name=method]:checked', '#payform').val(),
+                OrderAmount: $('#camount').text()
+            }
+
+            $.post(`@Url.Action("CartDetail", "Check", new { area = "CheckProcess" })`, { orderHeader: orderheader, cartItems: cartitems }, function (datas) {
+            location.href = url;
+            });
+        };
+    </script>
+}

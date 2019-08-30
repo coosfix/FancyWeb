@@ -1,0 +1,532 @@
+﻿@model List<FancyWeb.Areas.Management.ViewModels.UsersListModel>
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Areas/Management/style/Style1.css" rel="stylesheet" />
+<link href="~/Areas/Management/Plugin/DataTables/datatables.css" rel="stylesheet" />
+<div class="w-100 h-100 position-relative">
+    <div class="row d-flex justify-content-between no-gutters">
+        <div class="umheader col-sm-12 col-md-4">
+            <nav class="tabbar">
+                <ul>
+                    <li class="active">
+                        <a>
+                            <strong>會員</strong>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <strong>管理者</strong>
+                        </a>
+                    </li>
+                </ul>
+                <div id="navBarHover"></div>
+            </nav>
+        </div>
+        <div class="totalCount col-sm-12 col-md-8 text-sm-left text-md-right">
+            <p><span class="text-muted font-weight-bold">會員總數:</span>@Model.Count(n => !n.Admin)</p>
+            <p><span class="text-muted font-weight-bold">管理員總數:</span>@Model.Count(n => n.Admin)</p>
+        </div>
+    </div>
+    <div class="main-mamn h-100 position-relative">
+        <div>
+            <div class="controlbuttom row mb-3">
+                <div class="col-sm-8 col-md-4 d-flex justify-content-between">
+                    <h2 class="mb-0"><strong>會員管理</strong></h2>
+                </div>
+            </div>
+            <div id="memberlist">
+                <div class="Main-Table text-center pt-3 w-100 mb-3">
+                    <table id="Membertable" class="w-100 ">
+                        <thead class="text-muted">
+                            <tr>
+                                <th>頭像</th>
+                                <th>會員姓名</th>
+                                <th>手機號碼</th>
+                                <th>電子信箱</th>
+                                <th>登入方法</th>
+                                <th>註冊日期</th>
+                                <th>目前狀態</th>
+                                <th>操作</th>
+                                <th>寄信</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(n => !n.Admin))
+                            {
+                                <tr>
+                                    <td data-pid="@item.PhotoID">
+                                        <img class="uphoto" src="@Url.Action("GetImageByte","Main")/@item.PhotoID" />
+                                    </td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Email</td>
+                                    <td>
+                                        @if (item.OauthType == "L")
+                                        {
+                                            <i class="fab fa-line"></i>
+                                        }
+                                        else if (item.OauthType == "G")
+                                        {
+                                            <i class="fab fa-google"></i>
+                                        }
+                                        else if (item.OauthType == "F")
+                                        {
+                                            <i class="fab fa-facebook-f"></i>
+                                        }
+                                        else
+                                        {
+                                            <i class="fas fa-user"></i>
+                                        }
+                                    </td>
+                                    <td>@item.RegisterDateTime</td>
+                                    @if (@item.Enabled)
+                                    {
+                                        <td class="statustd">
+                                            <div>
+                                                <p class="mb-0 text-white">確定繼續嗎?</p>
+                                                <div>
+                                                    <button class="mybutton">確定</button>
+                                                    <button class="mybutton">取消</button>
+                                                </div>
+                                            </div>
+                                            <span class="badge badge-success">正常</span>
+                                        </td>
+                                        <td data-uid="@item.UserID">
+                                            <i id="ban_B" class="fas fa-trash-alt px-1"></i>
+                                            <i name="settingB" class="fas fa-pencil-alt px-1" data-toggle="modal" data-target="#settingUser"></i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="statustd">
+                                            <div>
+                                                <p class="mb-0 text-white">確定繼續嗎?</p>
+                                                <div>
+                                                    <button class="mybutton">確定</button>
+                                                    <button class="mybutton">取消</button>
+                                                </div>
+                                            </div>
+                                            <span class="badge badge-danger">廢除</span>
+                                        </td>
+                                        <td data-uid="@item.UserID">
+                                            <i id="ban_B" class="fas fa-trash-restore px-1"></i>
+                                            <i name="settingB" class="fas fa-pencil-alt px-1" data-toggle="modal" data-target="#settingUser"></i>
+                                        </td>
+                                    }
+                                    <td>
+                                        <i class="fas fa-envelope"></i>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div class="controlbuttom row mb-3">
+                <div class="col-sm-8 col-md-4 d-flex justify-content-start">
+                    <h2 class="mb-0"><strong>員工管理</strong></h2>
+                    <button class="btn btn-addu font-weight-bold ml-3" data-toggle="modal" data-target="#addAdmin"><i class="fas fa-plus fa-xs"></i> 新增員工</button>
+                </div>
+            </div>
+            <div id="Adminlist">
+                <div class="Main-Table text-center pt-3 w-100 mb-3">
+                    <table id="table_id2" class="w-100 ">
+                        <thead class="text-muted">
+                            <tr>
+                                <th>頭像</th>
+                                <th>會員姓名</th>
+                                <th>手機號碼</th>
+                                <th>電子信箱</th>
+                                <th>註冊日期</th>
+                                <th>目前狀態</th>
+                                <th>操作</th>
+                                <th>寄信</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Where(n => n.Admin))
+                            {
+                                <tr>
+                                    <td data-pid="@item.PhotoID">
+                                        <img class="uphoto" src="@Url.Action("GetImageByte","Main")/@item.PhotoID" />
+                                    </td>
+                                    <td>@item.UserName</td>
+                                    <td>@item.Phone</td>
+                                    <td>@item.Email</td>
+                                    <td>@item.RegisterDateTime</td>
+                                    @if (@item.Enabled)
+                                    {
+                                        <td class="statustd">
+                                            <div>
+                                                <p class="mb-0 text-white">確定繼續嗎?</p>
+                                                <div>
+                                                    <button class="mybutton">確定</button>
+                                                    <button class="mybutton">取消</button>
+                                                </div>
+                                            </div>
+                                            <span class="badge badge-success">正常</span>
+                                        </td>
+                                        <td data-uid="@item.UserID">
+                                            <i id="ban_B" class="fas fa-trash-alt px-1"></i>
+                                            <i name="settingB" class="fas fa-pencil-alt px-1" data-toggle="modal" data-target="#settingUser"></i>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td class="statustd">
+                                            <div>
+                                                <p class="mb-0 text-white">確定繼續嗎?</p>
+                                                <div>
+                                                    <button class="mybutton">確定</button>
+                                                    <button class="mybutton">取消</button>
+                                                </div>
+                                            </div>
+                                            <span class="badge badge-danger">廢除</span>
+                                        </td>
+                                        <td data-uid="@item.UserID">
+                                            <i id="ban_B" class="fas fa-trash-restore px-1"></i>
+                                            <i name="settingB" class="fas fa-pencil-alt px-1" data-toggle="modal" data-target="#settingUser"></i>
+                                        </td>
+                                    }
+                                    <td>
+                                        <i class="fas fa-envelope"></i>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="messageBox">
+        <div class="messageBoxHeader bg-01"><span class="icon fa fa-paper-plane"></span></div>
+        <form id="Message_form">
+            <div class="form-group">
+                <label for="UserName">使用者</label>
+                <input type="email" name="UserName" class="form-control" id="UserName">
+            </div>
+            <div class="form-group">
+                <label for="Email">傳送至:</label>
+                <input type="email" name="Email" class="form-control" id="Email">
+            </div>
+            <div class="form-group">
+                <label for="content">內容</label>
+                <textarea name="content" class="form-control" id="content" rows="3"></textarea>
+            </div>
+        </form>
+        <div class="messgbtn messgbtn-s">送出</div>
+        <div class="messgbtn messgbtn-c">取消</div>
+    </div>
+</div>
+<!-- Addmodel -->
+<div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header rounded-0">
+                <h5 class="modal-title" id="exampleModalLabel">新增員工</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form class="mt-2 w-100" id="addadminf">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="rUserName">使用者名稱</label>
+                            <input type="text" class="form-control" id="rUserName" name="UserName" placeholder="使用者名稱">
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="rUserPassword">使用者密碼</label>
+                            <input type="password" class="form-control" id="rUserPassword" name="UserPassword" placeholder="使用者密碼">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="rEmail">電子信箱</label>
+                        <input type="text" class="form-control" id="rEmail" name="Email" placeholder="電子信箱">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col">
+                            <label for="City">城市</label>
+                            <select id="City" class="form-control" name="City">
+                                <option selected>台北市</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col">
+                            <label for="Region">地區</label>
+                            <select id="Region" class="form-control" name="Region">
+                                <option selected>Choose...</option>
+                                <option>...</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-5">
+                            <label for="rPhone">手機</label>
+                            <input type="text" class="form-control" id="rPhone" name="Phone" placeholder="手機">
+                        </div>
+                    </div>
+
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input">
+                        <label class="custom-control-label" for="gender1">男</label>
+                    </div>
+                    <div class="custom-control custom-radio custom-control-inline">
+                        <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input">
+                        <label class="custom-control-label" for="gender2">女</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary adda">新增</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal bd-example-modal-lg bounceInScale" data-backdrop="static" id="settingUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalScrollableTitle">使用者詳細資料</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12 col-md-4">
+                        <div class="text-center">
+                            <img class="ud-img" src="~/Areas/Members/Image/17.jpg" />
+                        </div>
+                        <div class="mt-3 p-3 border-top">
+                            <ul class="d-table list-unstyled w-100">
+                                <li>
+                                    <span>
+                                        <strong><i class="far fa-user"></i>姓名</strong>
+                                    </span>
+                                    <span>陳志堅</span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <strong><i class="fas fa-venus-mars"></i>性別</strong>
+                                    </span>
+                                    <span><i class="fas fa-male fa-2x"></i></span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <strong><i class="fas fa-unlock-alt"></i>狀態</strong>
+                                    </span>
+                                    <span>
+                                        <span class="badge badge-success text-white">健在</span>
+                                    </span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <strong><i class="fas fa-table"></i>註冊日期</strong>
+                                    </span>
+                                    <span>2019/09/22</span>
+                                </li>
+                                <li>
+                                    <span>
+                                        <strong><i class="far fa-money-bill-alt"></i>消費總額</strong>
+                                    </span>
+                                    <span>9999999</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-8">
+                        <form id="udform">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="Email">電子郵件</label>
+                                    <input name="Email" type="email" class="form-control" placeholder="電子信箱" disabled="disabled">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="Phone">手機號碼</label>
+                                    <input name="Phone" type="text" class="form-control" placeholder="手機號碼" disabled="disabled">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password">密碼</label>
+                                <input name="Password" type="password" class="form-control" id="Password" placeholder="" disabled="disabled">
+                            </div>
+                            <div class="form-group">
+                                <label for="Address">收貨地址</label>
+                                <input name="Address" type="text" class="form-control" id="Address" placeholder="" disabled="disabled">
+                            </div>
+                            <hr />
+                            <div class="text-center">
+                                <button type="button" class="btn btn-udchang text-white w-25 rounded-0">寄送新密碼</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Areas/Management/Plugin/DataTables/datatables.js"></script>
+    <script src="~/Areas/Management/Script/all.js"></script>
+    <script>
+        var uid;
+        $(".btn-udchang").click(function () {
+            $("[name='Password']").prev().append("<div class='spinner-border spinner-border-sm text-secondary' role='status'></div>");
+            $.post("@Url.Action("AdminControllsPW","Main")", {
+                id : uid,
+                NP : $("[name='Password']").val(),
+                VC : $("[name='VerificationCode']").val(),
+            }, function (data) {
+                $("[name='Password']").prev().children().last().remove();
+                console.log(data);
+            })
+        });
+
+        @*$(".btn-udchangVC").click(function () {
+            $("[name='VerificationCode']").prev().append("<div class='spinner-border spinner-border-sm text-secondary' role='status'></div>");
+            $.post("@Url.Action("AdminControllsAcode", "Main")", {
+                id : uid,
+            }, function (data) {
+                $("[name='VerificationCode']").prev().children().last().remove();
+                $("[name='VerificationCode']").val(data);
+                console.log(data);
+            })
+        });*@
+
+        $("#memberlist, #Adminlist").on("click","[name='settingB']", function () {
+            uid = $(this).parent().data("uid")
+            let pid = $(this).parent().siblings(":first-child").data("pid");
+            console.log(pid);
+            $(".ud-img").attr("src", "@Url.Action("GetImageByte","Main")/" + pid);
+            $.post("@Url.Action("UserDetail", "Main")", { id: uid }, function (data) {
+                $("#settingUser .modal-body li:nth-child(1) span:last-child").text(data.UserName)
+                $("#settingUser .modal-body li:nth-child(2) span:last-child").html(data.Gender ? "<i class='fas fa-male fa-2x'></i>" : "<i class='fas fa-female fa-2x'></i>" )
+                $("#settingUser .modal-body li:nth-child(3) span:last-child").html(data.Enabled ? "<span class='badge badge-success text-white'>正常</span>" : "<span class='badge badge-danger text-white'>廢除</span>" )
+                $("#settingUser .modal-body li:nth-child(4) span:last-child").text(data.RegisterDateTime)
+                $("#settingUser .modal-body li:nth-child(5) span:last-child").text(data.totalcost)
+
+                let inputC = $("#udform input");
+                $.each(inputC, function (index,value) {
+                    let name = $(value).attr("name");
+                    $(`#udform input[name=${name}]`).val(data[name]);
+                });
+            });
+        });
+
+        $("#memberlist,#Adminlist").on("click", "#ban_B", function () {
+            $(this).parent().prev().children("div").css("transform","translateX(0)")
+            console.log();
+        });
+        $("#memberlist,#Adminlist").on("click", ".statustd .mybutton:nth-child(1)", function () {
+            let uid = $(this).parents("td").next().data("uid");
+            let trashli = $(this).parents("td").next().find("#ban_B");
+            let flag = $(this).parent().parent().next();
+            $.post("@Url.Action("BanControl", "Main")", { id: uid }, function (data) {
+                if (data ==="success") {
+                    if (flag.hasClass("badge-success")) {
+                        flag.toggleClass("badge-success").toggleClass("badge-danger").text("廢除");
+                    } else {
+                        flag.toggleClass("badge-success").toggleClass("badge-danger").text("正常");
+                    }
+                    trashli.toggleClass("fa-trash-alt").toggleClass("fa-trash-restore");
+                }
+            });
+            $(this).parent().parent().css("transform", "translateX(-100%)")
+        });
+        $("#memberlist,#Adminlist").on("click", ".statustd .mybutton:nth-child(2)", function () {
+            $(this).parent().parent().css("transform", "translateX(-100%)")
+            console.log("hi")
+        });
+        $("#memberlist,#Adminlist").on("click", ".fa-envelope", function () {
+            $(".messageBox input[name=Email]").val($(this).parents("tr").children().eq(3).text());
+            $(".messageBox input[name=UserName]").val($(this).parents("tr").children().eq(1).text());
+            let src = $(this).parents("tr").children().eq(0).children().attr('src');
+            $(".messageBox .bg-01").css("background-image", `url(${src})`);
+
+            $(".messageBox").css("transform", "translateY(0)")
+        });
+        $(".messgbtn-c").click(function () {
+            $(".messageBox").css("transform", "translateY(100%)")
+        });
+        $(".messgbtn-s").click(function () {
+            $.post("@Url.Action("SendEmail", "Main")", $("#Message_form").serialize(), function (data) {
+
+
+            });
+        });
+       $.getJSON("@Url.Action("ReturnCity","Login",new { area= "Members" })", function (data) {
+            let Citylist = $(document.createDocumentFragment());
+            $.each(data, function (index, value) {
+                var o = new Option(value.name, value.id);
+                Citylist.append(o);
+            });
+            $("#City").html(Citylist);
+        });
+        getRegion(3);
+            $("#City").change(function () {
+                let cid = $(this).val();
+                getRegion(cid);
+            })
+        function getRegion(cid) {
+                $.getJSON("@Url.Action("ReturnRegion", "Login", new { area = "Members" })?cid=" + cid, function (data) {
+                let Regionlist = $(document.createDocumentFragment());
+                $.each(data, function (index, value) {
+                    var o = new Option(value.name, value.id);
+                    Regionlist.append(o);
+                });
+                $("#Region").html(Regionlist);
+            });
+            }
+
+        $(".adda").click(function () {
+            let userdata = $("#addadminf").serializeArray();
+            console.log(userdata);
+
+            $.post("@Url.Action("RegisterAdmin", "Main")", $("#addadminf").serialize(), function (data) {
+                if (data != "Fail") {
+                    let today = new Date();
+                    let dd = String(today.getDate()).padStart(2, '0');
+                    let mm = String(today.getMonth() + 1).padStart(2, '0');
+                    let yyyy = today.getFullYear();
+                    today = `${yyyy}/${mm}/${dd}`
+                    $("#table_id2 tbody").append(`
+                    <tr role="row">
+                            <td data-pid="1" class="sorting_1">
+                                <img class="uphoto" src="/Management/Main/GetImageByte/1">
+                            </td>
+                            <td>${userdata[0].value}</td>
+                            <td>${userdata[5].value}</td>
+                            <td>${userdata[2].value}</td>
+                            <td>${today}</td>
+                                <td class="statustd">
+                                    <div>
+                                        <p class="mb-0 text-white">確定繼續嗎?</p>
+                                        <div>
+                                            <button class="mybutton">確定</button>
+                                            <button class="mybutton">取消</button>
+                                        </div>
+                                    </div>
+                                    <span class="badge badge-success">正常</span>
+                                </td>
+                                <td data-uid="${data}">
+                                    <i id="ban_B" class="fas fa-trash-alt px-1"></i>
+                                    <i name="settingB" class="fas fa-pencil-alt px-1" data-toggle="modal" data-target="#settingUser"></i>
+                                </td>
+                            <td>
+                                <i class="fas fa-envelope"></i>
+                            </td>
+                        </tr>
+    `)
+                }
+            })
+        });
+    </script>
+}

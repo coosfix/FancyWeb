@@ -1,0 +1,1124 @@
+﻿<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')" />
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{26807F1E-10B9-489C-93A5-DF395A8B04D6}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FancyWeb</RootNamespace>
+    <AssemblyName>FancyWeb</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <Use64BitIISExpress />
+    <IISExpressSSLPort>44394</IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TypeScriptToolsVersion>3.1</TypeScriptToolsVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Facebook, Version=6.0.10.0, Culture=neutral, PublicKeyToken=58cb4f2111d1e6de, processorArchitecture=MSIL">
+      <HintPath>..\packages\Facebook.7.0.6\lib\net45\Facebook.dll</HintPath>
+    </Reference>
+    <Reference Include="Heavysoft.LockFreeSessionState.Common, Version=1.3.0.0, Culture=neutral, PublicKeyToken=12eed1a4d3dc558d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Heavysoft.LockFreeSessionState.Common.1.3.1\lib\net40\Heavysoft.LockFreeSessionState.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Heavysoft.LockFreeSessionState.HashTable, Version=1.3.0.0, Culture=neutral, PublicKeyToken=12eed1a4d3dc558d, processorArchitecture=MSIL">
+      <HintPath>..\packages\Heavysoft.LockFreeSessionState.HashTable.1.3.1\lib\net40\Heavysoft.LockFreeSessionState.HashTable.dll</HintPath>
+    </Reference>
+    <Reference Include="ICSharpCode.SharpZipLib, Version=1.0.0.999, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpZipLib.1.0.0\lib\net45\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
+    <Reference Include="JWT, Version=5.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\JWT.5.2.2\lib\net46\JWT.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.4.0.0\lib\net451\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.Security.4.0.0\lib\net451\Microsoft.Owin.Security.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OOXML, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OOXML.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXml4Net, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXml4Net.dll</HintPath>
+    </Reference>
+    <Reference Include="NPOI.OpenXmlFormats, Version=2.4.1.0, Culture=neutral, PublicKeyToken=0df73ec7942b34e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\NPOI.2.4.1\lib\net45\NPOI.OpenXmlFormats.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.7\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Web.Cors, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.7\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Http, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.7\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Web.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.4\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Deployment">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Webpages.Razor">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Webpages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Helpers">
+      <HintPath>..\packages\Microsoft.AspNet.Webpages.3.2.4\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.4\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\ProductDisplay\Content\css\GetProductDetail.css" />
+    <Content Include="Areas\ProductDisplay\Images\activity_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\color_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\cate_icon{2}.svg" />
+    <Content Include="Areas\ProductDisplay\Images\cate_icon{3}.svg" />
+    <Content Include="Areas\ProductDisplay\Images\price_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\cate_icon{1}.svg" />
+    <Content Include="Areas\ProductDisplay\Images\size_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\zoom_icon2.png" />
+    <Content Include="Areas\ProductDisplay\Images\zoom_icon.png" />
+    <Content Include="Content\_BackendLayoutPlugin\stylesheets\style.css" />
+    <Content Include="img\1-.jpg" />
+    <Content Include="img\2-.jpg" />
+    <Content Include="img\3-.jpg" />
+    <Content Include="img\4-.jpg" />
+    <Content Include="img\5-.jpg" />
+    <Content Include="img\6-.jpg" />
+    <Content Include="img\Logo.png" />
+    <Content Include="Areas\HomePage\Plugin\scrollreveal.min.js" />
+    <Content Include="Areas\HomePage\Plugin\slick\ajax-loader.gif" />
+    <Content Include="Areas\HomePage\Plugin\slick\fonts\slick.svg" />
+    <Content Include="Areas\HomePage\Plugin\slick\jquery-1.11.0.min.js" />
+    <Content Include="Areas\HomePage\Plugin\slick\jquery-migrate-1.2.1.min.js" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick-theme.css" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick.css" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick.js" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick.min.js" />
+    <Content Include="Areas\HomePage\Scripts\all.js" />
+    <Content Include="Areas\HomePage\Style\all.css" />
+    <Content Include="Areas\HomePage\Style\particles.css" />
+    <Content Include="Areas\Management\Email\template.html" />
+    <Content Include="Areas\Management\Email\verification2.html" />
+    <Content Include="Areas\Management\img\23.jpg" />
+    <Content Include="Areas\Management\img\9.jpg" />
+    <Content Include="Areas\Management\img\92.jpg" />
+    <Content Include="Areas\Management\img\BANNER_1330x445_KOR.jpg" />
+    <Content Include="Areas\Management\img\H40300355-203.jpg" />
+    <Content Include="Areas\Management\img\pexels-photo-581087.jpeg" />
+    <Content Include="Areas\Management\img\基本模板.png" />
+    <Content Include="Areas\Management\img\限時優惠.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\DataTables-1.10.18\images\sort_asc.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\DataTables-1.10.18\images\sort_asc_disabled.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\DataTables-1.10.18\images\sort_both.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\DataTables-1.10.18\images\sort_desc.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\DataTables-1.10.18\images\sort_desc_disabled.png" />
+    <Content Include="Areas\Management\Plugin\DataTables\datatables.css" />
+    <Content Include="Areas\Management\Plugin\DataTables\datatables.js" />
+    <Content Include="Areas\Management\Plugin\DataTables\datatables.min.css" />
+    <Content Include="Areas\Management\Plugin\DataTables\datatables.min.js" />
+    <Content Include="Areas\Management\Plugin\E-Charts\echarts-gl.min.js" />
+    <Content Include="Areas\Management\Plugin\E-Charts\echarts.min.js" />
+    <Content Include="Areas\Management\Plugin\E-Charts\ecStat.min.js" />
+    <Content Include="Areas\Management\Plugin\pushbar\demo.css" />
+    <Content Include="Areas\Management\Plugin\pushbar\pushbar.css" />
+    <Content Include="Areas\Management\Plugin\pushbar\pushbar.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\accordion.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\accordion.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\accordion.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\accordion.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\ad.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\ad.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\api.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\api.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\breadcrumb.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\breadcrumb.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\button.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\button.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\card.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\card.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\checkbox.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\checkbox.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\checkbox.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\checkbox.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\colorize.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\colorize.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\comment.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\comment.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\container.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\container.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dimmer.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dimmer.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dimmer.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dimmer.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\divider.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\divider.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dropdown.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dropdown.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dropdown.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\dropdown.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\embed.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\embed.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\embed.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\embed.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\feed.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\feed.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\flag.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\flag.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\form.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\form.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\form.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\form.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\grid.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\grid.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\header.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\header.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\icon.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\icon.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\image.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\image.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\input.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\input.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\item.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\item.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\label.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\label.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\list.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\list.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\loader.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\loader.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\menu.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\menu.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\message.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\message.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\modal.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\modal.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\modal.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\modal.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\nag.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\nag.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\nag.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\nag.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\placeholder.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\placeholder.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\popup.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\popup.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\popup.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\popup.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\progress.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\progress.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\progress.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\progress.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rail.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rail.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rating.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rating.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rating.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\rating.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\reset.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\reset.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\reveal.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\reveal.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\search.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\search.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\search.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\search.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\segment.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\segment.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\shape.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\shape.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\shape.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\shape.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sidebar.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sidebar.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sidebar.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sidebar.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\site.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\site.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\site.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\site.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\state.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\state.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\statistic.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\statistic.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\step.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\step.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sticky.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sticky.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sticky.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\sticky.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\tab.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\tab.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\tab.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\tab.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\table.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\table.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\transition.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\transition.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\transition.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\transition.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\video.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\video.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\video.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\video.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\visibility.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\visibility.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\visit.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\components\visit.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\package.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\semantic.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\semantic.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\semantic.min.css" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\semantic.min.js" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\brand-icons.svg" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.svg" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.svg" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\images\flags.png" />
+    <Content Include="Areas\Management\Script\all.js" />
+    <Content Include="Areas\Management\Script\Dashboard.js" />
+    <Content Include="Areas\Management\style\Dashboard.css" />
+    <Content Include="Areas\Management\style\Style1.css" />
+    <Content Include="Areas\Members\Content\animsition\css\animsition.css" />
+    <Content Include="Areas\Members\Content\animsition\css\animsition.min.css" />
+    <Content Include="Areas\Members\Content\animsition\js\animsition.js" />
+    <Content Include="Areas\Members\Content\animsition\js\animsition.min.js" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-grid.css" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-grid.min.css" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-reboot.css" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-reboot.min.css" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap.css" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap.min.css" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.bundle.js" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.bundle.min.js" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.js" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.min.js" />
+    <Content Include="Areas\Members\Content\LoginMainpage.css" />
+    <Content Include="Areas\Members\Content\pushbar\pushbar.css" />
+    <Content Include="Areas\Members\Content\pushbar\pushbar.js" />
+    <Content Include="Areas\Members\Content\Site.css" />
+    <Content Include="Areas\Members\Image\1.jpg" />
+    <Content Include="Areas\Members\Image\adult-backlit-beach-320007.jpg" />
+    <Content Include="Areas\Members\Image\attractive-beautiful-beauty-2613260.jpg" />
+    <Content Include="Areas\Members\Image\backg.jpg" />
+    <Content Include="Areas\Members\Image\BANNER_1330x445_KOR.jpg" />
+    <Content Include="Areas\Members\Image\bg.mp4" />
+    <Content Include="Areas\Members\Image\Cat.jpg" />
+    <Content Include="Areas\Members\Image\H40300355-203.jpg" />
+    <Content Include="Areas\Members\Image\logintitle.jpg" />
+    <Content Include="Areas\Members\Image\main.jpg" />
+    <Content Include="Areas\ProductDisplay\Content\css\inputnumber.css" />
+    <Content Include="Areas\ProductDisplay\Content\css\lightslider.css" />
+    <Content Include="Areas\ProductDisplay\Content\css\lightslider.min.css" />
+    <Content Include="Areas\ProductDisplay\Content\img\controls.png" />
+    <Content Include="Areas\ProductDisplay\Content\js\inputnumber.js" />
+    <Content Include="Areas\ProductDisplay\Content\js\jquery.mlens-1.7.min.js" />
+    <Content Include="Areas\ProductDisplay\Content\js\lightslider.js" />
+    <Content Include="Areas\ProductDisplay\Content\js\lightslider.min.js" />
+    <Content Include="Areas\ProductDisplay\Images\add_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\minus_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\sale_banner{2}.jpg" />
+    <Content Include="Areas\ProductDisplay\Images\sale_banner{1}.jpg" />
+    <Content Include="Areas\ProductDisplay\Images\sale_banner{3}.jpg" />
+
+
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Facebook.dll" />
+    <Content Include="bin\Facebook.xml" />
+    <Content Include="bin\FancyWeb.dll" />
+    <Content Include="bin\FancyWeb.pdb" />
+    <Content Include="bin\Heavysoft.LockFreeSessionState.Common.dll" />
+    <Content Include="bin\Heavysoft.LockFreeSessionState.HashTable.dll" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.xml" />
+    <Content Include="bin\JWT.dll" />
+    <Content Include="bin\JWT.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NPOI.dll" />
+    <Content Include="bin\NPOI.OOXML.dll" />
+    <Content Include="bin\NPOI.OpenXml4Net.dll" />
+    <Content Include="bin\NPOI.OpenXmlFormats.dll" />
+    <Content Include="bin\PagedList.dll" />
+    <Content Include="bin\PagedList.Mvc.dll" />
+    <Content Include="bin\PagedList.Mvc.xml" />
+    <Content Include="bin\PagedList.xml" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\csi.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="bin\roslyn\System.AppContext.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Console.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.FileVersionInfo.dll" />
+    <Content Include="bin\roslyn\System.Diagnostics.StackTrace.dll" />
+    <Content Include="bin\roslyn\System.IO.Compression.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.dll" />
+    <Content Include="bin\roslyn\System.IO.FileSystem.Primitives.dll" />
+    <Content Include="bin\roslyn\System.IO.Pipes.AccessControl.dll" />
+    <Content Include="bin\roslyn\System.IO.Pipes.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Security.AccessControl.dll" />
+    <Content Include="bin\roslyn\System.Security.Claims.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Algorithms.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Encoding.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.Primitives.dll" />
+    <Content Include="bin\roslyn\System.Security.Cryptography.X509Certificates.dll" />
+    <Content Include="bin\roslyn\System.Security.Principal.Windows.dll" />
+    <Content Include="bin\roslyn\System.Text.Encoding.CodePages.dll" />
+    <Content Include="bin\roslyn\System.ValueTuple.dll" />
+    <Content Include="bin\roslyn\System.Xml.ReaderWriter.dll" />
+    <Content Include="bin\roslyn\System.Xml.XmlDocument.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.dll" />
+    <Content Include="bin\roslyn\System.Xml.XPath.XDocument.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.Webpages.Deployment.dll" />
+    <Content Include="bin\System.Web.Webpages.Deployment.xml" />
+    <Content Include="bin\System.Web.Webpages.dll" />
+    <Content Include="bin\System.Web.Webpages.Razor.dll" />
+    <Content Include="bin\System.Web.Webpages.Razor.xml" />
+    <Content Include="bin\System.Web.Webpages.xml" />
+    <Content Include="bin\zh-Hant\EntityFramework.resources.dll" />
+    <Content Include="bin\zh-Hant\EntityFramework.SqlServer.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Helpers.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Mvc.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Razor.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Webpages.Deployment.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Webpages.Razor.resources.dll" />
+    <Content Include="bin\zh-Hant\System.Web.Webpages.resources.dll" />
+
+    <Content Include="Areas\ProductDisplay\Images\sale.jpg" />
+    <Content Include="Content\bootstrap-grid.css" />
+    <Content Include="Content\bootstrap-grid.min.css" />
+    <Content Include="Content\bootstrap-reboot.css" />
+    <Content Include="Content\bootstrap-reboot.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-noscript.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui-noscript.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload-ui.css" />
+    <Content Include="Content\jQuery.FileUpload\css\jquery.fileupload.css" />
+    <Content Include="Content\jQuery.FileUpload\img\loading.gif" />
+    <Content Include="Content\jQuery.FileUpload\img\progressbar.gif" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery.ui.accordion.css" />
+    <Content Include="Content\themes\base\jquery.ui.all.css" />
+    <Content Include="Content\themes\base\jquery.ui.autocomplete.css" />
+    <Content Include="Content\themes\base\jquery.ui.base.css" />
+    <Content Include="Content\themes\base\jquery.ui.button.css" />
+    <Content Include="Content\themes\base\jquery.ui.core.css" />
+    <Content Include="Content\themes\base\jquery.ui.datepicker.css" />
+    <Content Include="Content\themes\base\jquery.ui.dialog.css" />
+    <Content Include="Content\themes\base\jquery.ui.menu.css" />
+    <Content Include="Content\themes\base\jquery.ui.progressbar.css" />
+    <Content Include="Content\themes\base\jquery.ui.resizable.css" />
+    <Content Include="Content\themes\base\jquery.ui.selectable.css" />
+    <Content Include="Content\themes\base\jquery.ui.slider.css" />
+    <Content Include="Content\themes\base\jquery.ui.spinner.css" />
+    <Content Include="Content\themes\base\jquery.ui.tabs.css" />
+    <Content Include="Content\themes\base\jquery.ui.theme.css" />
+    <Content Include="Content\themes\base\jquery.ui.tooltip.css" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\minified\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\minified\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\minified\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.accordion.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.autocomplete.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.button.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.core.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.datepicker.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.dialog.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.menu.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.progressbar.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.resizable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.selectable.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.slider.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.spinner.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
+    <Content Include="Content\themes\base\minified\jquery.ui.tooltip.min.css" />
+    <Content Include="Content\_BackendLayoutPlugin\javascripts\vendor.js" />
+    <Content Include="Content\_BackendLayoutPlugin\stylesheets\all.css" />
+    <Content Include="Content\_LayoutPlugin\animsition\css\animsition.css" />
+    <Content Include="Content\_LayoutPlugin\animsition\css\animsition.min.css" />
+    <Content Include="Content\_LayoutPlugin\animsition\js\animsition.js" />
+    <Content Include="Content\_LayoutPlugin\animsition\js\animsition.min.js" />
+    <Content Include="Content\_LayoutPlugin\css\bootstrap.min.css" />
+    <Content Include="Content\_LayoutPlugin\css\Bounce.css" />
+    <Content Include="Content\_LayoutPlugin\css\Fancy.css" />
+    <Content Include="Content\_LayoutPlugin\css\style.css" />
+    <Content Include="Content\_LayoutPlugin\images\aloe-vera-bright-flora-1549201.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0001.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0002.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0003.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0004.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0005.jpg" />
+    <Content Include="Content\_LayoutPlugin\images\banner_190718_0006.jpg" />
+    <Content Include="Content\_LayoutPlugin\js\bootstrap.min.js" />
+    <Content Include="Content\_LayoutPlugin\js\Fancy.js" />
+    <Content Include="Content\_LayoutPlugin\js\jquery.min.js" />
+    <Content Include="Content\_LayoutPlugin\js\main.js" />
+    <Content Include="Areas\Members\Email\verification.html" />
+    <Content Include="Global.asax" />
+    <Content Include="img\bk.png" />
+    <Content Include="Models\FancyWeb.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FancyWeb.edmx</DependentUpon>
+      <LastGenOutput>FancyWeb.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FancyWeb.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FancyWeb.edmx</DependentUpon>
+      <LastGenOutput>FancyWeb.cs</LastGenOutput>
+    </Content>
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\esm\popper-utils.js" />
+    <Content Include="Scripts\esm\popper-utils.min.js" />
+    <Content Include="Scripts\esm\popper.js" />
+    <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\esm\popper.min.js.map" />
+    <Content Include="Scripts\esm\popper.js.map" />
+    <Content Include="Scripts\esm\popper-utils.min.js.map" />
+    <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap-reboot.min.css.map" />
+    <Content Include="Content\bootstrap-reboot.css.map" />
+    <Content Include="Content\bootstrap-grid.min.css.map" />
+    <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="Areas\Members\Views\web.config" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-grid.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-grid.min.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-reboot.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap-reboot.min.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\css\bootstrap.min.css.map" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.bundle.js.map" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.bundle.min.js.map" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.js.map" />
+    <Content Include="Areas\Members\Content\bootstrap\js\bootstrap.min.js.map" />
+    <Content Include="Areas\Members\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Members\Views\Login\Index.cshtml" />
+    <Content Include="Areas\Members\Views\Login\_ViewStart.cshtml" />
+    <Content Include="Areas\Members\Views\Detail\Account.cshtml" />
+    <Content Include="Areas\Members\Views\Detail\ChangPassword.cshtml" />
+    <Content Include="Areas\Members\Views\Detail\Favorite.cshtml" />
+    <Content Include="Areas\Members\Views\Detail\OrderList.cshtml" />
+    <Content Include="Areas\Members\Views\Detail\UserDetail.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Product\Browse.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Product\GetProductDetail.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Product\Index.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\web.config" />
+    <Content Include="Areas\ProductDisplay\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\CheckProcess\Views\web.config" />
+    <Content Include="Areas\CheckProcess\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\CheckProcess\Views\Check\Detail.cshtml" />
+    <EntityDeploy Include="Models\FancyWeb.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FancyWeb.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FancyWeb.edmx.diagram">
+      <DependentUpon>FancyWeb.edmx</DependentUpon>
+    </Content>
+    <Content Include="Areas\Members\Views\_ViewStart.cshtml" />
+    <Content Include="Content\_BackendLayoutPlugin\stylesheets\all.css.map" />
+    <Content Include="Areas\Backend\Views\web.config" />
+    <Content Include="Areas\Backend\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryM\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryM\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryM\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\InOut\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\InOut\Import.cshtml" />
+    <Content Include="Areas\Backend\Views\InOut\Product.cshtml" />
+    <Content Include="Areas\Backend\Views\AddStock\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\AddStock\StockList.cshtml" />
+    <Content Include="Areas\Backend\Views\Washing\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Washing\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Washing\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Size\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Size\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Size\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Shipping\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Shipping\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Shipping\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Supplier\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Supplier\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Supplier\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Color\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Color\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Color\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryS\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryS\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\CategoryS\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Shipment\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Shipment\Detail.cshtml" />
+    <Content Include="Areas\Backend\Views\Activity\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Activity\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Activity\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Product\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Product\Create.cshtml" />
+    <Content Include="Areas\Backend\Views\Product\Edit.cshtml" />
+    <Content Include="Areas\Backend\Views\Shared\_ProductDetailLayoutPage.cshtml" />
+    <Content Include="Areas\Backend\Views\ProdWashing\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\ProdSize\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\ProdColor\Index.cshtml" />
+    <Content Include="Areas\CheckProcess\Views\Check\OrderInfo.cshtml" />
+    <Content Include="Areas\CheckProcess\Views\Check\FinalShow.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Activity\Browse.cshtml" />
+    <Content Include="Areas\Management\Views\web.config" />
+    <Content Include="Areas\Management\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\Management\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Management\Views\Main\Index.cshtml" />
+    <Content Include="Areas\Management\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\ProdPhoto\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\ProdStock\Index.cshtml" />
+    <Content Include="Areas\Backend\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Search\Result.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Search\CategoryFilter.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Search\ColorFilter.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Search\SizeFilter.cshtml" />
+    <Content Include="Areas\ProductDisplay\Views\Search\ActivityFilter.cshtml" />
+    <Content Include="Areas\Management\Views\Chat\Index.cshtml" />
+    <Content Include="Areas\HomePage\Plugin\slick\config.rb" />
+    <Content Include="Areas\HomePage\Plugin\slick\fonts\slick.eot" />
+    <Content Include="Areas\HomePage\Plugin\slick\fonts\slick.ttf" />
+    <Content Include="Areas\HomePage\Plugin\slick\fonts\slick.woff" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick-theme.less" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick-theme.scss" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick.less" />
+    <Content Include="Areas\HomePage\Plugin\slick\slick.scss" />
+    <Content Include="Areas\Backend\Views\Chat\Main.cshtml" />
+
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+
+    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy1.pubxml" />
+    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy2.pubxml" />
+    <Content Include="Areas\Members\Views\Login\AccountOpen.cshtml" />
+    <Content Include="Areas\Management\Views\EmailDesign\Index.cshtml" />
+    <Content Include="Areas\Management\Views\EmailDesign\template.cshtml" />
+    <Content Include="Areas\Management\Views\EmailDesign\template_newitem.cshtml" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\.versions" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\LICENSE" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\package.json" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\README.md" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\brand-icons.eot" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\brand-icons.ttf" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\brand-icons.woff" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\brand-icons.woff2" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.eot" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.otf" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.ttf" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.woff" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\icons.woff2" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.eot" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.ttf" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.woff" />
+    <Content Include="Areas\Management\Plugin\Semantic-UI-CSS-master\themes\default\assets\fonts\outline-icons.woff2" />
+    <Content Include="Areas\Management\Views\EmailDesign\template_newitem2.cshtml" />
+    <Content Include="Areas\HomePage\Views\web.config" />
+    <Content Include="Areas\HomePage\Views\Home\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\msit12201 - Web Deploy.pubxml" />
+    <None Include="Scripts\jquery-3.4.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.4.1.js" />
+    <Content Include="Scripts\jquery-3.4.1.min.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.js" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.9.0.js" />
+    <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
+    <Content Include="Scripts\jQuery.FileUpload\cors\jquery.postmessage-transport.js" />
+    <Content Include="Scripts\jQuery.FileUpload\cors\jquery.xdr-transport.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-angular.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-audio.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-image.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-jquery-ui.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-process.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-video.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.iframe-transport.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.2.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\popper-utils.js" />
+    <Content Include="Scripts\popper-utils.min.js" />
+    <Content Include="Scripts\popper.js" />
+    <Content Include="Scripts\popper.min.js" />
+    <Content Include="Scripts\umd\popper-utils.js" />
+    <Content Include="Scripts\umd\popper-utils.min.js" />
+    <Content Include="Scripts\umd\popper.js" />
+    <Content Include="Scripts\umd\popper.min.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Scripts\umd\popper.min.js.map" />
+    <Content Include="Scripts\umd\popper.js.map" />
+    <Content Include="Scripts\umd\popper-utils.min.js.map" />
+    <Content Include="Scripts\umd\popper-utils.js.map" />
+    <Content Include="Scripts\README.md" />
+    <Content Include="Scripts\popper.min.js.map" />
+    <Content Include="Scripts\popper.js.map" />
+    <Content Include="Scripts\popper-utils.min.js.map" />
+    <Content Include="Scripts\popper-utils.js.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Areas\Backend\BackendAreaRegistration.cs" />
+    <Compile Include="Areas\Backend\Controllers\ActivityController.cs" />
+    <Compile Include="Areas\Backend\Controllers\AddStockController.cs" />
+    <Compile Include="Areas\Backend\Controllers\CategoryMController.cs" />
+    <Compile Include="Areas\Backend\Controllers\CategorySController.cs" />
+    <Compile Include="Areas\Backend\Controllers\CharController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ColorController.cs" />
+    <Compile Include="Areas\Backend\Controllers\InOutController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProdColorController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProdPhotoController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProdSizeController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProdStockController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProductController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ProdWashingController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ShipmentController.cs" />
+    <Compile Include="Areas\Backend\Controllers\ShippingController.cs" />
+    <Compile Include="Areas\Backend\Controllers\SizeController.cs" />
+    <Compile Include="Areas\Backend\Controllers\SupplierController.cs" />
+    <Compile Include="Areas\Backend\Controllers\WashingController.cs" />
+    <Compile Include="Areas\Backend\Models\CharHub.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\CategoryMiddle.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\Color.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\Shipping.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\Size.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\Supplier.cs" />
+    <Compile Include="Areas\Backend\Models\Partial\Washing.cs" />
+    <Compile Include="Areas\Backend\Models\StartupChar.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ActivityEditViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ActivityProdViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ActivityViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\CategorySViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\FileViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductColorVIewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductListViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductPhotoVIewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductSizeVIewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductStockVIewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ProductWashingVIewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ShipDetailViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ShipHeaderViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\ShipmaneAllViewModel.cs" />
+    <Compile Include="Areas\Backend\ViewModels\StockListViewModel.cs" />
+    <Compile Include="Areas\CheckProcess\CheckProcessAreaRegistration.cs" />
+    <Compile Include="Areas\CheckProcess\Controllers\CheckController.cs" />
+    <Compile Include="Areas\HomePage\Controllers\HomeController.cs" />
+    <Compile Include="Areas\HomePage\HomePageAreaRegistration.cs" />
+    <Compile Include="Areas\HomePage\Service\HomePageService.cs" />
+    <Compile Include="Areas\HomePage\ViewModels\HomePageData.cs" />
+    <Compile Include="Areas\Management\Controllers\ChatController.cs" />
+    <Compile Include="Areas\Management\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\Management\Controllers\EmailDesingController.cs" />
+    <Compile Include="Areas\Management\Controllers\MainController.cs" />
+    <Compile Include="Areas\Management\ManagementAreaRegistration.cs" />
+    <Compile Include="Areas\Management\Service\AdminService.cs" />
+    <Compile Include="Areas\Management\Service\DashboardService.cs" />
+    <Compile Include="Areas\Management\Service\EmailDataList.cs" />
+    <Compile Include="Areas\Management\ViewModels\AllPrdlist.cs" />
+    <Compile Include="Areas\Management\ViewModels\DashboardViewModel.cs" />
+    <Compile Include="Areas\Management\ViewModels\RegionSell.cs" />
+    <Compile Include="Areas\Management\ViewModels\RegisterAdminModel.cs" />
+    <Compile Include="Areas\Management\ViewModels\Top3YearGrowing.cs" />
+    <Compile Include="Areas\Management\ViewModels\Totalpercent.cs" />
+    <Compile Include="Areas\Management\ViewModels\Totalrevenue.cs" />
+    <Compile Include="Areas\Management\ViewModels\UserDetailModel.cs" />
+    <Compile Include="Areas\Management\ViewModels\UsersListModel.cs" />
+    <Compile Include="Areas\Members\Controllers\DetailController.cs" />
+    <Compile Include="Areas\Members\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Members\MembersAreaRegistration.cs" />
+    <Compile Include="Areas\Members\Service\FilterClass.cs" />
+    <Compile Include="Areas\Members\Service\MemberMethod.cs" />
+    <Compile Include="Areas\Members\Service\MemberService.cs" />
+    <Compile Include="Areas\Members\Service\OAuthMethod.cs" />
+    <Compile Include="Areas\Members\Service\OAuthRequestUrl.cs" />
+    <Compile Include="Areas\Members\Service\OrderFilter.cs" />
+    <Compile Include="Areas\Members\ViewModels\FavoriteView.cs" />
+    <Compile Include="Areas\Members\ViewModels\FavoriteViewModel.cs" />
+    <Compile Include="Areas\Members\ViewModels\MemberDetailView.cs" />
+    <Compile Include="Areas\Members\ViewModels\MemberRegisterView.cs" />
+    <Compile Include="Areas\Members\ViewModels\OrderDetailView.cs" />
+    <Compile Include="Areas\Members\ViewModels\OrderHeaderView.cs" />
+    <Compile Include="Areas\Members\ViewModels\OrderHeaderViewModel.cs" />
+    <Compile Include="Areas\ProductDisplay\Controllers\ActivityController.cs" />
+    <Compile Include="Areas\ProductDisplay\Controllers\SearchController.cs" />
+    <Compile Include="Areas\ProductDisplay\Functions\SearchMethod.cs" />
+    <Compile Include="Areas\ProductDisplay\Models\ProductCell.cs" />
+    <Compile Include="Areas\ProductDisplay\Controllers\ProductController.cs" />
+    <Compile Include="Areas\ProductDisplay\Models\CartItem.cs" />
+    <Compile Include="Areas\ProductDisplay\Functions\ProductMethod.cs" />
+    <Compile Include="Areas\ProductDisplay\Models\Partial\Product.cs" />
+    <Compile Include="Areas\ProductDisplay\Models\SearchFilters.cs" />
+    <Compile Include="Areas\ProductDisplay\ProductDisplayAreaRegistration.cs" />
+    <Compile Include="Areas\ProductDisplay\ViewModels\ProdcutDisplay.cs" />
+    <Compile Include="Areas\ProductDisplay\Models\CategoryFilter.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Activity.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ActivityProduct.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\BrowseHistory.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Cart.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CategoryMiddle.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CategorySmall.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\City.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Color.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DiscountMethod.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FancyWeb.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FancyWeb.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FancyWeb.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FancyWeb.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FancyWeb.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Models\KeyWord.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MyFavorite.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NewsList.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderDetail.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderHeader.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\OrderStatusList.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PayMethod.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Photo.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Product.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductColor.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductEvaluation.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductPhoto.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductSize.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductStock.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProductWashing.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Question.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Region.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Shipping.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Size.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Supplier.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\User.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserNotice.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_EW_CategorySM.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_EW_OrderDetail.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_EW_ProductColor.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_EW_ProductSize.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\VW_EW_Supplier.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Washing.cs">
+      <DependentUpon>FancyWeb.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\web.config" />
+    <None Include="packages.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.4.1.min.map" />
+    <Content Include="Views\Shared\_BackendLayout.cshtml" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\Upload\" />
+    <Folder Include="Areas\CheckProcess\Images\" />
+    <Folder Include="Areas\CheckProcess\Models\" />
+    <Folder Include="Areas\CheckProcess\Views\Shared\" />
+    <Folder Include="Areas\HomePage\Models\" />
+    <Folder Include="Areas\HomePage\Views\Shared\" />
+    <Folder Include="Areas\Members\Models\" />
+    <Folder Include="Areas\ProductDisplay\Views\Shared\" />
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="Scripts\index.d.ts" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>60447</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>https://localhost:44395/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>https://localhost:44395/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.0\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

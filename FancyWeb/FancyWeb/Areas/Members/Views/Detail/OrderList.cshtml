@@ -1,0 +1,351 @@
+﻿<style>
+
+    .detail_r {
+        height: 500px;
+        overflow: auto;
+    }
+
+    .title_p {
+        padding: 5px;
+        border-left: 5px solid gray;
+    }
+
+    .my-input-group {
+        display: flex;
+    }
+
+    .btn-favosearch {
+        background-color: #393b3e;
+    }
+
+    .search-field {
+        position: relative;
+        width: 150px;
+    }
+
+        .search-field select {
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .search-field .select-block {
+            position: absolute;
+            background-color: white;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0
+        }
+
+            .search-field .select-block i {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+    .custom-control-label::before {
+        position: absolute;
+        top: .19rem;
+        left: -2rem;
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        pointer-events: none;
+        content: "";
+        background-color: #fff;
+        border: #adb5bd solid 1px;
+    }
+
+    .custom-control-label::after {
+        position: absolute;
+        top: .19rem;
+        left: -2rem;
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        content: "";
+        background: no-repeat 50%/50% 50%;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border: 0;
+        background-color: #343538;
+    }
+
+    .custom-checkbox .custom-control-label::before {
+        border-radius: 0;
+    }
+
+    .orderMain {
+        height: 470px;
+        overflow: auto;
+    }
+
+    .orderH {
+        height: 370px;
+        overflow: auto;
+    }
+
+    .custom-control-label {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .orderMain table th {
+        border: 1px #ccc solid;
+        color: #706e6c;
+        text-align: center;
+        height: 40px;
+        background-color: #ebebeb;
+    }
+
+    .orderMain table td {
+        font-size: 12px;
+    }
+
+        .orderMain table td a {
+            cursor: pointer;
+            color: black;
+        }
+
+    .orderMain a:not([href]):hover {
+        text-decoration: underline;
+    }
+</style>
+@model FancyWeb.Areas.Members.ViewModels.OrderHeaderViewModel
+<div class="flipInBottom w-100 ">
+    <div class="text-left title_p mb-3 d-flex justify-content-between">
+        <h2 class="mb-0">訂單查詢</h2>
+        <div class="search-field">
+            <div class="select-block border p-2 text-center">
+                <strong class="">依加入順序</strong>
+                <i class="fas fa-sort"></i>
+            </div>
+            <select class="w-100 h-100">
+                <option data-value='{"orderby":""}'>依訂購日期</option>
+                <option data-value='{"orderby":"desc"}'>總金額由高至低</option>
+                <option data-value='{"orderby":"asc"}'>總金額由低至高</option>
+            </select>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class=" col-md-3">
+            <div class="filter-block">
+                <h4 class="p-2 text-white bg-dark text-center shadow">訂單日期</h4>
+                <div class="chekbox_list p-3 orderH style-1">
+                    <ul>
+                        @foreach (var item in Model.DateCountCount())
+                        {
+                            <li>
+                                <div class="custom-control custom-checkbox my-2">
+                                    <input type="checkbox" name="OrderDateFilter" value="@item.Key" class="custom-control-input" id="@item.Key">
+                                    <label class="custom-control-label w-100" for="@item.Key">
+                                        <span class="mx-2">@item.Key </span>
+                                        <span class="mx-2">(@item.Value)</span>
+                                    </label>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="filter-block">
+                <h4 class="p-2 text-white bg-dark text-center shadow">訂單狀態</h4>
+                <div class="chekbox_list p-3 style-1">
+                    <ul>
+                        @foreach (var item in Model.StatusCount())
+                        {
+                            <li>
+                                <div class="custom-control custom-checkbox my-2">
+                                    <input type="checkbox" name="StatusFilter" value="@item.Key" class="custom-control-input" id="@item.Key">
+                                    <label class="custom-control-label w-100" for="@item.Key">
+                                        <span class="mx-2">@item.Key </span>
+                                        <span class="mx-2">(@item.Value)</span>
+                                    </label>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 w-100">
+            <div id="listcount" class="w-100 text-right">
+                <span>共 @Model.orderList.Count() 筆訂單</span>
+            </div>
+            <div class="flex-row  orderMain style-1 w-100">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>訂購日期</th>
+                            <th>訂單編號(點擊查看明細)</th>
+                            <th>出貨日期</th>
+                            <th>付款方式</th>
+                            <th>運送方式</th>
+                            <th>訂單狀態</th>
+                            <th>應付金額</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        @foreach (var item in Model.orderList)
+                        {
+                            <tr>
+                                <td>@item.OrderDate.ToString("yyyy/MM/dd")</td>
+                                <td><a name="myModal" data-orderid="@item.OrderID" data-toggle="modal">@item.OrderNum</a></td>
+                                <td>
+                                    @if (@item.ShipDate.HasValue)
+                                    {
+                                        @item.ShipDate.Value.ToString("yyyy/MM/dd")
+                                    }
+                                </td>
+                                <td>@item.PayMethod</td>
+                                <td>@item.Shipping</td>
+                                <td>@item.OrderStatus</td>
+                                <td>NT$ @item.OrderAmount</td>
+                            </tr>
+                        }
+                    </tbody>
+                    <tfoot>
+
+                    </tfoot>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailMain" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="card w-100">
+                <div class="card-header">訂單明細</div>
+                <div class="card-body">
+                    <table class="table mt-3">
+                        <thead>
+                            <tr>
+                                <th>商品名</th>
+                                <th>顏色</th>
+                                <th>尺寸</th>
+                                <th>數量</th>
+                                <th>金額</th>
+                                <th width="100">小計</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-right">總營收</td>
+                                <td class="text-right">10,500</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(".orderMain").on("click", "[name='myModal']", function () {
+        $("#detailMain .card-header").text($(this).text());
+        $.post("@Url.Action("OrderDetail","Detail",new { area = "Members" })", { oid: $(this).data("orderid") }, function (data) {
+            let drag = $(document.createDocumentFragment());
+            let alltotal = 0;
+            $.each(data, function (index, value) {
+                let tr1 = $("<tr>");
+                tr1.append(`<td>${value.ProductName}</td>
+                            <td>${value.Color}</td>
+                            <td>${value.Size}</td>
+                            <td>${value.QTY}</td>
+                            <td>NT$ ${value.UnitPrice}</td>
+                            <td class='text-right'>NT$ ${value.subtotal}</td>`)
+                alltotal += value.subtotal;
+                drag.append(tr1);
+            });
+            $("#detailMain table tbody").html(drag);
+            let tr2 = $("<tr>");
+            let paym = data[0].Freight;
+            alltotal += paym;
+            tr2.append(`<td colspan="4" class="text-right">總額</td>
+                        <td class="text-right">+運費${paym}</td>
+                        <td class="text-right">NT$ ${alltotal}</td >`);
+            $("#detailMain table tfoot").html(tr2);
+        });
+        $('#detailMain').modal('toggle');
+    });
+
+    var OrderFilter = {
+        Statusfilter :[],
+        OrderDate:[],
+        orderby :"",
+    };
+    $("input[name='OrderDateFilter']").on("click", function () {
+        if ($(this).prop("checked")) {
+            OrderFilter.OrderDate.push($(this).val());
+            filterPOST(OrderFilter);
+        } else {
+            OrderFilter.OrderDate.splice($.inArray($(this).val(), OrderFilter.Statusfilter), 1)
+            filterPOST(OrderFilter);
+        }
+    });
+    $("input[name='StatusFilter']").on("click", function () {
+        if ($(this).prop("checked")) {
+            OrderFilter.Statusfilter.push($(this).val());
+            filterPOST(OrderFilter);
+        } else {
+            OrderFilter.Statusfilter.splice($.inArray($(this).val(), OrderFilter.Statusfilter), 1)
+            filterPOST(OrderFilter);
+        }
+    });
+    $(".search-field select").change(function (e) {
+        $(".select-block strong").text($(this).find(":selected").text())
+        OrderFilter.orderby = $(this).find(":selected").data("value").orderby;
+        filterPOST(OrderFilter);
+    });
+    var filterPOST = function (OrderFilter) {
+        let Orderitem = $(document.createDocumentFragment());
+        let loading = `<td colspan="7"><div class='spinner-border text-secondary' role='status'></div></td>`
+        //let loaddiv = $("<div>").addClass("d-flex justify-content-center align-items-center w-100 h-100");
+        //let load = ""
+        $(".orderMain table tbody").html(loading);
+           $.ajax({
+             url: `@Url.Action("OrderListFilter", "Detail",new { area = "Members" })`,
+             type: 'POST',
+             contentType: 'application/json',
+             data: JSON.stringify(OrderFilter),
+               success: function (data) {
+                   $("#listcount").text(`共 ${Object.keys(data).length} 筆訂單`)
+                   $.each(data, function (index, value) {
+                       let tr1 = $("<tr>");
+                       console.log(value.ShippDate)
+                       let sdate = value.ShipDate == undefined ? "" : ChangeDateFormat(value.ShipDate);
+                       tr1.append(`<td>${ChangeDateFormat(value.OrderDate)}</td>
+                                    <td><a name="myModal" data-orderid="${value.OrderID}" data-toggle="modal">${value.OrderNum}</a></td>
+                                    <td>${sdate}</td>
+                                    <td>${value.PayMethod}</td>
+                                    <td>${value.Shipping}</td>
+                                    <td>${value.OrderStatus}</td>
+                                    <td>NT ${value.OrderAmount}</td>`);
+                       Orderitem.append(tr1);
+                 });
+                   $(".orderMain table tbody").html(Orderitem);
+             }
+         });
+    };
+
+    function ChangeDateFormat(cellval) {
+        let date = new Date(parseInt(cellval.replace("/Date(", "").replace(")/",""), 10));
+        let orderd = `${date.getFullYear()}/${date.getMonth()+1}/${date.getDate()}`;
+        return orderd;
+    }
+
+    $('#detailMain').on('hidden.bs.modal', function (e) {
+        $("#detailMain table tbody").html("");
+        $("#detailMain table tfoot").html("");
+    })
+
+</script>

@@ -1,0 +1,56 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FancyWeb.Models.Supplier>
+
+@{
+    ViewBag.Title = "供應商維護";
+}
+
+@*<p>@Request.Cookies["mesg"].Value</p>*@
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2 style="color:blue;">供應商維護</h2>
+        </div>
+        <div class="col-3">
+            <a href="~/Backend/Supplier/Create" class="btn btn-warning" style="margin:10px">新增</i></a>
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.First().SupplierID)</th>
+                <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().Phone)</th>
+                <th>@Html.DisplayNameFor(p => p.First().Fax)</th>
+                <th>@Html.DisplayNameFor(p => p.First().Email)</th>
+                <th>@Html.DisplayNameFor(p => p.First().Address)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(p => item.SupplierID)</td>
+                    <td>@Html.DisplayFor(p => item.SupplierName)</td>
+                    <td>@Html.DisplayFor(p => item.Phone)</td>
+                    <td>@Html.DisplayFor(p => item.Fax)</td>
+                    <td>@Html.DisplayFor(p => item.Email)</td>
+                    <td>@Html.DisplayFor(p => item.Address)</td>
+                    <td><a href="~/Backend/Supplier/Edit/@item.SupplierID" class="btn btn-primary">修改</a></td>
+                    <td><a href="~/Backend/Supplier/Delete/@item.SupplierID" class="btn btn-danger" onclick="return confirm('確定要刪除嗎?')">刪除</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+
+</div>
+

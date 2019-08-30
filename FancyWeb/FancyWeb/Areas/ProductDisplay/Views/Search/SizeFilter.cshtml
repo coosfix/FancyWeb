@@ -1,0 +1,17 @@
+﻿@model  IEnumerable<FancyWeb.Models.Size>
+<h4 class="tle1">
+    <img src="~/Areas/ProductDisplay/Images/size_icon.svg"/>尺寸
+</h4>
+<div class="p-3 tle1">
+    <div class="row">
+        @foreach (var filter in Model)
+        {
+            <div class="col-md-3">
+                <div class="custom-control custom-radio">
+                    <input type="checkbox" id="size_@filter.SizeID" value="@filter.SizeID" name="size" class="custom-control-input">
+                    <label class="custom-control-label" for="size_@filter.SizeID"><span>@filter.SizeName</span></label>
+                </div>
+            </div>
+        }
+    </div>
+</div>

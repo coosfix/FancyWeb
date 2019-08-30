@@ -1,0 +1,314 @@
+﻿@model FancyWeb.Areas.HomePage.ViewModels.HomePageData
+@{
+    /**/
+
+    ViewBag.Title = "首頁";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/Areas/HomePage/Plugin/slick/slick.css" rel="stylesheet" />
+    <link href="~/Areas/HomePage/Style/all.css" rel="stylesheet" />
+    <link href="~/Areas/HomePage/Plugin/slick/slick-theme.css" rel="stylesheet" />
+    @*<link href="~/Areas/HomePage/Style/particles.css" rel="stylesheet" />*@
+    @*<link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />*@
+}
+<body>
+    <!--輪播-->
+    <section id="st1">
+        <div class="banner shadow">
+            @for (int i = 1; i <= 6; i++)
+            {
+                <a class="" href="">
+                    <div class="banner-img bg-cover" style="background-image: url('../../../../img/@i-.jpg');
+"></div>
+                </a>
+            }
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <div class="row justify-content-center header_box">
+                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/1937394/pexels-photo-1937394.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)">
+                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=1">
+                        <div class="atv">
+                            顯瘦五公斤
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/2397412/pexels-photo-2397412.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
+                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=2">
+                        <div class="atv">
+                            清涼一下
+                        </div>
+                    </a>
+                </div>
+                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/1144686/pexels-photo-1144686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
+                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=3">
+                        <div class="atv">
+                            好康優惠
+                        </div>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!--中間section-->
+    <section id="st2">
+        <div class="container">
+            <div class="st_title ">
+                <h2 class="text-center"><span>熱門商品</span></h2>
+            </div>
+            <div class="st_content">
+                <div class="products_items">
+                    @foreach (var item in Model.Popular)
+                    {
+                        <div data-pid="@item.PID" class="card" style="width: 18rem;">
+                            <div style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@item.PID)" class="imgbody bg-cover">
+                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"]!=null? Request.Cookies["upid"].Value:"0"))
+                                {
+                                    <i class="fas fa-heart"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-heart"></i>
+                                }
+                                <span class="newflag bg-danger"><i class="fas fa-fire-alt"></i>熱門</span>
+                            </div>
+                            <div class="card-body pca">
+                                <p class="title">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@item.PID">
+                                        @item.PName
+                                    </a>
+                                </p>
+                                <p class="">@item.CompanyName</p>
+                                <p class="">NT$ @item.UnitPrice</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+    </section>
+    <section id="st3">
+        <div class="container">
+            <div class="st_title ">
+                <h2 class="text-center"><span>最新商品</span></h2>
+            </div>
+            <div class="st_content">
+                <div class="products_items">
+                    @foreach (var item in Model.NEWs)
+                    {
+                        <div data-pid="@item.PID" class="card" style="width: 18rem;">
+                            <div style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@item.PID)" class="imgbody bg-cover">
+                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"] != null ? Request.Cookies["upid"].Value : "0"))
+                                {
+                                    <i class="fas fa-heart"></i>
+                                }
+                                else
+                                {
+                                    <i class="far fa-heart"></i>
+                                }
+                                <span class="newflag">NEW</span>
+                            </div>
+                            <div class="card-body pca">
+                                <p class="title">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@item.PID">
+                                        @item.PName
+                                    </a>
+                                </p>
+                                <p class="">@item.CompanyName</p>
+                                <p class="">NT$ @item.UnitPrice</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <section id="st4" class="mb-0">
+        <div class="container px-4">
+            <div id="ramdombar" class="form-row px-2">
+                <div class="col-md-8 px-0">
+                        <div class="form-row mx-0 h-50">
+                            <div class="col-md-6 px-0">
+                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[0].PID)">
+                                    <div class="card-body">
+                                        <h4>@Model.Ramdom[0].PName</h4>
+                                        <h5 class="card-title">@Model.Ramdom[0].CompanyName</h5>
+                                        <p class="card-text">
+                                            @Model.Ramdom[0].Comment
+                                        </p>
+                                        <div class="ui rating" data-max-rating="2">
+                                        </div>
+                                    </div>
+                                    <div class="card-footer mx-1 text-muted text-center border-top-0">
+                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[0].PID" class="btn btn-outline-light">選擇商品</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 px-0">
+                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[1].PID)">
+                                    <div class="card-body">
+                                        <h4>@Model.Ramdom[1].PName</h4>
+                                        <h5 class="card-title">@Model.Ramdom[1].CompanyName</h5>
+                                        <p class="card-text">
+                                            @Model.Ramdom[1].Comment
+                                        </p>
+
+                                    </div>
+                                    <div class="card-footer text-muted text-center border-top-0">
+                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[1].PID" class="btn btn-outline-light">選擇商品</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card text-white bgcover p-3 h-50" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[2].PID)">
+                            <div class="card-body">
+                                <h4>@Model.Ramdom[2].PName</h4>
+                                <h5 class="card-title">@Model.Ramdom[2].CompanyName</h5>
+                                <p class="card-text">
+                                    @Model.Ramdom[2].Comment
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted text-center border-top-0">
+                                <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[2].PID" class="btn btn-outline-light">選擇商品</a>
+                            </div>
+                        </div>
+                </div>
+                <div class="col-md-4 px-0">
+                    <div>
+                        <div class="form-row mx-0 h-50">
+                            <div class="col-md-6 px-0">
+                                <div class="card h-100 text-white bgcover p-3" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[3].PID)">
+                                    <div class="card-body">
+                                        <h4>@Model.Ramdom[3].PName</h4>
+                                        <h5 class="card-title">@Model.Ramdom[3].CompanyName</h5>
+                                        <p class="card-text">
+                                            @Model.Ramdom[3].Comment
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-muted text-center border-top-0">
+                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[3].PID" class="btn btn-outline-light">選擇商品</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 px-0">
+                                <div class="card h-100 text-white bgcover p-3" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[4].PID)">
+                                    <div class="card-body">
+                                        <h4>@Model.Ramdom[4].PName</h4>
+                                        <h5 class="card-title">@Model.Ramdom[4].CompanyName</h5>
+                                        <p class="card-text">
+                                            @Model.Ramdom[4].Comment
+                                        </p>
+                                    </div>
+                                    <div class="card-footer text-muted text-center border-top-0">
+                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[4].PID" class="btn btn-outline-light">選擇商品</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card text-white bgcover h-50 p-3" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[5].PID)">
+                            <div class="card-body">
+                                <h4>@Model.Ramdom[5].PName</h4>
+                                <h5 class="card-title">@Model.Ramdom[5].CompanyName</h5>
+                                <p class="card-text">
+                                    @Model.Ramdom[5].Comment
+                                </p>
+                            </div>
+                            <div class="card-footer text-muted text-center border-top-0">
+                                <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[5].PID" class="btn btn-outline-light">選擇商品</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </section>
+    
+    <div class="favBage d-flex justify-content-center align-items-center">
+        <i class="far fa-check-circle fa-2x"></i><span>已加入收藏</span>
+    </div>
+</body>
+
+
+
+@section scripts{
+    <script src="~/Areas/HomePage/Plugin/slick/jquery-migrate-1.2.1.min.js"></script>
+    @*<script src="~/Areas/HomePage/Plugin/slick/jquery-1.11.0.min.js"></script>*@
+    <script src="~/Areas/HomePage/Plugin/slick/slick.js"></script>
+    <script src="~/Areas/HomePage/Scripts/all.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>*@
+    @*<script src="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.js"></script>*@
+    <script>
+        window.sr = ScrollReveal({
+            distance: '60px',
+            viewFactor: 0.3
+        });
+        sr.reveal('.header_box', {
+            delay: 200,
+            scale: 0
+        });
+        sr.reveal('#st2', {
+            delay: 100,
+            origin: 'left'
+        });
+        sr.reveal('#st3', {
+            delay: 100,
+            origin: 'right'
+        });
+        sr.reveal('#ramdombar .col-md-6:nth-child(even)', {
+            delay: 200,
+            scale: 0
+        })
+        sr.reveal('#ramdombar .col-md-6:nth-child(odd)', {
+            delay: 400,
+            scale: 0
+        })
+        sr.reveal('#ramdombar .card', {
+            delay: 600,
+            scale: 0
+        })
+    </script>
+    <script>
+        $(document).on("click", ".fa-heart", function () {
+            let hb = $(this)
+            let pdid = $(this).parents(".card").data("pid");
+            $.post("@Url.Action("FavoriteADDSub", "Home")", { pid: pdid }, function (data) {
+                switch (data) {
+                    case "Add":
+                        Add(hb);
+                       break;
+                    case "Sub":
+                        Sub(hb);
+                       break;
+                    default:
+
+                        break;
+                }
+            });
+        });
+        function Add(hb) {
+            $(hb).toggleClass("far").toggleClass("fas").addClass("active")
+            let fb = $(".favBage");
+            fb.addClass("active");
+            fb.children("span").text("已加入收藏")
+            setTimeout(function () {
+                fb.removeClass("active");
+            },1000);
+        }
+        function Sub(hb) {
+            $(hb).toggleClass("far").toggleClass("fas").removeClass("active")
+            let fb = $(".favBage");
+            fb.addClass("active");
+            fb.children("span").text("已移除")
+            setTimeout(function () {
+                fb.removeClass("active");
+            }, 1000);
+        }
+    </script>
+}

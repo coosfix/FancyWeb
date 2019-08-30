@@ -1,0 +1,272 @@
+﻿@{
+    ViewBag.Title = "Account";
+}
+@*<link href="~/Areas/Members/Content/bootstrap/css/bootstrap.css" rel="stylesheet" />*@
+@*<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">*@
+@*<link href="~/Areas/Members/Content/animsition/css/animsition.min.css" rel="stylesheet" />*@
+<link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/reboundgen.css" rel="stylesheet" />
+@section styles{
+    <style>
+        * {
+            font-family: '微軟正黑體';
+        }
+
+        .m_detail {
+            width: 100%;
+            height: 100%;
+            padding: 30px;
+            border-radius: 5px;
+            /*background-color: rgba(249, 249, 249, 0.50);*/
+            /*box-shadow: 0px 4px 3px rgba(106, 131, 134, 0.1);*/
+        }
+
+        .list-group-item:first-child, .list-group-item:last-child {
+            border-radius: 0;
+        }
+
+        .form-control {
+            border-radius: 0;
+        }
+
+            .form-control:focus {
+                color: #495057;
+                background-color: #fff;
+                border-color: #8b7c61;
+                outline: 0;
+                box-shadow: 0 0 0 0.2rem rgba(136, 116, 79, 0.575);
+            }
+
+        .custom-control:not(.custom-radio) ~ .custom-control-label::before {
+            border-radius: 0;
+        }
+
+        .upirture {
+            position: relative;
+        }
+
+        .upload_input, #upinput {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            display: flex;
+            opacity: 0;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload_b {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            content: "";
+            bottom: 0;
+            width: 100%;
+            height: 50px;
+            opacity: 0;
+            transition: all .3s;
+            background-color: rgba(255, 255, 255, 0.80);
+        }
+
+            .upload_b:hover {
+                opacity: 1;
+            }
+
+            .upload_b i:hover {
+                cursor: pointer;
+                color: darkgray;
+            }
+
+        .list-group .list-group-item {
+            text-align: center;
+        }
+
+            .list-group .list-group-item:hover {
+                cursor: pointer;
+                background-color: #9c926f;
+                color: #fff;
+            }
+
+            .list-group .list-group-item:active {
+                background-color: #9c926f;
+            }
+
+            .list-group .list-group-item i {
+                margin-right: 20px;
+            }
+
+        .User_img {
+
+        }
+
+            .User_img #uimg {
+                width: 100%;
+            }
+
+        .upload_visibility {
+            visibility: hidden
+        }
+
+        #chang_message {
+            height: 30px;
+        }
+        .list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {
+            z-index: 2;
+            color: #fff;
+            background-color: #9c926f;
+            border-color: #9c926f;
+        }
+    </style>
+}
+    <div class="card">
+        <div class="row m_detail w-100">
+
+            <div class="col-md-2" data-animsition-in-class="fade-in-left"
+                 data-animsition-in-duration="1500"
+                 data-animsition-out-class="fade-out-right"
+                 data-animsition-out-duration="800">
+                <div class="upirture shadow-lg">
+                    <div class="User_img">
+                        @if (Request.Cookies["userimg"] != null)
+                        {
+
+                            <img id="uimg" src="@Request.Cookies["userimg"].Value" class="rounded mx-auto img-thumbnail">
+                        }
+                        else
+                        {
+                            <img id="uimg" src="@Url.Action("GetImageByte","Detail",new { id = Request.Cookies["upid"].Value})" class="rounded mx-auto img-thumbnail">
+                        }
+                    </div>
+                    <div class="upload_input">
+                        <form id="upForm" enctype="multipart/form-data">
+                            <input id="upinput" type="file" name="U_Image" />
+                        </form>
+                    </div>
+                    <div class="upload_b">
+                        <i class="fas fa-camera fa-2x mr-2"></i>
+                    </div>
+                </div>
+                <div class="upload_b2 mt-2 upload_visibility">
+                    <button class="btn btn-info w-100 rounded-0">
+                        <i class="fas fa-upload fa-2x"></i>
+                    </button>
+                </div>
+                <ul class="list-group mt-2 shadow-sm">
+                    <li id="detail_b" class="list-group-item"><i class="fas fa-user fa-lg"></i><span>基本資料</span></li>
+                    <li id="order_b" class="list-group-item"><i class="far fa-list-alt fa-lg"></i>訂單查詢</li>
+                    <li id="love_b" class="list-group-item"><i class="far fa-heart fa-lg"></i>我的收藏</li>
+                    <li id="chang_b" class="list-group-item"><i class="far fa-question-circle fa-lg"></i>修改密碼</li>
+                </ul>
+            </div>
+            <div id="display_r" class="col-md-10 d-flex flex-column  align-items-center">
+
+            </div>
+        </div>
+    </div>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+@*<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>*@
+<script src="~/Areas/Members/Content/animsition/js/animsition.min.js"></script>
+@section scripts{
+    <script>
+        $('ul.list-group li').click(function () {
+            $(this).addClass("active").siblings().removeClass("active");
+        });
+        $(document).ready(function () {
+
+            var det = () => {
+                $.get("@Url.Action("UserDetail")", function (data) {
+                    $("#display_r").html(data);
+                });
+            };
+            var ord = () => {
+                $.get("@Url.Action("OrderList")", function (data) {
+                    $("#display_r").html(data);
+                });
+            };
+            var favo = () => {
+                $.get("@Url.Action("Favorite")", function (data) {
+                    $("#display_r").html(data);
+                });
+            };
+            var chang = () => {
+                $.get("@Url.Action("ChangPassword")", function (data) {
+                    $("#display_r").html(data);
+                });
+            };
+        var pagearray = [det, ord, favo, chang];
+        $("#detail_b").click(pagearray[0]);
+        $("#order_b").click(pagearray[1]);
+        $("#love_b").click(pagearray[2]);
+        $("#chang_b").click(pagearray[3]);
+
+        $(".upload_b .fa-camera").click(function () {
+            document.querySelector("#upinput").click();
+        });
+        $(".upload_b2 button").click(function () {
+            var files = $("#upinput")[0].files;
+            var fileData = new FormData();
+            fileData.append(files[0].name, files[0]);
+            var formData = new FormData($('#upForm')[0]);
+            $.ajax({
+                url: "@Url.Action("UPloadUserIMG", "Detail")",
+                type: 'Post',
+                beforeSend: function(){},
+                success: function(result){
+                    if (result=="成功") {
+                        $(".upload_b2").addClass("upload_visibility");
+                    }
+                },
+                xhr: function() {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                    if(myXhr.upload) { // Check if upload property exists
+                        // Progress code if you want
+                    }
+                    return myXhr;
+                },
+                error: function(){},
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+    });
+        });
+        $("#upinput").change(function () {
+            $(".upload_b2").toggleClass("upload_visibility");
+            var output = document.getElementById('uimg');
+            let files = event.target.files[0];
+            var imageType = 'image/jpeg';
+            if (!files.type.match(imageType)) {
+                return;
+            }
+             output.src = URL.createObjectURL(event.target.files[0]);
+        });
+
+        var url = location.search;
+        var strs = url.split("=")[1];
+        switch (strs) {
+            case "det":
+                pagearray[0]();
+                break;
+            case "ord":
+                pagearray[1]();
+                break;
+            case "favo":
+                pagearray[2]();
+                break;
+            case "chang":
+                pagearray[3]();
+                break;
+            default:
+                pagearray[0]();
+                break;
+        }
+    });
+    </script>
+}

@@ -1,0 +1,282 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+@section styles{
+    <style>
+    </style>
+}
+<div class="container">
+    <div class="row">
+        <div class="col-5">
+            <div>
+                <h5>聊天人員列表</h5>
+                <div style="border:1px solid blue;">
+                    <ul id="messageuser" style="height:200px;overflow-y:scroll;">
+                        @*列出未讀訊息的會員*@
+
+                    </ul>
+                </div>
+                <div class="py-3"></div>
+
+                @*user搜尋*@
+                <div style="padding:0">
+                    <span class="mr-3" style="font-size: 120%;">搜尋使用者</span>
+                    <input id="searchUser" style="width:220px;" type="text" placeholder="請輸入......" /><button id="search" class="tip-right" title="Search"><i class="fa fa-search"></i></button>
+                </div>
+                <div class="py-1"></div>
+                <div style="border:1px solid blue;">
+                    <ul id="usersli" class="contact-list" style="height:200px;overflow-y:scroll;">
+                        @*列出全部會員*@
+
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-1">
+        </div>
+        <div class="col-6">
+            <span style="font-size:120%;">聊天室</span><span style="font-size:120%;" class="ml-3">(@ViewBag.uname)</span>
+            <h4 id="titlename" style="color:white;background-color:brown;"></h4>
+            <div style="border:1px solid blue;margin-bottom:30px;margin-top:5px;">
+                <div class="chat-messages" id="chat-messages" style="overflow:scroll;height:430px;">
+                    <div id="chat-messages-inner" class="chat-messages-inner">
+                        @*訊息內容*@
+
+                    </div>
+                </div>
+            </div>
+            <span class="input-box input-group">
+                <input placeholder="輸入訊息......" type="text" class="form-control input-small mr-3" name="msgbox" id="msgbox" />
+                <span class="input-group-btn">
+                    <button id="send" class="btn btn-success btn-small" type="button">送出</button>
+                </span>
+            </span>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/Scripts/jquery.signalR-2.2.2.js"></script>
+    <script src="~/signalr/hubs"></script>
+    <script>
+        $(function () {
+            var myid = @ViewBag.uid;
+            var myname = "@ViewBag.uname";
+            var serviceid = @ViewBag.suid;
+            var servicename = "@ViewBag.suname";
+            var chooseuser = 0;  /*被選擇要talk的userid*/
+
+            var chat = $.connection.charHub;   /*宣告連線變數*/
+
+            //=================
+            //=================
+            //=================
+
+            //上線時將使用者由"離線"改為"上線",並排到最上層  Note-01
+            chat.client._login = function (id) {
+                $(`#sp${id}`).html(' 上線').removeClass('label-warning').addClass('label-success');
+                $("#usersli").prepend($(`#li${id}`));
+            }
+
+
+            ///////////登出作業 Note-02
+            chat.client.logout = function () {
+                document.location.href = `@Url.Action("Index", "Login", new { Area = "Members" })`;
+            }
+
+            //離線時將使用者由"上線"改為"離線",並排到最上層   Note-02
+            chat.client._logout = function (id) {
+                $(`#sp${id}`).html(' 離線').removeClass('label-success').addClass('label-warning');
+            }
+
+            //已讀 Note-05
+            chat.client.isread = function (fromid, toid, msgid) {
+                console.log(`fromid=>${fromid}`);
+                console.log(`toid=>${toid}`);
+                console.log(`msg=>${$("#msg" + msgid).text()}`);
+
+                if (fromid == chooseuser) {
+                    var a = $(`#msg${msgid}`).text();
+                    $(`#msg${msgid}`).text(a + " (已讀) ")
+                }
+            }
+
+            //全部人員列表 (下方)   Note-03
+            chat.client.userlist = function (id, name) {
+                $("#usersli").append(`<li id="li${id}" class="online"><a id="a${id}" href="#"><span>${name}</span></li>`)
+                $(`#a${id}`).append(`<span id="sp${id}" class="label label-warning"> 離線</span>`);
+
+                $(`#li${id}`).on('click',function () {
+                    $("#titlename").text(name);
+                    $("#chat-messages-inner").html("");
+
+                    if ($(`#isread${id}`).html() == null) {
+                        $("#messageuser").append(`<li id="ut-${id}" class="online new"><a style="padding:0px;" href="#"><span>${name}</span></a><span id="isread${id}" class="msg-count badge badge-info"></span><div style="text-align:center"><lable id="lablelog${id}" style="height:15px; width:100px; text-overflow: ellipsis;overflow:hidden;" >　</lable></div></a><span style="text-align:right" class="msg-count badge badge-danger"></span></li>`);
+
+                        $(`#ut-${id}`).on('click',function () {
+                            $("#titlename").text(name);
+                            $("#chat-messages-inner").html("");
+
+                            //已讀  Note-05
+                            chat.server.isread(myid, id);
+
+                            //點選欲回應的user Note-07
+                            chat.server.callmessage(myid, id);
+
+                            $(`#isread${id}`).text("");
+                            chooseuser = id;
+                        })
+                    }
+                    $(`#isread${id}`).text("");
+                    chooseuser = id;
+
+                    //點選欲回應的user Note-07
+                    chat.server.callmessage(myid, id);
+                })
+            }
+
+            //聊天人員列表 (上方)   Note-04
+            chat.client._messageuser = function (id, name, talkcontent, isreadCnt) {
+                if (id > 0) {
+                    $("#messageuser").append(`<li id="ut-${id}" class="online new"><a style="padding:0px;" href="#"><span>${name}</span></a><span id="isread${id}" class="msg-count badge badge-info"></span><div style="text-align:center"><lable  id="lablelog${id}" style="height:15px; width:100px; text-overflow: ellipsis;overflow:hidden;" >${talkcontent}</lable></div></a><span style="text-align:right" class="msg-count badge badge-danger"></span></li>`);
+
+                    if (isreadCnt != 0) {
+                        $(`#isread${id}`).text(`${isreadCnt}`);
+                    }
+                    else {
+                        $(`#isread${id}`).text("");
+                    }
+
+                    $(`#ut-${id}`).on('click', function () {
+                        $("#titlename").text(name);
+                        $("#chat-messages-inner").html("");
+                        //已讀  Note-05
+                        chat.server.isread(myid, id);
+
+                        //點選欲回應的user Note-07
+                        chat.server.callmessage(myid, id);
+
+                        $(`#isread${id}`).text("");
+                        chooseuser = id;
+                    });
+                }
+            }
+
+
+            /////////發送訊息 Note-06
+            chat.client.sendMessage = function (fromid, from, toid, message, date, msgid) {
+                if ((fromid == myid) && (toid > 0)) {
+                    $(`#lablelog${toid}`).text(message);
+
+                    $("#chat-messages-inner").append(`<p id="msg" class="user-neytiri show" style="display: block;margin-left:100px;"><span class="msg-block" style="background-color:lightgreen"><strong>${from}</strong><span id="msg${msgid}" class="time">-${date} - </span><span class="msg" >${message}</span></p>`);
+
+                    var $div = $("#chat-messages");
+                    $div.scrollTop($div[0].scrollHeight);
+                    $("#messageuser").prepend($(`#ut-${fromid}`));
+                }
+                else if ((fromid == chooseuser) && (toid > 0)) {
+                    $(`#lablelog${fromid}`).text(message);
+
+                    //已讀 Note-05
+                    chat.server.isread(myid, fromid);
+
+                    $("#chat-messages-inner").append(`<p id="msg" class="user-neytiri show" style="display: block;"><span class="msg-block"><strong>${from}</strong><span id="msg${msgid}" class="time">-${date} - </span><span class="msg" >${message}</span></span></p>`);
+
+                    var $div = $("#chat-messages");
+                    $div.scrollTop($div[0].scrollHeight);
+                    $("#messageuser").prepend($(`#ut-${fromid}`));
+                }
+                else if (toid > 0 && $(`#ut-${fromid}`).text() == "") {
+                    $("#messageuser").prepend(`<li id="ut-${fromid}" class="online new"><a style="padding:0px;" href="#"><span>${from}</span></a><span id="unread${fromid}" class="msg-count badge badge-info"></span><div style="text-align:center"><lable  id="lablelog${fromid}" style="height:15px; width:100px; text-overflow: ellipsis;overflow:hidden;" >${message}</lable></div></a><span style="text-align:right" class="msg-count badge badge-danger"></span></li>`);
+
+                        $(`#isread${fromid}`).text(1);
+                        $(`#ut-${fromid}`).click(function () {
+                            $("#titlename").text(from);
+                            $("#chat-messages-inner").html("");
+
+                            //已讀 Note-05
+                            chat.server.isread(myid, fromid);
+
+                            //點選欲回應的user Note-07
+                            chat.server.callmessage(myid, fromid, 0);
+
+                            $(`#isread${fromid}`).text("");
+                            chooseuser = fromid;
+                        })
+                }
+                else if (toid > 0) {
+                    $(`#lablelog${fromid}`).text(message);
+                    if ($(`#isread${fromid}`).text() != "") {
+                        var a = +$(`#isread${fromid}`).text() + 1;
+                        $(`#isread${fromid}`).text(a);
+                    }
+                    else { $(`#isread${fromid}`).text(1) }
+                    $("#messageuser").prepend($(`#ut-${fromid}`));
+                }
+            }
+
+
+            //訊息內容   Note-08
+            chat.client.messagelog = function (fromid, fromname, TalkDetail, Date, msgid) {
+                if (fromid == myid) {
+                    $("#chat-messages-inner").append(`<p  class="user-neytiri show" style="display: block;margin-left:100px;"><span class="msg-block" style="background-color:lightgreen"><strong>${fromname}</strong><span id="msg${msgid}" class="time">-${Date}</span><span class="msg">${TalkDetail}</span></span></p>`);
+                    var $div = $("#chat-messages");
+                    $div.scrollTop($div[0].scrollHeight);
+                }
+                else {
+                    $("#chat-messages-inner").append(`<p  class="user-neytiri show" style="display: block;"><span class="msg-block"><strong>${fromname}</strong><span id="msg${msgid}" class="time">-${Date}</span><span class="msg">${TalkDetail}</span></span></p>`);
+                    var $div = $("#chat-messages");
+                    $div.scrollTop($div[0].scrollHeight);
+                }
+            }
+
+            //=================
+            //=================
+            //=================
+
+            //開始連線 Note-00
+            $.connection.hub.start().done(function () {
+                //客服預設聊天對象為0, 必須要人工挑選才能對話
+                if (myid == serviceid) {
+                    chooseuser = 0;
+                }
+                else {  //一般會員, 則聊天對象預設為Service的ID
+                    chooseuser = serviceid;
+                    $("#titlename").text(servicename);
+
+                    //點選欲回應的user Note-07
+                    chat.server.callmessage(myid, chooseuser);
+                }
+
+                //連線作業 Note-01
+                chat.server.login(myid, myname);
+
+                //發送訊息  Note-06
+                $("#send").on('click', function () {
+                    //訊息必須輸入才會發送訊息
+                    if ($('#msgbox').val() > " ")
+                    {
+                        chat.server.sendMsg(myid, chooseuser, $('#msgbox').val());
+                    }
+
+                    //清空訊息欄位,並將游標停駐在欄位中
+                    $("#msgbox").val('').focus();
+                });
+                               
+                //搜尋會員(下方) Note-10
+                $("#search").on('click', function () {
+                    $("#usersli").html("");
+                    chat.server.searchuser(myid, $('#searchUser').val());
+                });
+            });
+
+        });
+
+
+
+    </script>
+}

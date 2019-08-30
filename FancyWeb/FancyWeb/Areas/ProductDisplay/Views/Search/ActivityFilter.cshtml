@@ -1,0 +1,20 @@
+﻿@model  IEnumerable<FancyWeb.Models.Activity>
+
+<h4 class="tle1">
+    <img src="~/Areas/ProductDisplay/Images/activity_icon.svg" />活動
+</h4>
+<div class="p-3 tle1">
+        <ul>
+            @foreach (var filter in Model)
+            {
+                <li class="py-md-2">
+                    <div class="custom-control custom-radio">
+                        <input type="radio" id="activity_@filter.ActivityID" value="@filter.ActivityID" name="activity" class="custom-control-input" >
+                        <label class="custom-control-label" for="activity_@filter.ActivityID"><span>@filter.ActivityName</span></label>
+                    </div>
+                </li>
+            }
+        </ul>
+</div>
+<hr />
+

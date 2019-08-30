@@ -1,0 +1,208 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>後台管理系統</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link href="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/reboundgen.css" rel="stylesheet" />
+    <link href="~/Content/PagedList.css" rel="stylesheet" />
+
+    <link href="~/Content/_BackendLayoutPlugin/stylesheets/all.css" rel="stylesheet" />
+    <link href="~/Content/_BackendLayoutPlugin/stylesheets/style.css" rel="stylesheet" />
+    @RenderSection("styles", false)
+</head>
+
+<body class="has-navpanel-fixed navpanel-fixed-left navpanel-is-top style-1">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class='wrapper'>
+            <div class='hamburger js-hamburger-btn'>
+                <div class='line close-state'></div>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbarMenu">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="@Url.Action("Index","Main",new { area="Management"})">
+                        會員管理
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="@Url.Action("Index","EmailDesign",new { area="Management"})">
+                        電子報製作
+                    </a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <nav class="navpanel navpanel-fixed-left">
+        <div class="navpanel-container navpanel-flex">
+            <header class="navpanel-header navpanel-text text-center h3 bg-danger font-weight-bold">
+                後台管理系統
+            </header>
+            <div class="navpanel-body" style="overflow:auto">
+                <h5 class="navpanel-title">
+                    <span class="navpanel-text">進銷存管理</span>
+                </h5>
+                <ul class="list-unstyled navpanel-nav has-icon">
+                    <li class="active">
+                        <a href="~/ProductDisplay/Product/Browse/@ViewBag.categorymid" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-home"></i>
+                            <span class="navpanel-text">回商品購物</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/InOut/Product" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">商品上下架</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/AddStock/StockList" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">商品補貨</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Shipment/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">商品出貨</span>
+                        </a>
+                    </li>
+                </ul>
+                <h5 class="navpanel-title">
+                    <span class="navpanel-text">基本資料維護</span>
+                </h5>
+                <ul class="list-unstyled navpanel-nav has-icon">
+                    <li>
+                        <a href="@Url.Action("Index","Dashboard",new { area="Management"})" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-home"></i>
+                            <span class="navpanel-text">圖表管理</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Activity/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">活動</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Product/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">商品建檔</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/CategoryM/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">中分類</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/CategoryS/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">小分類</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Color/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">顏色</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Size/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">尺吋大小</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Washing/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">洗滌方式</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Supplier/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">供應商</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="~/Backend/Shipping/Index" class="navpanel-link">
+                            <i class="navpanel-icon fa fa-link"></i>
+                            <span class="navpanel-text">運送公司</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+            @*<footer class="navpanel-footer">
+                <div class="text-muted clearfix text-right">
+                    <span class="navpanel-text pull-left">Footer text</span>
+                    <div class="dropdown dropup inline-block">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                            <i class="navpanel-icon fa fa-th-large"></i>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Profile</a>
+                            <a href="#" class="dropdown-item">Setting</a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">Log out</a>
+                        </ul>
+                    </div>
+                </div>
+            </footer>*@
+        </div>
+    </nav>
+
+
+
+    <div class="px-4 pb-4 h-100">
+        @RenderBody()
+    </div>
+
+
+    <script src="~/Content/_BackendLayoutPlugin/javascripts/vendor.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.js-hamburger-btn').click(function () {
+                $(this).find('.line').toggleClass('close-state');
+            });
+
+            $('.wrapper').on('click', function (e) {
+                e.preventDefault();
+                $('body').toggleClass('hide-navpanel');
+            });
+
+            // jQuery Demo
+            $('.navpanel-nav a').on('click', function (e) {
+                $(this).parent('li').toggleClass('show')
+                    .siblings('li').removeClass('show').find('li').removeClass('show');
+            });
+            $('.navpanel-nav li.active').parents('li').addClass('show');
+        });
+        $(document).on("click", ".chat__toggle", function () {
+            $(".blayour").toggleClass("active");
+            $(".chat__button").toggleClass("active");
+        })
+    </script>
+    @RenderSection("scripts", false)
+    @if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() != "Main")
+    {
+        <div class="clayout blayour">
+            @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
+        </div>
+        <button class="chat__button chat__toggle text-white"><i class="fas fa-comments"></i></button>
+    }
+
+</body>
+
+</html>

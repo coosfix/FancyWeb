@@ -1,0 +1,76 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FancyWeb.Areas.Backend.ViewModels.ShipHeaderViewModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+@*<p>@Request.Cookies["mesg"].Value</p>*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 style="color:blue;">未出貨訂單</h2>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(p => p.First().OrderNum)</th>
+            <th>@Html.DisplayNameFor(p => p.First().OrderDate)</th>
+            <th>@Html.DisplayNameFor(p => p.First().PayMethodName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().OrderStatusName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().ShippingName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().CanShip)</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="order">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(p => item.OrderNum)</td>
+            <td>@Html.DisplayFor(p => item.OrderDate)</td>
+            <td>@Html.DisplayFor(p => item.PayMethodName)</td>
+            <td>@Html.DisplayFor(p => item.OrderStatusName)</td>
+            <td>@Html.DisplayFor(p => item.ShippingName)</td>
+            <td>@Html.DisplayFor(p => item.CanShip)</td>
+            <td><a href="~/Backend/Shipment/Detail/?id=@item.OrderID&page=@TempData["savepage"]" class="btn btn-warning">明細</a></td>
+            <td><a href="#" class="btn btn-primary ship" data-cid="@item.OrderID">出貨</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+
+
+@section scripts{
+    <script>
+        $('.ship').on('click', function () {
+            var chk = $(this).parent('td').prev('td').prev('td').children().prop('checked');
+            var oid = $(this).data('cid');
+
+            if (chk) {
+                $.post(`@Url.Action("Ship", "Shipment", new { Area = "Backend" })`, {
+                    orderid: oid
+                }).done(function (json) {
+                    if (json.Status) {
+                        alert("出貨成功 !");
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                });
+                window.location.href = (`@Url.Action("Index", "Shipment", new { Area = "Backend" })/?page=${@TempData["savepage"]}`);
+            } else {
+                alert('有庫存不足的商品, 不能出貨, 請補足庫存後再來出貨 !');
+            }
+        });
+    </script>
+
+}

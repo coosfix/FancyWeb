@@ -1,0 +1,64 @@
+
+.push_left{
+	margin-left: 6px;
+}
+.push_right{
+	margin-right: 6px;
+}
+
+
+.close{
+    width: 20px;
+    height: 21px;
+    position: relative;
+    display: inline-block;
+    vertical-align: text-bottom;
+    text-align: center;
+    cursor:pointer;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 10px;
+    content: ' ';
+    height: 21px;
+    width: 3px;
+    background-color: #fff;
+}
+.close:before {
+  transform: rotate(45deg);
+}
+.close:after {
+  transform: rotate(-45deg);
+}
+
+
+.card{
+	margin:20px;
+    border-radius: 5px;
+    background:#fff;
+	box-shadow:0px 0px 20px rgba(0, 0, 0, 0.1)
+}
+.card_title, .title, .pushbar {
+    background: #d3c8bb;
+    color: #fff;
+}
+
+.card_title,.title{
+	padding: 15px 20px;
+    font-weight: bold;
+}
+.card_title{
+border-radius: 4px 4px 0px 0px;
+}
+.card_content{
+	padding: 15px;
+}
+a.button.getBtn{
+margin-top: 16px;background-color:#fff;color:#4039ff;border-color: #fff;
+}
+
+
+.button, button, input[type='button'], input[type='reset'], input[type='submit'] {
+    background-color: #4039ff;
+    border: 0.1rem solid #4039ff;
+}

@@ -1,0 +1,459 @@
+﻿@model FancyWeb.Models.User
+@{
+    ViewBag.Title = "OrderInfo";
+}
+@section styles{
+    <style>
+
+
+        body {
+            font-family: "微軟正黑體";
+        }
+
+        .cbtn {
+            color: white !important;
+            font-size: 17px;
+        }
+
+        #table * {
+            font-size: 15px;
+        }
+
+        .process {
+            border: 5px solid wheat;
+            position: relative;
+            border-radius: 50%;
+            width: 8rem;
+            height: 8rem;
+            background-color: rgb(217, 207, 191);
+        }
+
+        .processimg {
+            position: absolute;
+            font-size: 4.5rem;
+            color: rgb(88, 89, 91);
+            top: 23%;
+        }
+
+            .processimg.active {
+                color: rgb(209, 0, 36);
+            }
+
+                .processimg.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .processtext {
+            position: absolute;
+            font-family: "微軟正黑體";
+            font-size: 1.75rem;
+            font-weight: bold;
+            top: 120%;
+            left: -8%;
+            background-color: rgb(217, 207, 191);
+            border-radius: 1rem;
+            width: 115%;
+            color: rgb(88, 89, 91);
+        }
+
+            .processtext.active {
+                color: rgb(209, 0, 36);
+            }
+
+                .processtext.active.done {
+                    color: rgb(88, 89, 91);
+                }
+
+        .line {
+            position: absolute;
+            background-color: rgba(88, 89, 91,0.7);
+            top: 25%;
+            left: 5%;
+            width: 90%;
+            height: 15%;
+        }
+
+        .inline {
+            position: absolute;
+            background-color: wheat;
+            top: 30%;
+            left: 5%;
+            height: 5%;
+            width: 80%;
+            transition: .5s
+        }
+
+        .note {
+            position: fixed;
+            background-color: black;
+            border-radius: 5%;
+            width: 350px;
+            height: 200px;
+            top: 30%;
+            left: 40%;
+            opacity: 0;
+            transition: .5s;
+            z-index: -1;
+        }
+
+            .note.active {
+                opacity: 0.5;
+                z-index: 1;
+            }
+
+        .Trapezoid {
+            width: 70%;
+            border-left: 300px solid transparent;
+            border-top: 160px solid rgba(217, 207, 191,.5);
+            position: absolute;
+            right: 0rem;
+            top: -3rem;
+        }
+
+        #member, #buyer label, text {
+            font-size: 17px;
+        }
+
+        .formcheck {
+            color: red;
+        }
+
+        .tle1 {
+            background-color: rgb(217, 207, 191);
+            line-height: 190%;
+            text-align-last: center;
+            margin-bottom: 0;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
+        #bigtable {
+            /*background-color: rgb(217, 207, 191);*/
+            padding: 1rem
+        }
+
+        #member, #buyer {
+            background-color: rgba(217, 207, 191,.2);
+        }
+    </style>
+}
+<div class="container">
+    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+        <div class="line"></div>
+        <div class="inline"></div>
+        <div class="process">
+            <i class="fa fa-shopping-cart processimg active done" id="process1" style="left:23%;"></i>
+            <p class="processtext active done text-center px-1">購物清單</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-truck processimg  active done" id="process2" style="left:20%"></i>
+            <p class="processtext active done text-center px-1">付款方式</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-pencil-square processimg active" id="process3" style="left:28%"></i>
+            <p class="processtext active text-center px-1">填寫資料</p>
+        </div>
+        <div class="process">
+            <i class="fa fa-handshake-o processimg" id="process4" style="left:15%"></i>
+            <p class="processtext text-center px-1">完成訂購</p>
+        </div>
+    </div>
+    @*<h2>填寫資料</h2>*@
+    <div>
+        <div class="d-flex justify-content-center">
+            <a class="btn btn-dark mx-3 cbtn" id="fold">詳  細   清   單</a>
+        </div>
+        <div id="bigtable">
+            <table class="table" id="table">
+                @foreach (var cartItem in ViewBag.cartItems)
+                {
+                    <tr class="my-md-3" data-pid="@cartItem.ProductID" data-pname="@cartItem.ProductName" data-pcid="@cartItem.ProductColorID" data-cid="@cartItem.ColorID" data-cname="@cartItem.ColorName" data-psid="@cartItem.ProductSizeID" data-sid="@cartItem.SizeID" data-sname="@cartItem.SizeName" data-did="@cartItem.DiscountID" data-price="@cartItem.UnitPrice" data-sprice="@cartItem.SUnitPrice" data-qty="@cartItem.OrderQTY">
+                        <td class="border-0 p-md-0">
+                            <div class="card">
+                                <div class="row" style="height:200px;">
+                                    <div class="col-md-2">
+                                        <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@cartItem.ProductID?colorid=@cartItem.ColorID' class="card-img" style="height:200px;width:auto">
+                                    </div>
+                                    <div class="col-md-6 d-flex justify-content-center align-items-center">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@cartItem.ProductName</h5>
+                                            <p class="card-text">
+                                                <label>@cartItem.ColorName</label><br />
+                                                <label>@cartItem.SizeName</label><br />
+                                                @{
+                                                    if (cartItem.SUnitPrice > 0)
+                                                    {
+                                                        <label style="text-decoration:line-through"><label id="price" style="text-decoration:line-through">@cartItem.UnitPrice.ToString("C0")</label></label>
+                                                        <label style="color:red"><label id="sprice" style="color:red">@cartItem.SUnitPrice.ToString("C0")</label></label><br />
+                                                    }
+                                                    else
+                                                    {
+                                                        <label><label id="price">@cartItem.UnitPrice.ToString("C0")</label></label><br />
+                                                    }
+                                                }
+                                                <label id="aname" class="text-center" style="color:wheat;background-color:crimson;width:50%">@cartItem.ActivityName</label>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-3">
+                                        <div class="col-md-6 d-flex align-items-center">
+                                            <div class="card-body">
+                                                <h5 class="card-title">數量</h5>
+                                                <label>@cartItem.OrderQTY</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-items-center">
+                                            <div class="card-body">
+                                                <h5 class="card-title">小計</h5>
+                                                @{
+                                                    int a;
+                                                    if (cartItem.SUnitPrice > 0)
+                                                    {
+                                                        a = cartItem.OrderQTY * cartItem.SUnitPrice;
+                                                    }
+                                                    else
+                                                    {
+                                                        a = cartItem.OrderQTY * cartItem.UnitPrice;
+                                                    }
+                                                }
+                                                <label class="total">@a.ToString("C0")</label>
+                                                <label hidden>@cartItem.DiscountID</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        <div class="row mt-md-3">
+            <h4 class="col-md-4 my-md-3 text-center">商品總額   : @ViewBag.carttotal.ToString("C0")</h4>
+            <h4 class="col-md-4 my-md-3 text-center">運費   : @ViewBag.pay.ToString("C0")</h4>
+            <h4 class="col-md-4 my-md-3 text-center" style="color:red">訂單總額   : @ViewBag.orderHeader.OrderAmount.ToString("C0")</h4>
+        </div>
+        <hr />
+        <form id="member">
+            <h3 class="tle1">會員資料</h3>
+            <div class=" position-relative">
+                <div class="Trapezoid"></div>
+                <div class="form-row mt-md-5">
+                    <div class="form-group col-md-5 offset-md-1">
+                        <label for="UserName">會員姓名    :</label>
+                        <text id="UserName">@Model.UserName</text>
+                    </div>
+                    <div class="form-group col-md-5 offset-md-1">
+                        <label for="Phone">會員電話    :</label>
+                        <text id="Phone">@Model.Phone</text>
+                    </div>
+                </div>
+                <div class="form-row mt-md-5">
+                    <div class="form-group col-md-2 offset-md-1">
+                        <label for="CityName">居住城市   :</label>
+                        <text id="CityName">@Model.Region.City.CityName</text>
+                    </div>
+                    <div class="form-group col-md-2 offset-md-1">
+                        <label for="RegionName">居住地區  :</label>
+                        <text id="RegionName">@Model.Region.RegionName</text>
+                    </div>
+                    <div class="form-group col-md-5 offset-md-1">
+                        <label for="Address">居住地址  :</label>
+                        <text id="Address">@Model.Address</text>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <form id="buyer">
+            <h3 class="tle1">訂購人資料</h3>
+            <div class=" position-relative">
+                <div class="Trapezoid" style="border-top-width:230px;border-left-width:370px"></div>
+                <div class="form-row mt-md-5">
+                    <div class="form-group col-md-5 offset-md-1">
+                        <label for="buyername">訂購人    :</label>
+                        <input type="checkbox" id="same" />
+                        <label>資料與會員相同</label>
+                        <input type="text" class="form-control" placeholder="訂購人姓名" id="buyername" />
+                        <div class="d-none formcheck">姓名未填寫</div>
+                    </div>
+                    <div class="form-group col-md-4 offset-md-1">
+                        <label for="buyerphone">訂購人手機    :</label>
+                        <input type="text" class="form-control" placeholder="訂購人手機  ( ex: 0912345678 )" id="buyerphone" />
+                        <div class="d-none formcheck">手機填寫錯誤</div>
+                    </div>
+                </div>
+                <div class="form-row mt-md-5">
+                    <div class="form-group col-md-2 offset-md-1">
+                        <label for="buyercity">訂購人城市   :</label>
+                        <select class="form-control" id="buyercity">
+                            <option selected value="0" disabled="disabled">請選擇城市</option>
+                            @foreach (var city in ViewBag.city)
+                            {
+                                <option value="@city.CityID">@city.CityName</option>
+                            }
+                        </select>
+                        <div class="d-none formcheck">城市未選擇</div>
+                    </div>
+                    <div class="form-group col-md-2 offset-md-1">
+                        <label for="buyerregion">訂購人地區  :</label>
+                        <select class="form-control" id="buyerregion">
+                            <option selected value="0" disabled="disabled">請選擇地區</option>
+                            @foreach (var region in ViewBag.region)
+                            {
+                                <option value="@region.RegionID">@region.RegionName</option>
+                            }
+                        </select>
+                        <div class="d-none formcheck">地區未選擇</div>
+                    </div>
+                    <div class="form-group col-md-4 offset-md-1">
+                        <label for="buyeraddress">訂購人地址  :</label>
+                        <input type="text" class="form-control" placeholder="訂購人地址" id="buyeraddress" />
+                        <div class="d-none formcheck">地址未填寫</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="text-md-center">
+            <a class="btn btn-dark m-3" style="color:white" href="@Url.Action("Detail","Check",new {area="CheckProcess"})#top" id="last1">返回付款方式</a>
+            <a class="btn btn-dark m-3" style="color:white" id="next1">確認購買</a>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script>
+        $('#fold').click(function () {
+            $('#bigtable').slideToggle('d-md-none');
+        });
+
+        let cartitems = new Array();
+        $.each($('#table  tr'), function () {
+            let price, discount;
+            if ($(this).data('sprice') > 0) {
+                price = $(this).data('sprice');
+            }
+            else {
+                price = $(this).data('price');
+            }
+            if ($(this).data('did') > 0) {
+                discount = $(this).data('did')
+            }
+            else {
+                discount = 1;
+            }
+            let cartitem = {
+                ProductID: $(this).data('pid'),
+                ProductName: $(this).data('pname'),
+                ProductColorID: $(this).data('pcid'),
+                ColorID: $(this).data('cid'),
+                ColorName: $(this).data('cname'),
+                ProductSizeID: $(this).data('psid'),
+                SizeID: $(this).data('sid'),
+                SizeName: $(this).data('sname'),
+                UnitPrice: price,
+                OrderQTY: $(this).data('qty'),
+                DiscountID: discount
+            }
+            cartitems.push(cartitem);
+        })
+
+        let address;
+        let orderheader;
+        let same,phone = false;
+        $('#same').change(function () {
+            same = !same;
+            $('#buyer input[type=text],#buyer select').attr('disabled', same);
+            $('#buyer div.formcheck').addClass('d-none');
+        })
+
+        $('#next1').click(function () {
+            if ($('#same').prop("checked")) {
+                address = $('#CityName').text() + $('#RegionName').text() + $('#Address').text();
+                orderheader = {
+                PayMethodID: @ViewBag.orderHeader.PayMethodID,
+                OrderAmount: @ViewBag.orderHeader.OrderAmount,
+                ReceipterName: $('#UserName').text(),
+                Phone: $('#Phone').text(),
+                Address: address
+                };
+                send();
+            }
+            else {
+                if ($('#buyer input[type="text"]').val() == "" || $('#buyeraddress').val() == "" || $('#buyer option:selected').val() == 0 || phone == false) {
+                    phonetest();
+                    $.each($('#buyer input[type="text"]:not(#buyerphone)'), function () {
+                        inputtest($(this));
+                    })
+                    $.each($('#buyer option:selected'), function () {
+                        selecttest($(this));
+                    })
+                }
+                else {
+                    address = $('#buyercity option:selected').text() + $('#buyerregion option:selected').text() + $('#buyeraddress').val();
+                    orderheader = {
+                        PayMethodID: @ViewBag.orderHeader.PayMethodID,
+                        OrderAmount: @ViewBag.orderHeader.OrderAmount,
+                        ReceipterName: $('#buyername').val(),
+                        Phone: $('#buyerphone').val(),
+                        Address: address
+                    }
+                    send();
+                };
+            }
+        });
+
+        function inputtest(input){
+            if (input.val() == "") {
+                input.next().removeClass('d-none');
+            }
+            else {
+                input.next().addClass('d-none');
+            }
+        }
+
+        function selecttest(select) {
+            if (select.val() == 0) {
+                select.parent().next().removeClass('d-none');
+            }
+            else {
+                select.parent().next().addClass('d-none');
+            }
+        }
+
+        $('#buyerphone').change(function () {
+            phonetest();
+        });
+
+        function phonetest() {
+            let reg = /^[09]{2}[0-9]{8}$/;
+            if (reg.test($('#buyerphone').val()) != true) {
+                $('#buyerphone').next().removeClass('d-none');
+                phone = false;
+            }
+            else {
+                $('#buyerphone').next().addClass('d-none');
+                phone = true;
+            }
+        }
+
+        $('#buyername,#buyeraddress').change(function () {
+            if ($(this).val() == "") {
+                $(this).next().removeClass('d-none');
+            }
+            else
+                $(this).next().addClass('d-none');
+        });
+
+        $('#buyercity,#buyerregion').change(function () {
+                $(this).next().addClass('d-none');
+        });
+
+        function send() {
+            $.post('@Url.Action("SendOrder","Check", new { area = "CheckProcess" })', { orderHeader: orderheader, cartItems: cartitems }, function (datas) {
+                let url;
+                url = `@Url.Action("FinalShow", "Check", new { area = "CheckProcess" })/?ordernum=${datas}`;
+                location.href = url;
+            })
+        }
+    </script>
+}

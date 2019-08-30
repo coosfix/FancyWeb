@@ -1,0 +1,17 @@
+﻿@{
+    string Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string Action = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString();
+    if (Controller == "Login")
+    {
+        Layout = null;
+    }
+    else
+    {
+        Response.Cookies.Add(new HttpCookie("RequestURL")
+        {
+            Value = $"{Controller }-{ Action}",
+        });
+
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+}

@@ -1,0 +1,108 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FancyWeb.Areas.Backend.ViewModels.ActivityViewModel>
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@*<p>@Request.Cookies["mesg"].Value</p>*@
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2 style="color:blue;">活動維護</h2>
+        </div>
+        <div class="col-3">
+            <a href='~/Backend/Activity/Create' class="btn btn-warning" style="margin:10px">新增</a>
+        </div>
+        <div class="col-3">
+        </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.First().ActivityID)</th>
+                <th>@Html.DisplayNameFor(p => p.First().ActivityName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().BeginDate)</th>
+                <th>@Html.DisplayNameFor(p => p.First().EndDate)</th>
+                <th>@Html.DisplayNameFor(p => p.First().DiscountName)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(p => item.ActivityID)</td>
+                    <td>@Html.DisplayFor(p => item.ActivityName)</td>
+                    <td>@Html.DisplayFor(p => item.BeginDate)</td>
+                    <td>@Html.DisplayFor(p => item.EndDate)</td>
+                    <td>@Html.DisplayFor(p => item.DiscountName)</td>
+                    <td><a href="~/Backend/Activity/Edit/?id=@(item.ActivityID)&page=@(TempData["savepage"])" class="btn btn-primary">修改</a></td>
+                    <td>
+                        <!-- Button trigger modal -->
+                        <!-- 確認是否刪除 -->
+                        <button type="button" class="btn btn-danger del-1" data-toggle="modal" data-target="#myModal" data-actid="@item.ActivityID">刪除
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+</div>
+
+@*彈出視窗*@
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">注意 :</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 style="color:red;">確定要刪除嗎?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok-1" data-dismiss="modal">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script>
+                        var activityid = 0;
+
+                        $('.del-1').on('click', function () {
+                            activityid = $(this).data('actid');
+                        });
+
+                        $('.ok-1').on('click', function () {
+                            $.post(`@Url.Action("Delete", "Activity", new { Area = "Backend" })`, {
+                                id: activityid,
+                                page: @TempData["savepage"],
+                            }).done(function (json) {
+                                if (json.Status) {
+                                    alert("刪除成功 !");
+                                    window.location.href = (`@Url.Action("Index", "Activity", new { Area = "Backend" })/?page=${@TempData["savepage"]}`);
+                                }
+                                else {
+                                    alert(json.Message);
+                                }
+                            });
+                        })
+    </script>
+}
+
+

@@ -1,0 +1,65 @@
+﻿* {
+    font-family: "Helvetica", "Arial", "LiHei Pro", "微軟正黑體";
+}
+
+.blayour {
+    position: fixed;
+    bottom: 0;
+    right: 5%;
+}
+
+    .blayour .chat_left {
+        width: 400px;
+    }
+    .blayour .chat_right {
+        width: 500px;
+    }
+    .blayour #messageuser1 {
+        width: 400px;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+.clayout.active {
+    opacity: 1;
+    transform: scale(1);
+    visibility: visible;
+    z-index: 7000;
+}
+
+.clayout {
+    position: fixed;
+    bottom: 0;
+    right: 5%;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: bottom right;
+    transition-duration: .3s;
+    transition-property: transform, visibility, opacity;
+    transition-timing-function: ease-in-out;
+    visibility: hidden;
+}
+
+.chat__button {
+    position: fixed;
+    right: 250px;
+    bottom: 20px;
+    background: #9f9b80;
+    border: 0;
+    border-radius: 50px;
+    color: #262626;
+    cursor: pointer;
+    font-size: 1.6rem;
+    height: 50px;
+    outline: 0;
+    transition: transform .2s ease;
+    width: 50px;
+    outline: none;
+    z-index:99999;
+}
+    .chat__button.active {
+        transform: scale(0);
+    }
+    .chat__button:hover {
+        transform: scale(1.1);
+    }

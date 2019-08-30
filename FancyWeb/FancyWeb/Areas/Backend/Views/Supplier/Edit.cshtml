@@ -1,0 +1,71 @@
+﻿@model FancyWeb.Models.Supplier
+@{
+    ViewBag.Title = "Edit";
+}
+
+<div class="row">
+    <div class="offset-2 col-10">
+        <h2 style="color:blue; width:400px;">供應商修改</h2>
+    </div>
+</div>
+<div class="container">
+    <hr />
+    @using (Html.BeginForm("Edit", "Supplier", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @Html.HiddenFor(p => p.SupplierID)
+
+        <div class="form-group row">
+            @Html.LabelFor(p => p.SupplierName, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.SupplierName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入供應商名稱" } })
+                @Html.ValidationMessageFor(p => p.SupplierName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.Phone, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.Phone, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入電話號碼" } })
+                @Html.ValidationMessageFor(p => p.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.Fax, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.Fax, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入傳真號碼" } })
+                @Html.ValidationMessageFor(p => p.Fax, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.Email, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.Email, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入電子郵件" } })
+                @Html.ValidationMessageFor(p => p.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.Address, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.Address, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入公司地址" } })
+                @Html.ValidationMessageFor(p => p.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="存檔" class="btn btn-success" />
+            </div>
+        </div>
+    }
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        @Html.ActionLink("返回", "Index", "Supplier", new { area = "Backend" }, null)
+    </div>
+</div>
+
+
+
+
+

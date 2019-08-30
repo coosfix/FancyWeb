@@ -1,0 +1,271 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.ProductColorVIewModel
+
+@{
+    Layout = "~/Areas/Backend/Views/Shared/_ProductDetailLayoutPage.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4 style="color:blue;">商品顏色維護</h4>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.ProductID)</th>
+                <th>@Html.DisplayNameFor(p => p.ProductName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(p => p.ProductID)</td>
+                <td>@Html.DisplayFor(p => p.ProductName)</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group row">
+                @Html.LabelFor(p => p.PhotoFile, new { @class = "col-sm-3 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(p => p.PhotoFile, new { htmlAttributes = new { type = "file", @class = "form-control", placeholder = "選擇圖檔", accept = ".jpeg,.jpg,.gif,.png" } })
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-group row sel-1">
+                @Html.LabelFor(p => p.ColorID, new { @class = "col-sm-3 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-9">
+                    @{
+                        var psel = new SelectList(ViewBag.productcolor, "ColorID", "ColorName");
+                    }
+                    @Html.DropDownListFor(p => p.ColorID, psel, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(p => p.ColorID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="form-group row">
+    <div class="offset-sm-6 col-sm-3">
+        <input id="close" value="關閉" class="btn btn-secondary" />
+    </div>
+    <div class="col-sm-3">
+        <input id="save" value="存檔" class="btn btn-success" />
+    </div>
+</div>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4 style="color:blue;">商品顏色</h4>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+<div id="div-partial1" style="height:300px; overflow:scroll;" data-pid="@Model.ProductID">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.ProductColorID)</th>
+                <th>@Html.DisplayNameFor(p => p.ColorName)</th>
+                <th>@Html.DisplayNameFor(p => p.PhotoID)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbody-1"></tbody>
+    </table>
+
+</div>
+
+
+
+@*彈出視窗*@
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">注意 :</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 style="color:red;">確定要刪除嗎?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok-1" data-dismiss="modal">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script src="~/Scripts/jquery-ui-1.9.0.min.js"></script>
+    <script src="~/Scripts/jQuery.FileUpload/jquery.fileupload.js"></script>
+
+    <script>
+        var selelectid = 0;
+        var prodid = $("#div-partial1").data('pid');
+        var psid = 0;
+        var photoid = 0;
+
+        var filename;
+
+        ShowDetail(prodid);
+
+    $('#tbody-1').on('click', 'i', function () {
+        psid = $(this).data('pppid');
+    });
+
+     //刪除
+     $('.ok-1').on('click', function () {
+        $.post(`@Url.Action("Delete", "ProdColor", new { Area = "Backend" })`, {
+            pcid: psid,
+        }).done(function (json) {
+            if (json.Status) {
+                alert("刪除成功 !");
+                ShowDetail(prodid);
+            }
+            else {
+                alert(json.Message);
+            }
+        });
+    });
+
+        //重刷明細
+        function ShowDetail(pid) {
+        $.getJSON(`@Url.Action("ProdColorJson", "ProdColor", new { Area = "Backend" })/${pid}`, function (datas) {
+                var docFrag = $(document.createDocumentFragment());
+                var tbody = $('#tbody-1');
+
+                $.each(datas, function (idx, ps) {
+                    var tr1 = '<tr>';
+                    var td1 = `<td>${ps.ProductColorID}</td>`;
+                    var td2 = `<td>${ps.ColorName}</td>`;
+                    var td3 = `<td><img src="@Url.Action("GetImageByte","AddStock", new { Area = "Backend" })/${ps.PhotoID}" class="card-img-top" style="width:60px;height:60px"></td>`;
+                    var td4 = `<td><i class="btn btn-primary up-1" data-pppid="${ps.ProductColorID}"  data-pid="${ps.ProductID}">換圖片</i></td>`;
+                    var td5 = `<td><i class="btn btn-danger del-1" data-pppid="${ps.ProductColorID}" data-toggle="modal" data-target="#myModal" data-pid="${ps.ProductID}">刪除</i></td>`;
+                    var tr2 = '</tr>';
+                    var tr = $(tr1 + td1 + td2 + td3 + td4 +td5 + tr2);
+                    docFrag.append(tr);
+                });
+
+                tbody.html(docFrag);
+            });
+        }
+
+        //存檔
+        $('#save').on('click', function () {
+            selelectid = $('.sel-1 option:selected').val();
+
+            //alert(`2=>photoid=>${photoid}`);
+            if (selelectid < 1) {
+                alert('顏色未選擇');
+            } else {
+                if (photoid == 0) {
+                    alert('圖檔未選擇');
+                } else {
+                    //alert(`3=>photoid=>${photoid}`);
+                    $.post(`@Url.Action("Create", "ProdColor", new { Area = "Backend" })`, {
+                        pid: prodid,
+                        cid: selelectid,
+                        phid: photoid,
+                        }).done(function (json) {
+                            if (json.Status) {
+                                alert("存檔成功 !");
+                                photoid = json.photoid;
+                                ShowDetail(prodid);
+                            }
+                            else {
+                                alert(json.Message);
+                            }
+                        });
+                    }
+                }
+            });
+
+     //換圖片
+        $('#tbody-1').on('click', '.up-1', function () {
+            if (photoid == 0) {
+                alert('圖檔未選擇');
+            } else {
+                $.post(`@Url.Action("Edit", "ProdColor", new { Area = "Backend" })`, {
+                    pcid: psid,
+                    phid: photoid,
+                }).done(function (json) {
+                    if (json.Status) {
+                        alert("換圖成功 !");
+                        ShowDetail(prodid);
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                });
+            }
+        });
+
+            //上傳檔案
+        $('#PhotoFile').fileupload({
+                //dropZone: $('#File'), //拖曳上傳區域
+                dataType: 'json',
+                url: `@Url.Action("UploadFile", "ProdColor", new { Area = "Backend" })`,
+                formData: { Parm: "這裡可以傳參數" },
+                autoUpload: true, //一旦選擇檔案是否要直接上傳
+                replaceFileInput: false, //可以顯示file的全路徑
+                add: function (e, data) { //綁定事件
+                    //綁定上傳的事件
+                    //通常在此作檢核
+                    //提交
+                    data.submit();
+
+                }, success: function (json) {
+                    if (json.Status) {
+                        //alert(json.Message);
+                        photoid = json.photoid;
+                        //alert(`1=>photoid=>${photoid}`);
+                    }
+                    else {
+                        alert(json.Message);
+                        photoid = 0;
+                    }
+                }, done: function () {  }
+            });
+
+        //關閉瀏覽器分頁
+        $('#close').on('click', CloseWebPage);
+
+        //可以關閉所有瀏覽器的方法
+        function CloseWebPage() {
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                    window.opener = null;
+                    window.close();
+                } else {
+                    window.open('', '_top');
+                    window.top.close();
+                }
+            }
+            else if (navigator.userAgent.indexOf("Firefox") > 0) {
+                window.location.href = 'about:blank ';
+            } else {
+                window.opener = null;
+                window.open('', '_self', '');
+                window.close();
+            }
+        };
+    </script>
+}
+

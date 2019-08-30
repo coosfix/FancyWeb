@@ -1,0 +1,693 @@
+﻿@model FancyWeb.Areas.ProductDisplay.ViewModels.ProductDetail
+@section styles{
+    @*<link href="~/Areas/ProductDisplay/Content/css/GetProductDetail.css" rel="stylesheet" />*@
+    <link type="text/css" href="~/Areas/ProductDisplay/Content/css/lightslider.css" rel="stylesheet" />
+    <style>
+
+        body {
+            font-family: "微軟正黑體";
+        }
+
+        /*外框*/
+        .custom-radio .custom-control-label::before {
+            width: 20px;
+            height: 20px;
+            top: 1px;
+            border-radius: 0;
+        }
+
+        /*離開圈圈*/
+        .custom-control-input:checked ~ .custom-control-label::before {
+            background-color: white;
+            border-color: white;
+            border-radius: 0;
+        }
+
+        /*白點和外圓*/
+        .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
+            width: 20px;
+            height: 20px;
+            background-color: rgb(188, 171, 143);
+            border-color: rgb(188, 171, 143);
+            /*border-radius: 50%;*/
+        }
+
+        /*外圓*/
+        .custom-control-label::after {
+            width: 2rem;
+            height: 2rem;
+            top: 1px;
+        }
+
+        /*選項內容*/
+        .custom-control-label span {
+            font-size: 17px;
+            margin-left: 10px;
+            font-weight: normal
+        }
+
+        #display h6, #display a, .list-group-flush {
+            font-size: 13px;
+        }
+
+        #ColorBox .box {
+            position: relative;
+            width: 1.7rem;
+            height: 1.7rem;
+            border: 2px solid rgb(233, 236, 239);
+            display: inline-block;
+            margin-right: 1.2rem;
+            /*opacity: 0.2;*/
+            top: 0.3rem;
+            padding: 0.75rem;
+        }
+
+            #ColorBox .box:hover {
+                cursor: pointer;
+                border-color: crimson;
+            }
+
+            #ColorBox .box.active {
+                /*opacity: 1;*/
+                border-color: rgb(188, 171, 143);
+            }
+
+        .color {
+            font-size: 5px;
+        }
+
+        #SizeBox label:hover {
+            color: crimson;
+            cursor: pointer;
+        }
+
+        #mainpic {
+            width: auto;
+            height: 690px;
+            border: 0px;
+        }
+
+        #OrderQTY {
+            width: 80%;
+            display: inline-block;
+            text-align-last: center;
+            position: absolute;
+            left: 50px;
+            border-radius: 0.3rem;
+            border-color: transparent;
+            background-color: #dee2e6
+        }
+
+        .pinput {
+            width: 80%;
+            text-align: center;
+        }
+
+        .content {
+            font-size: 30px;
+        }
+
+        .pbtn {
+            width: 80%;
+        }
+
+        #route span a {
+            color: black;
+            font-weight: bold;
+        }
+
+            #route span a:hover {
+                color: red;
+            }
+
+        .qbtn {
+            position: absolute;
+            text-align-last: center;
+            border: none;
+            background-color: #a2babb;
+            height: 26px;
+            width: 50px;
+            color: white;
+            line-height: 10px;
+            /*font-size: 23px;*/
+            border-radius: 0;
+        }
+
+            .qbtn.minus {
+                top: 0;
+                left: 50px;
+                border-top-left-radius: 0.3rem;
+                border-bottom-left-radius: 0.3rem;
+            }
+
+            .qbtn.add {
+                top: 0;
+                left: 80%;
+                border-top-right-radius: 0.3rem;
+                border-bottom-right-radius: 0.3rem;
+            }
+
+            .qbtn:hover {
+                cursor: not-allowed
+            }
+
+            .qbtn.active:hover {
+                cursor: pointer;
+            }
+
+        #btncart {
+            background-color: rgb(110, 127, 157);
+        }
+
+            #btncart:enabled {
+                transition: 0.5s
+            }
+
+        #btnfav, #btncart {
+            font: 15px bold;
+            color: white;
+            font-family: "微軟正黑體"
+        }
+
+            #btnfav.active {
+                color: palevioletred;
+            }
+
+        .card-img-top {
+            width: 100%;
+            height: 10vw;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 10px;
+        }
+
+        .card-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .i1 {
+            flex: 0 0 25%;
+            max-width: 20%;
+        }
+
+        .card.active {
+            box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
+            background-color: rgba(188, 171, 143,0.7);
+            transition: .5s;
+        }
+
+        a.card, #route span a {
+            /*text-decoration: none;*/
+            color: black;
+        }
+
+        .sale {
+            position: absolute;
+            background-color: crimson;
+            top: 0;
+            left: 10px;
+            width: 20px;
+            text-align: center;
+            color: wheat;
+            font-family: "微軟正黑體";
+        }
+
+        .alpha {
+            opacity: 0.7;
+        }
+
+        .note {
+            position: fixed;
+            background-color: black;
+            border-radius: 5%;
+            width: 350px;
+            height: 200px;
+            top: 30%;
+            left: 40%;
+            opacity: 0;
+            transition: .5s;
+            z-index: -1;
+        }
+
+            .note.active {
+                opacity: 0.5;
+                z-index: 1;
+            }
+
+        .col-md-2 a, #route span, #olist {
+            font-size: 17px;
+        }
+
+        .tle1 {
+            background-color: rgb(217, 207, 191);
+            line-height: 3.5rem;
+            padding-left: 1rem;
+            margin-bottom: 0;
+            border-top-left-radius: 0.3rem;
+            border-top-right-radius: 0.3rem;
+        }
+
+        #activity > a, #category > a {
+            background-color: rgba(217, 207, 191,.2);
+            border-radius: 0 !important;
+        }
+
+        #activity > a:hover, #category > a:hover {
+            background-color: rgba(217, 207, 191,.7);
+            border-radius: 0 !important;
+        }
+
+        #zoom {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            width: 10%;
+        }
+
+            #zoom:hover {
+                width: 12%;
+                cursor: pointer;
+            }
+    </style>
+}
+<div class="row">
+    <div class="col-md-2">
+        <h4 class="tle1">活動專區</h4>
+        <div class="list-group-flush" id="activity">
+        </div>
+        <hr />
+        <h4 class="tle1">商品類別</h4>
+        <div class="list-group-flush" id="category">
+        </div>
+    </div>
+    <div class="col-md-10" id="showarea">
+        <div class="d-flex justify-content-xl-between">
+            <div id="route">
+                <span class=""><a href="~/HomePage/Home/Index">首頁</a></span>
+                <span class="">><a href="~/ProductDisplay/Product/Browse/@ViewBag.categorymid">@ViewBag.categorymname</a></span>
+                <span class="">><a href="~/ProductDisplay/Product/Browse/@ViewBag.categorymid?sid=@Model.CategorySID">@ViewBag.categorysname</a></span>
+                <span class="">><a href="">@Model.ProductName</a></span>
+            </div>
+            <div>
+            </div>
+        </div>
+        @*<hr />*@
+        <div class="row  justify-content-center" id="display">
+            <div class="col-md-7 mt-md-3 row">
+                <div class="col-md-9 px-md-0 position-relative" style="overflow:hidden" id="mainpicbox">
+                    <img src="@Url.Action("ByteImage", "Product",new { area = "ProductDisplay"})/@Model.ProductID?colorid=@ViewBag.colorid" id="mainpic" />
+                    <div>
+                        <img src="~/Areas/ProductDisplay/Images/zoom_icon.png" id="zoom" />
+                    </div>
+                </div>
+                <div class="col-md-3 px-md-2">
+                    <ul id="light-slider">
+                        @foreach (var image in ViewBag.images)
+                        {
+                            <li>
+                                <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-5 mt-3">
+                <div>
+                    <h2>@Html.DisplayFor(p => Model.ProductName)</h2>
+                    <input class="pinput" type="hidden" value="@Model.ProductID" id="ProductID" name="ProductID" />
+                    @if (Model.SUnitPrice > 0)
+                    {
+                        <h4 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h4>
+                        <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                        <h4 style="color:red">@Html.DisplayFor(p => Model.SUnitPrice)</h4>
+                        <input class="pinput" type="hidden" value="@Model.SUnitPrice" id="SUnitPrice" name="SUnitPrice" />
+                    }
+                    else
+                    {
+                        <h4>@Html.DisplayFor(p => Model.UnitPrice)</h4>
+                        <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                    }
+                    <hr />
+                    <div class="my-3 position-relative" id="ColorBox">
+                        <span style="margin-right:12px">顏色 :</span>
+                        @foreach (var color in Model.Colors)
+                        {
+                            <a class="box" style="background-color:rgb(@color.R,@color.G,@color.B)" title="@color.ColorName" data-cid="@color.ColorID"></a>
+                        }
+                        <input type="hidden" value="" id="ColorID" name="ColorID" />
+                        <span id="cnotice">@*請選擇顏色*@</span>
+                    </div>
+                    <div class="my-3 position-relative" id="SizeBox">
+                        <span style="margin-right:12px">尺寸 :</span>
+                        @foreach (var size in Model.Sizes)
+                        {
+                            <div class="custom-control custom-radio d-inline-block">
+                                <input type="radio" id="size_@size.SizeID" class="custom-control-input" name="SizeID" value="@size.SizeID" />
+                                <label class="custom-control-label" for="size_@size.SizeID"><span>@size.SizeName</span></label>
+                            </div>
+                        }
+                        @*<div class="position-absolute d-none" id="caution" style="top:5%;left:45%;color:red">
+                                此商品庫存不足，購買將轉為預購
+                            </div>*@
+                    </div>
+                    <div class="my-4">
+                        <div class="position-relative" id="qty">
+                            <span>數量 :</span>
+                            <input type="number" min="1" max="10" value="1" disabled id="OrderQTY" name="OrderQTY" onkeydown="return false;" />
+                            <div class="qbtn btn minus">
+                                <img style="width:75%" src="~/Areas/ProductDisplay/Images/minus_icon.svg" />
+                            </div>
+                            <div class="qbtn btn add">
+                                <img src="~/Areas/ProductDisplay/Images/add_icon.svg" />
+                            </div>
+                        </div>
+                    </div>
+                    <hr />
+                    <div class="my-3" style="text-align-last:center">
+                        <button class="btn  btn-sm mx-auto pbtn" disabled id="btncart"><i class="fa fa-shopping-cart"></i>    加入購物車</button>
+                    </div>
+                    <div class="my-3" style="text-align-last:center">
+                        <button class="btn btn-secondary  btn-sm pbtn" id="btnfav"><i class="fa fa-heart"></i>   加入最愛</button>
+                    </div>
+                    <hr />
+                    <div>
+                        <h5>商品介紹:</h5>
+                        <p class="pl-4" style="line-height:30px"> @Model.Desctiption</p>
+                    </div>
+                    <hr />
+                    <div>
+                        <h5>洗滌方式:</h5>
+                        <p>
+                            <ol>
+                                @foreach (var wash in Model.WashingName)
+                                {
+                                    <li class="pl-4" style="line-height:30px">@wash</li>
+                                }
+                            </ol>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <h2>推薦商品</h2>
+            <div class="flex-md-row" id="recommend">
+                <ul id="light-slider2">
+                    @foreach (var item in ViewBag.recommend)
+                    {
+                        <li>
+                            <div class="">
+                                <a href="/ProductDisplay/Product/GetProductDetail/@item.ProductID" class="card border-0 shadow position-relative">
+                                    <img class="card-img-top" src="/ProductDisplay/Product/ByteImage/@item.ProductID">
+                                    <div class="card-body">
+                                        <h6 class="card-title">@item.ProductName</h6>
+                                        @if (item.SUnitPrice > 0)
+                                        {
+                                            <span class="card-text" style="text-decoration: line-through;">@item.UnitPrice.ToString("C0")</span>
+                                            <span class="card-text" style="color: red;">@item.SUnitPrice.ToString("C0")</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="card-text">@item.UnitPrice.ToString("C0")</span>
+                                        }
+                                    </div>
+                                    <div class="sale">@item.ActivityName</div>
+                                </a>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <hr />
+        <div>
+            <h2>商品評論</h2>
+            <div>
+                <table class="w-75">
+                    <tbody>
+                        @*<tr>
+                            <td class="border-0">
+                                <div class="card w-100">
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="card-body h-100">
+                                                <h5 class="card-title">評論者頭像</h5>
+                                                <div style="border-radius:50%;height:50px;width:50px;background-color:black"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5">
+                                            <div class="card-body h-100">
+                                                <h5 class="card-title">訂單編號</h5>
+                                                <p class="card-text">
+                                                    評論者評論內容
+                                                    商品顏色尺寸
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="card-body h-100">
+                                                <h5 class="card-title">評價日期</h5>
+                                                <p class="card-text">
+                                                    評論者評論分數
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>*@
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="note d-flex justify-content-center align-items-center"></div>
+@section scripts{
+    <script src="~/Areas/ProductDisplay/Content/js/lightslider.js"></script>
+    @*<script src="~/Areas/ProductDisplay/Content/js/jquery.mlens-1.7.min.js"></script>*@
+    <script>
+        let nowmid = @ViewBag.categorymid;
+        let nowsid = @Model.CategorySID;
+        let fav=@ViewBag.fav;
+
+        $.getJSON(`@Url.Action("GetCategory","Product", new { area = "ProductDisplay" })/${nowmid}`, function (datas) {
+            let Docfrag = $(document.createDocumentFragment());
+            $.each(datas, function (index, category) {
+                let a = $('<a></a>').addClass('list-group-item list-group-item-action border-0').text(`${category.CategorySName}    (${category.count})`).attr({ 'id': category.CategorySID, 'href': `@Url.Action("Browse","Product", new { area = "ProductDisplay" })/?id=${category.CategoryMID}&sid=${category.CategorySID}` }).data('name', category.CategorySName);
+                if (category.CategorySID == nowsid) {
+                    a.css({ 'backgroundColor': 'rgb(188, 171, 143)', 'color': 'crimson' });
+                }
+                Docfrag.append(a);
+            });
+            $('#category').html(Docfrag);
+        });
+
+        $.getJSON(`@Url.Action("GetActivity", "Product", new { area = "ProductDisplay" })`, function (datas) {
+            let Docfrag = $(document.createDocumentFragment());
+            $.each(datas, function (index, activity) {
+                let a = $('<a></a>').addClass('list-group-item list-group-item-action border-0').text(activity.ActivityName).attr({ 'href': `@Url.Action("Browse","Activity", new { area = "ProductDisplay" })/?id=${activity.ActivityID}` }).data('name', activity.ActivityName);
+                Docfrag.append(a);
+            });
+            $('#activity').html(Docfrag);
+        });
+
+        $(document).ready(function () {
+            if (fav == 1) {
+                $('#btnfav').addClass('active');
+            }
+
+            if (document.querySelectorAll('#ColorBox a').length == 1) {
+                $('#ColorBox .box').addClass('active').siblings().removeClass('active');
+                $('#cnotice').text($('#ColorBox .box').attr('title'));
+                $('input[type=radio][name=SizeID]').removeAttr('disabled');
+                $('#ColorID').val($('#ColorBox .box').data('cid'));
+            }
+
+            if (document.querySelectorAll('#SizeBox input').length == 1) {
+                $('input[type=radio][name=SizeID]').removeAttr('disabled');
+                $('input[type=radio][name=SizeID]').prop('checked', true);
+            }
+
+            if (document.querySelectorAll('#ColorBox a').length == 1 && document.querySelectorAll('#SizeBox input').length == 1) {
+                $('#OrderQTY').removeAttr('disabled');
+                $('#btncart').removeAttr('disabled');
+                $('.qbtn').addClass('active');
+                checkqty(0);
+            }
+
+            $("#light-slider").lightSlider({
+                slideMargin: 3,
+                vertical: true,
+                verticalHeight: 690
+            });
+
+            $("#light-slider2").lightSlider({
+                item: 6,
+                vertical: false
+            });
+
+            $('#light-slider>li').on('click', 'img', function () {
+                $('#mainpic').attr('src', `${$(this).attr('src')}`)
+            });
+
+            $('#light-slider>li').on('mouseenter mouseleave', 'img', function () {
+                $(this).toggleClass('alpha');
+            });
+
+            $('#ColorBox .box').mouseenter(function () {
+                $('#mainpic').attr('src', `@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=${$(this).data('cid')}`);
+            });
+
+            $('#ColorBox .box').click(function () {
+                $(this).addClass('active').siblings().removeClass('active');
+                $('#cnotice').text($(this).attr('title'));
+                //$('input[type=radio][name=SizeID]').removeAttr('disabled');
+                $('#ColorID').val($(this).data('cid'));
+                if ($('input[type=radio][name=SizeID]:checked').val() >0) {
+                    $('#OrderQTY').removeAttr('disabled');
+                    $('#btncart').removeAttr('disabled');
+                    $('.qbtn').addClass('active');
+                }
+            });
+
+            $('input[type=radio][name=SizeID]').click(function () {
+                $('#OrderQTY').removeAttr('disabled');
+                if ($('#ColorID').val() >0) {
+                    $('#btncart').removeAttr('disabled');
+                    $('.qbtn').addClass('active');
+                    checkqty(0);
+                }
+            });
+
+            $('#qty').on('click','div.qbtn.minus.active',function () {
+                if ($('#OrderQTY').val() > 1) {
+                    $('#OrderQTY').val(parseInt($('#OrderQTY').val()) - 1);
+                }
+                checkqty($('#OrderQTY').val());
+            });
+
+            $('#qty').on('click', 'div.qbtn.btn.add.active', function () {
+                if ($('#OrderQTY').val() < 10) {
+                    $('#OrderQTY').val(parseInt($('#OrderQTY').val()) + 1);
+                }
+                checkqty($('#OrderQTY').val());
+            });
+
+            function add() {
+                $.post('@Url.Action("AddCart","Product", new { area = "ProductDisplay" })', {
+                    ProductID: $('#ProductID').val(),
+                    ColorID : parseInt($('#ColorID').val()),
+                    SizeID: parseInt($('input[type=radio][name=SizeID]:checked').val()),
+                    SUnitPrice: $('#SUnitPrice').val(),
+                    UnitPrice: $('#UnitPrice').val(),
+                    OrderQTY: parseInt($('#OrderQTY').val())
+                    }, function (datas) {
+                        generatecart(datas);
+                        }
+                );
+            };
+
+            function checkqty(qty) {
+                @*if (qty == 0) {
+                    qty = 1;
+                }
+                else {
+                    qty = parseInt($('#OrderQTY').val());
+                }
+                $.post('@Url.Action("CheckQTY", "Product", new { area = "ProductDisplay" })', {
+                    ProductID: $('#ProductID').val(),
+                    ColorID: parseInt($('#ColorID').val()),
+                    SizeID: parseInt($('input[type=radio][name=SizeID]:checked').val()),
+                    StockQTY: qty
+                    }, function (datas) {
+                        //console.log(datas);
+                        if (datas == "preorder") {
+                            $('#caution').removeClass('d-none');
+                        }
+                        else {
+                            $('#caution').addClass('d-none');
+                        }
+                        }
+                );*@
+            }
+
+            let timer;
+            let url = "@Url.Action("Index", "Login", new { area = "Members" })";
+            $('#btnfav').click(function () {
+                $.post('@Url.Action("AddFavorite", "Product", new { area = "ProductDisplay" })', {ProductID :$('#ProductID').val()}, function (datas) {
+                    //alert(datas);
+                    if (datas == "remove") {
+                        let icon = $('<h1><i class="fa fa-times mx-3" style="color:white"></i></h1>');
+                        let word = $('<h3 style="color:white;" class="mb-md-0">  移除最愛</h3>');
+                        $('.note').html([icon, word]);
+                    }
+                    else if (datas == "add") {
+                        let icon = $('<h1><i class="fa fa-check mx-3" style="color:white"></i></h1>');
+                        let word = $('<h3 style="color:white;" class="mb-md-0">  加入最愛</h3>');
+                        $('.note').html([icon, word]);
+                    }
+                    else {
+                        location.href = url;
+                    }
+                });
+                $(this).toggleClass('active');
+                note();
+            });
+
+            function note() {
+                $('.note').addClass('active');
+
+                clearInterval(timer);
+
+                timer = setInterval(function () {
+                    $('.note').removeClass('active');
+                }, 500);
+                timer;
+            }
+
+            $('#btncart').on('click', function () {
+                add();
+                let icon = $('<h1><i class="fa fa-shopping-cart mx-3" style="color:white"></i></h1>');
+                let word = $('<h3 style="color:white" class="mb-md-0">  加入購物車</h3>');
+                $('.note').html([icon, word]);
+                note();
+            });
+
+            $('#recommend>div').on("mouseenter mouseleave", 'a.card', function () {
+                $(this).toggleClass('active');
+            })
+
+            //window.onresize = function () {
+            //}
+
+            $('#zoom').click(function () {
+                //lens();
+            })
+
+            function lens() {
+                $("#mainpic").mlens(
+                    {
+                        imgSrc: $(this).attr("data-big"),	  // path of the hi-res version of the image
+                        imgSrc2x: $(this).attr("data-big2x"),  // path of the hi-res 2x version of the image
+                        //for retina displays (optional)
+                        lensShape: "circle",                // shape of the lens (circle/square)
+                        lensSize: ["35%", "25%"],            // lens dimensions (in px or in % with respect to image dimensions)
+                        // can be different for X and Y dimension
+                        borderSize: 4,                  // size of the lens border (in px)
+                        borderColor: "#000",            // color of the lens border (#hex)
+                        borderRadius: 0,                // border radius (optional, only if the shape is square)
+                        imgOverlay: $(this).attr("data-overlay"), // path of the overlay image (optional)
+                        overlayAdapt: true,    // true if the overlay image has to adapt to the lens size (boolean)
+                        zoomLevel: 1.3,          // zoom level multiplicator (number)
+                        responsive: false       // true if mlens has to be responsive (boolean)
+                    });
+            }
+    });
+    </script>
+}

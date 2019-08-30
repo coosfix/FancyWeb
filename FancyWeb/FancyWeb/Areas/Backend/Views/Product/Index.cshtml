@@ -1,0 +1,194 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FancyWeb.Areas.Backend.ViewModels.ProductViewModel>
+
+@{
+    ViewBag.Title = "商品資料維護";
+}
+
+@*<p>@Request.Cookies["mesg"].Value</p>*@
+@*<p>Session =>  @Session["prodcmid"]</p>*@
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <h2 style="color:blue;">產品資料維護</h2>
+        </div>
+        <div class="col-7">
+            <a href="~/Backend/Product/Create" class="btn btn-warning" style="margin:10px">新增</a>
+        </div>
+        <div class="col-2">
+            <h4 style="color:saddlebrown;">分類</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(p => p.First().ProductID)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().PhotoID)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().CategoryMSName)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().ProductInDate)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().ProductOutDate)</th>
+                        <th>@Html.DisplayNameFor(p => p.First().UnitPrice)</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(p => item.ProductID)</td>
+                            <td>
+                                <img src="@Url.Action("GetImageByte","AddStock",new { id=item.PhotoID})" class="card-img-top" style="width:60px;height:60px">
+                            </td>
+                            <td>@Html.DisplayFor(p => item.ProductName)</td>
+                            <td>@Html.DisplayFor(p => item.CategoryMSName)</td>
+                            <td>@Html.DisplayFor(p => item.SupplierName)</td>
+                            <td>@Html.DisplayFor(p => item.ProductInDate)</td>
+                            <td>@Html.DisplayFor(p => item.ProductOutDate)</td>
+                            <td>@Html.DisplayFor(p => item.UnitPrice)</td>
+                            <td><a href="~/Backend/Product/Edit/?id=@(item.ProductID)&page=@(TempData["savepage"])" class="btn btn-primary">修改</a></td>
+                            <td>
+                                <!-- Button trigger modal -->
+                                <!-- 打開視窗來選擇產品要歸在哪個活動裏, 活動是變動的 -->
+                                <button type="button" class="btn btn-danger act-1" data-toggle="modal" data-target="#myModal" data-prodid="@item.ProductID">
+                                    活動
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+        </div>
+        <div class="col-2">
+            <div>
+                <select id="sel1" style="background-color:lightblue;"></select>
+            </div>
+            <div class="py-3"></div>
+            <div id="cateS">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@*彈出視窗*@
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title" style="color:blue; font-size:150%;">請選擇活動</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 style="color:maroon;">
+                    <div class="div-act"></div>
+                </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok-1" data-dismiss="modal">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+            //彈出視窗時要做的事
+            var productid = 0;
+            $('.act-1').on('click', function () {
+                productid = $(this).data('prodid');
+                //自動產生radio button
+                $.getJSON(`@Url.Action("ActivityJson", "Product", new { Area = "Backend" })/?prodid=${productid}`, function (datas) {
+                    var divact = $(".div-act");
+                    var docFrag = $(document.createDocumentFragment());
+                    $.each(datas, function (idx, act) {
+                        var eleA = $(`<input type="radio" name="activities" data-prodid=${productid} data-actid=${act.actid}>&nbsp;${act.actname}<br><br>`)
+                                              .val(act.actid).prop('checked', act.chk);;
+                        docFrag.append(eleA);
+                    });
+                    divact.html(docFrag);
+                });
+            });
+
+            $('.ok-1').on('click', function () {
+                var actid = $('input[name*=activities]:checked').data('actid');
+                var prodid = $('input[name*=activities]:checked').data('prodid');
+                $.post(`@Url.Action("UpdateActivity", "Product", new { Area = "Backend" })/?prodid=${productid}`, {
+                    activityid: actid,
+                    prodid: prodid,
+                }).done(function (json) {
+                    if (json.Status) {
+                        alert("活動更改成功 !");
+                    }
+                    else {
+                        alert(json.Message);
+                    }
+                });
+            });
+
+            //中分類
+            $.getJSON('@Url.Action("CategoryMJson", "Product", new { Area = "Backend" })', function (datas) {
+                var sel = $("#sel1");
+                    var docFrag = $(document.createDocumentFragment());
+                    $.each(datas, function (idx, cm) {
+                        var opt = $("<option></option>").text(cm.CategoryMName).val(cm.CategoryMID);
+                        docFrag.append(opt);
+                });
+                sel.html(docFrag).addClass('form-control');
+                sel.val(@Session["prodcmid"]);
+
+                ShowCategoryS(sel.val());
+            });
+
+            //小分類(連動)
+            $("#sel1").change(function () {
+                var cmid = $(this).val();
+                ShowCategoryS(cmid);
+            });
+
+        function ShowCategoryS(cmid) {
+            $.getJSON(`@Url.Action("CategorySJson", "Product", new { Area = "Backend" })/${cmid}`, function (datas) {
+                var docFrag = $(document.createDocumentFragment());
+                $.each(datas, function (idx, cs) {
+                    var eleA = $('<a></a>').attr({
+                        'data-csid': cs.CategorySID, 'style': 'background-color:darkseagreen'}).addClass('list-group-item list-group-item-action').text(cs.CategorySName)
+                    docFrag.append(eleA);
+                });
+
+                //產品資料(連動)
+                $('#cateS').html(docFrag).on('click', 'a', function () {
+                    var csid = $(this).data('csid');
+                    ShowProduct(csid);
+                }).on('mouseover', 'a', over).on('mouseout', 'a', out);
+            });
+        }
+
+        //產品明細
+        function ShowProduct(csid) {
+            window.location.href = (`@Url.Action("Index", "Product", new { Area = "Backend" })/?catesid=${csid}`);
+        }
+
+        function over() {
+            $(this).css('background-color', 'lightgray');
+        };
+
+        function out() {
+            $(this).css('background-color', 'darkseagreen');
+        };
+    </script>
+
+}
+
+

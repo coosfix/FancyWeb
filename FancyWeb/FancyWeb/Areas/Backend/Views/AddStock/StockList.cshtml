@@ -1,0 +1,59 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@model IPagedList<FancyWeb.Areas.Backend.ViewModels.StockListViewModel>
+
+@{
+    ViewBag.Title = "StockList";
+}
+@*<p>@Request.Cookies["mesg"].Value</p>*@
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 style="color:blue;">商品缺貨明細</h2>
+        </div>
+    </div>
+</div>
+<table class="table table-bordered table-striped table-hover">
+    <thead>
+        <tr>
+            @*<th>@Html.DisplayNameFor(p => p.First().StockID)</th>*@
+            <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().ProductColor)</th>
+            <th>@Html.DisplayNameFor(p => p.First().ProductSize)</th>
+            <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
+            <th>@Html.DisplayNameFor(p => p.First().AddQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.First().StockQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.First().CartQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.First().OrderQTY)</th>
+            <th>@Html.DisplayNameFor(p => p.First().MinStock)</th>
+            <th>商品圖片</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+        <tr>
+            @*<td>@Html.DisplayFor(p => product.StockID)</td>*@
+            <td>@Html.DisplayFor(p => product.ProductName)</td>
+            <td>@Html.DisplayFor(p => product.ProductColor)</td>
+            <td>@Html.DisplayFor(p => product.ProductSize)</td>
+            <td>@Html.DisplayFor(p => product.SupplierName)</td>
+            <td>@Html.DisplayFor(p => product.AddQTY)</td>
+            <td>@Html.DisplayFor(p => product.StockQTY)</td>
+            <td>@Html.DisplayFor(p => product.CartQTY)</td>
+            <td>@Html.DisplayFor(p => product.OrderQTY)</td>
+            <td>@Html.DisplayFor(p => product.MinStock)</td>
+            <td>
+                <img src="@Url.Action("GetImageByte","AddStock",new { id=product.PhotoID})" class="card-img-top" style="width:60px;height:60px">
+            </td>
+            <td><a href="~/Backend/AddStock/Edit/@product.StockID" class="btn btn-primary">修改</a></td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+@Html.PagedListPager(Model, page => Url.Action("StockList", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+

@@ -1,0 +1,35 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.FileViewModel
+@{
+    ViewBag.Title = "Import";
+}
+
+<h2 style="color:blue; width:400px;">Excel匯入</h2>
+
+<p>@ViewBag.Message</p>
+
+<div class="container">
+    <hr />
+    @using (Html.BeginForm("Import", "InOut", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate", enctype = "multipart/form-data" }))
+    {
+        <div class="form-group row">
+            @Html.LabelFor(p => p.FileInfo, new { @class = "col-sm-2 col-form-label", style = "text-align:right" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.FileInfo, new { htmlAttributes = new { type = "file", @class = "form-control", placeholder = "搜尋檔案", accept = ".xlsx,.xls" } })
+                @Html.ValidationMessageFor(p => p.FileInfo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="檔案上傳" class="btn btn-success" />
+            </div>
+        </div>
+    }
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        <div class="offset-sm-2 col-sm-10">
+            @Html.ActionLink("回到Product", "Product", "InOut", new { area = "Backend" }, null)
+        </div>
+    </div>
+</div>

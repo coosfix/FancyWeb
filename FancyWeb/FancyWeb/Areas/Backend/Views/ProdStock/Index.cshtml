@@ -1,0 +1,297 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.ProductStockVIewModel
+
+@{
+    Layout = "~/Areas/Backend/Views/Shared/_ProductDetailLayoutPage.cshtml";
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h4 style="color:blue;">庫存維護</h4>
+        </div>
+    </div>
+</div>
+
+<div>
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.ProductID)</th>
+                <th>@Html.DisplayNameFor(p => p.ProductName)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@Html.DisplayFor(p => p.ProductID)</td>
+                <td>@Html.DisplayFor(p => p.ProductName)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group row sel-1">
+                @Html.LabelFor(p => p.ProductColor, new { @class = "col-sm-6 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-6">
+                    @{
+                        var psel = new SelectList(ViewBag.productcolor, "ProductColorID", "ColorName");
+                    }
+                    @Html.DropDownListFor(p => p.ProductColorID, psel, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(p => p.ProductColorID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group row sel-2">
+                @Html.LabelFor(p => p.ProductSize, new { @class = "col-sm-6 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-6">
+                    @{
+                        var ps = new SelectList(ViewBag.productsize, "ProductSizeID", "SizeName");
+                    }
+                    @Html.DropDownListFor(p => p.ProductSizeID, ps, "請選擇", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(p => p.ProductSizeID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group row">
+                @Html.LabelFor(p => p.StockQTY, new { @class = "col-sm-6 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(p => p.StockQTY, new { htmlAttributes = new { min = "0", @class = "form-control", placeholder = "輸入庫存量" } })
+                    @Html.ValidationMessageFor(p => p.StockQTY, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group row">
+                @Html.LabelFor(p => p.MinStock, new { @class = "col-sm-6 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-6">
+                    @Html.EditorFor(p => p.MinStock, new { htmlAttributes = new { min = "0", @class = "form-control", placeholder = "輸入安全庫存量" } })
+                    @Html.ValidationMessageFor(p => p.MinStock, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="offset-sm-6 col-sm-3">
+            <input id="close" value="關閉" class="btn btn-secondary" />
+        </div>
+        <div class="col-sm-3">
+            <input id="save" value="存檔" class="btn btn-success" />
+        </div>
+    </div>
+</div>
+
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h4 style="color:blue;">庫存明細</h4>
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+<div id="div-partial1" style="height:300px; overflow:scroll;" data-pid="@Model.ProductID">
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(p => p.StockID)</th>
+                <th>@Html.DisplayNameFor(p => p.PhotoID)</th>
+                <th>@Html.DisplayNameFor(p => p.ProductColor)</th>
+                <th>@Html.DisplayNameFor(p => p.ProductSize)</th>
+                <th>@Html.DisplayNameFor(p => p.StockQTY)</th>
+                <th>@Html.DisplayNameFor(p => p.MinStock)</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tbody-1"></tbody>
+    </table>
+
+</div>
+
+
+
+@*彈出視窗*@
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title">注意 :</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 style="color:red;">確定要刪除嗎?</h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary ok-1" data-dismiss="modal">確定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    <script>
+        var selelectid1 = 0;
+        var selelectid2 = 0;
+        var prodid = $("#div-partial1").data('pid');
+        var psid = 0;
+
+        ShowDetail(prodid);
+
+    $('#tbody-1').on('click', 'i', function () {
+        psid = $(this).data('pppid');
+    });
+
+     //刪除
+     $('.ok-1').on('click', function () {
+        $.post(`@Url.Action("Delete", "ProdStock", new { Area = "Backend" })`, {
+            psid: psid,
+        }).done(function (json) {
+            if (json.Status) {
+                alert("刪除成功 !");
+                ShowDetail(prodid);
+            }
+            else {
+                alert(json.Message);
+            }
+        });
+    });
+
+
+        function ShowDetail(pid) {
+        $.getJSON(`@Url.Action("ProdStockJson", "ProdStock", new { Area = "Backend" })/${pid}`, function (datas) {
+                var docFrag = $(document.createDocumentFragment());
+                var tbody = $('#tbody-1');
+
+                $.each(datas, function (idx, ps) {
+                    var tr = '<tr>';
+                    tr += `<td>${ps.StockID}</td>`;
+
+                    tr += `<td><img src="@Url.Action("GetImageByte","AddStock", new { Area = "Backend" })/${ps.PhotoID}" class="card-img-top" style="width:60px;height:60px"></td>`;
+
+                    tr += `<td>${ps.ProductColor}</td>`;
+                    tr += `<td>${ps.ProductSize}</td>`;
+
+                    tr += `<td><input class="form-control text-box single-line" data-val="true" data-val-number="現有庫存量 必須是數字。" data-val-required="現有庫存量 是必要項。" id="${ps.StockQTY}" min="1" name="${ps.StockQTY}" type="number" value="${ps.StockQTY}"></td>`;
+
+                    tr += `<td><input class="form-control text-box single-line" data-val="true" data-val-number="安全庫存量 必須是數字。" data-val-required="安全庫存量 是必要項。" id="${ps.MinStock}" min="1" name="${ps.MinStock}" type="number" value="${ps.MinStock}"></td>`;
+
+                    tr += `<td><i class="btn btn-primary up-1" data-pppid="${ps.StockID}"  data-pid="${ps.ProductID}">修改</i></td>`;
+
+                    tr += `<td><i class="btn btn-danger del-1" data-pppid="${ps.StockID}" data-toggle="modal" data-target="#myModal" data-pid="${ps.ProductID}">刪除</i></td>`;
+
+                    tr += '</tr>';
+
+                    docFrag.append($(tr));
+                });
+
+                tbody.html(docFrag);
+            });
+        }
+
+        //存檔
+        $('#save').on('click', function () {
+            selelectid1 = $('.sel-1 option:selected').val();
+            selelectid2 = $('.sel-2 option:selected').val();
+            var stkQty = $('#StockQTY').val();
+            var minQty = $('#MinStock').val();
+
+            if (selelectid1 < 1) {
+                alert('顏色未選擇');
+            } else {
+                if (selelectid2 < 1) {
+                    alert('尺吋大小未選擇');
+                } else {
+                    $.post(`@Url.Action("Create", "ProdStock", new { Area = "Backend" })`, {
+                        pid: prodid,
+                        cid: selelectid1,
+                        sid: selelectid2,
+                        stockqty: stkQty,
+                        minqty: minQty,
+                    }).done(function (json) {
+                        if (json.Status) {
+                            alert("存檔成功 !");
+                            ShowDetail(prodid);
+                        }
+                        else {
+                            alert(json.Message);
+                            console.log(json.Message);
+                        }
+                    });
+                }
+            }
+        });
+
+        
+
+        //修改
+        $('#tbody-1').on('click', '.up-1', function () {
+            var stkQty = $(this).parent().prev().prev().children().val();
+            var minQty = $(this).parent().prev().children().val();
+      
+            if (!$.isNumeric(stkQty)) {
+                alert('現有庫存數量不能為空值 !');
+            }
+            else {
+                if (!$.isNumeric(minQty)) {
+                    alert('安全庫存數量不能為空值 !');
+                }
+                else {
+                            $.post(`@Url.Action("Edit", "ProdStock", new { Area = "Backend" })`, {
+                                psid: psid,
+                                stockqty: stkQty,
+                                minqty: minQty,
+                            }).done(function (json) {
+                                if (json.Status) {
+                                    alert("修改成功 !");
+                                    ShowDetail(prodid);
+                                }
+                                else {
+                                    alert(json.Message);
+                                }
+                            });
+                }
+            }            
+        });
+
+        //關閉瀏覽器分頁
+        $('#close').on('click', CloseWebPage);
+
+        //可以關閉所有瀏覽器的方法
+        function CloseWebPage() {
+            if (navigator.userAgent.indexOf("MSIE") > 0) {
+                if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {
+                    window.opener = null;
+                    window.close();
+                } else {
+                    window.open('', '_top');
+                    window.top.close();
+                }
+            }
+            else if (navigator.userAgent.indexOf("Firefox") > 0) {
+                window.location.href = 'about:blank ';
+            } else {
+                window.opener = null;
+                window.open('', '_self', '');
+                window.close();
+            }
+        };
+
+
+    </script>
+}
+

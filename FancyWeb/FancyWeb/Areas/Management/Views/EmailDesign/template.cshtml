@@ -1,0 +1,349 @@
+﻿<style>
+    body{
+        transition:all .3s;
+    }
+    .newblock {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.00);
+        border: 2px dashed #111;
+        transition: 0.2s;
+    }
+
+    .newblock-hover {
+        background-color: rgba(218, 243, 251, 0.50);
+    }
+    .draggable {
+        display: block;
+        cursor: pointer;
+    }
+    .droppable {
+        /*margin-top: 10px;*/
+        font-size: 4rem;
+        background-color: rgba(0, 0, 0, 0.00);
+        border: 2px dashed #111;
+        transition: 0.2s;
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+    }
+
+    .droppable-hover {
+        transform: scale(1.1);
+        background-color: #bee3f0;
+    }
+
+    .dropped {
+        border-style: solid;
+    }
+
+    .dragged {
+        user-select: none;
+        opacity: 0.1;
+        cursor: default;
+    }
+
+    .draggable.dragged:hover {
+        opacity: 0.1;
+    }
+    .block-td {
+        height: 20px;
+        transition: all .3s;
+    }
+    .block-td-hover {
+        height: 150px;
+    }
+    .title_c {
+        position: relative;
+        overflow: hidden;
+        transition: all .3s;
+    }
+
+        .title_c i {
+            position: absolute;
+            opacity: 0;
+            right: 10px;
+            top: 10px;
+            transition: all .3s;
+            cursor: pointer;
+        }
+
+        .title_c:hover i {
+            opacity: 1;
+            color: #808080;
+        }
+
+    .title_c_d {
+        content: '';
+        position: absolute;
+        top: 3px;
+        bottom: 3px;
+        left: 0;
+        right: 0;
+        background-color: #d3c8bb;
+        transition: all .3s;
+        transform: translateX(-100%);
+    }
+
+    .cobtn {
+        opacity: 0;
+        transition: all .3s;
+        position: absolute;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+    }
+
+        .cobtn:hover {
+            opacity: 1;
+        }
+    .parenttr {
+        position: relative;
+    }
+        .parenttr .deleteicon i:hover{
+            cursor:pointer;
+            color:crimson;
+        }
+</style>
+
+<div id="allconten">
+
+    <table align="center" border="0" cellpadding="0" cellspacing="0" width="600" style="font-family: '微軟正黑體';">
+        <!--標頭-->
+        <tr>
+            <td align="center" bgcolor="#cec4b0" style="padding: 0 0 0 0;">
+                <!-- 標頭圖片 -->
+                <img src="https://lh3.googleusercontent.com/i7Aii11lC_0Xy0N8OTeDK4j5hpf3HhOo2h3kHPnSU83jLcfVvoJkGru9SsqN4IyT3hZsRflDgyP-NZ6wwsJHsCp4UqyoxNzo_zJg381U-ixG0020ryd17WVBc9niM0VE6keLWkTIEN7VFvzK14nihjd0fyQEw1VWDtOU5P8_fYoJTHayFjJv6mB1-1qetrifqpxKm6FTxNm269j1PMZ0rFxczb3iWXPD73tGPXtqwrD0WDQnQLimvDJBdxVe1R8uZtPkTCmsaGTG4hAED1OjUNHX9ChS_Iqz-zV3lu4pEHF8zJcrsxJDdAYfrOlirpkWIXlhz5hBgenE7Fvbwvu3YVeIySisfmRqBn8BvyIul7NJM6GQ0O7lmcttALDGy7py_59JgpqezselObdB9DP8Aai1jG38mzOdGuLYyt5IGpRdPYo4hqIeOfOVk72hnLc2o9r5Mr_oFE-nAqHA8bdDYbR5CQo3U75XjiII6f-CDM6MSGAvrwqNcXH3hb5C2UXKy2sDV2vFNxzFUjRudwUlMGO4tU-RD4Hx-xSgSdMitK3bbVE8O_hxDObPJZQ06UEnGur6EtGjKwTgTzJ1HdtWxF9Y5M9-kmUk4G8u2bNbLsdzknTqCMhqNdGBSLZVNen52p_cHiaM8pgO7_-i7kGPh-vPbzg-Qw=w533-h300-no" alt="Creating Email Magic" width="100%" height="230"
+                     style="display: block; object-fit: cover;" />
+            </td>
+        </tr>
+        <!--中間-->
+        <tr class="parenttr">
+            <!-- 內文 -->
+            <td bgcolor="#f8f2ec" style="padding: 20px 30px 20px 30px;">
+                <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                    <!-- 大標題 -->
+                    <tr>
+                        <td class="title_c" style="padding: 20px 0 20px 0;">
+                            <div class="title_c_d d-flex justify-content-center align-items-center">
+                                <div class="ui large action input w-100 px-2">
+                                    <input style="text-align:center" name="conten1_editer" type="text" placeholder="標題...">
+                                    @*<button class="ui inverted brown button">修改</button>*@
+                                    <button class="ui inverted brown button">修改</button>
+                                </div>
+                            </div>
+                            <i class="fas fa-pen"></i>
+                            <h1 style="margin:0;padding:0;display:block;font-size:28px;font-style:normal;font-weight:bold;line-height:150%;letter-spacing:normal;text-align:center;color:#39393e!important">
+                                <span name="title_1" style="font-size:20px;padding-bottom: 5px; border-bottom: 3px solid #39393e;font-family: '微軟正黑體';">｜引領時尚潮流的 • 熱銷商品｜</span>
+                            </h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="title_c" style="padding: 20px 0 20px 0;height:200px;">
+                            <div class="title_c_d">
+                                <textarea name="conten1_editer" rows="3" style="width:100%;height:100%;resize:none;outline:none;"></textarea>
+                                <div class="d-flex justify-content-center mt-2 cobtn">
+                                    <button class="ui inverted brown button">修改</button>
+                                </div>
+                            </div>
+                            <i class="fas fa-pen"></i>
+                            <div style="text-align: justify;">
+                                <span name="conten1" style="font-family: '微軟正黑體';">
+                                    【限時 ⓷ 天】會員日回饋來了！🎉
+                                    【限時 ⓷ 天】會員日回饋來了！🎉
+                                    【限時 ⓷ 天】會員日回饋來了！🎉
+                                    【限時 ⓷ 天】會員日回饋來了！🎉
+
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    @* 商品一 *@
+                                    <td style="position:relative;" width="260" valign="top">
+                                        <div class="droppable"></div>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td>
+                                                    <img name="prdimg" src="~/Areas/Management/img/23.jpg" alt="" width="100%" height="200"
+                                                         style="display: block; object-fit: cover;" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 25px 0 25px 0;">
+                                                    <p name="prdname" style="font-family: '微軟正黑體';text-align:center;line-height:100%;margin:1em 0;padding:0;color:#39393e;font-size:16px">
+                                                        商品名稱
+                                                    </p>
+                                                    <div style="text-align:center;">
+                                                        <a name="prdlink" href=""
+                                                           style="font-size:15px;font-weight:500;font-family:'微軟正黑體';
+                                                                                                                                                                color:#ffffff;
+                                                                                                                                                                text-decoration:none;
+                                                                                                                                                                border-radius:2px;
+                                                                                                                                                                background-color:#b7ab8d;
+                                                                                                                                                                border-top:5px solid #b7ab8d;
+                                                                                                                                                                border-bottom:5px solid #b7ab8d;
+                                                                                                                                                                border-right:20px solid #b7ab8d;
+                                                                                                                                                                border-left:20px solid #b7ab8d;
+                                                                                                                                                                display:inline-block;
+                                                                                                                                                                word-wrap:break-word;"
+                                                           target="_blank">
+                                                            立即前往▸
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+                                    </td>
+                                    <td style="font-size: 0; line-height: 0;" width="20">
+                                        &nbsp;
+                                    </td>
+                                    @* 商品二 *@
+                                    <td style="position:relative;" width="260" valign="top">
+                                        <div class="droppable"></div>
+                                        <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                            <tr>
+                                                <td>
+                                                    <img name="prdimg" src="~/Areas/Management/img/92.jpg" alt="" width="100%" height="200"
+                                                         style="display: block; object-fit: cover;" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="padding: 25px 0 25px 0;">
+                                                    <p name="prdname" style="font-family: '微軟正黑體';text-align:center;line-height:100%;margin:1em 0;padding:0;color:#39393e;font-size:16px">
+                                                        商品名稱
+                                                    </p>
+                                                    <div style="text-align:center;">
+                                                        <a name="prdlink" href=""
+                                                           style="font-size:15px;font-weight:500;font-family:'微軟正黑體';
+                                                                                                                color:#ffffff;
+                                                                                                                text-decoration:none;
+                                                                                                                border-radius:2px;
+                                                                                                                background-color:#b7ab8d;
+                                                                                                                border-top:5px solid #b7ab8d;
+                                                                                                                border-bottom:5px solid #b7ab8d;
+                                                                                                                border-right:20px solid #b7ab8d;
+                                                                                                                border-left:20px solid #b7ab8d;
+                                                                                                                display:inline-block;
+                                                                                                                word-wrap:break-word;"
+                                                           target="_blank">
+                                                            立即前往▸
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+
+                                </tr>
+                            </table>
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%"
+                                   style="min-width:100%;border-top:1px solid #9e9e9e;border-collapse:collapse">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span></span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="bbtable" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td class="block-td" style="position:relative; padding:20px;" width="260">
+                                        <div class="newblock text-black-50 d-flex justify-content-center align-items-center">拖曳區塊</div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- 底部 -->
+        <tr>
+            <td bgcolor="#a09b81" style="padding: 30px 30px 30px 30px;">
+                <table border="0" cellpadding="0" cellspacing="0" class="mcnCodeBlock"
+                       style="width: 100%;border-collapse: collapse;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                    <tbody class="mcnTextBlockOuter" width="100%">
+                        <tr>
+                            <td valign="top" class="mcnTextBlockInner" align="center" width="100%"
+                                style="-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                                <div class="mcnTextContent"
+                                     style="margin: 0 24px 0 24px;color: #e2e2e2;font-family: 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;font-size: 14px;line-height: 125%;text-align: center;">
+                                    <footer style="font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;"></footer>
+                                    <div class="social-btns"
+                                         style="font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;margin:0 0 36px 0;vertical-align:top;width:100%!important;">
+
+                                        <!-- footer_social_btns : zh_TW-->
+                                        <span class="social"
+                                              style="display: block;text-align: center;clear: both;font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;vertical-align:top;">
+                                            <a class="instagram" href="https://www.instagram.com/ilovepinkoi"
+                                               style="color: #ffffff;display: inline-block;width: 32px;height: 32px;line-height: 1;text-decoration: none;font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;word-wrap: break-word;-ms-text-size-adjust: 100%;font-weight: normal;"
+                                               size="0">
+                                                <img border="0"
+                                                     src="https://gallery.mailchimp.com/f04517aa61974d26934423483/images/93d29929-3532-41cc-b1b3-b6fe74c4a655.png"
+                                                     alt="Instagram"
+                                                     style="-webkit-text-size-adjust: none;width: 100%;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;height: auto !important;">
+                                            </a>
+                                            <a class="Line" href=""
+                                               style="color: #ffffff;display: inline-block;width: 32px;height: 32px;line-height: 1;text-decoration: none;font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;word-wrap: break-word;-ms-text-size-adjust: 100%;font-weight: normal;"
+                                               size="0">
+                                                <img border="0"
+                                                     src="https://gallery.mailchimp.com/f04517aa61974d26934423483/images/c7b7842a-37ec-4eef-9345-d134a99a4333.png"
+                                                     alt="LINE"
+                                                     style="-webkit-text-size-adjust: none;width: 100%;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;height: auto !important;">
+                                            </a>
+                                            <a class="fb" href="https://www.facebook.com/ilovepinkoi"
+                                               style="color: #ffffff;display: inline-block;width: 32px;height: 32px;line-height: 1;text-decoration: none;font-family: 'Helvetica', sans-serif;-webkit-text-size-adjust: none;word-wrap: break-word;-ms-text-size-adjust: 100%;font-weight: normal;">
+                                                <img border="0"
+                                                     src="https://gallery.mailchimp.com/f04517aa61974d26934423483/images/594f5f36-6589-4479-8f3c-85873328a67b.png"
+                                                     alt="Facebook"
+                                                     style="-webkit-text-size-adjust: none;width: 100%;border: 0;outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;height: auto !important;">
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <table align="center" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer"
+                       style="border-collapse: collapse;-ms-text-size-adjust: 100%;-webkit-text-size-adjust: 100%;">
+                    <tbody>
+                        <tr>
+                            <td valign="top" class="mcnTextContent"
+                                style="padding: 0 18px 24px 18px;text-align: center;-webkit-text-size-adjust:100%;color: #66666a;font-size: 14px;line-height: 125%;"
+                                align="center">
+                                <div style="text-align: center">
+                                    <span class="s1" style="color: #ffffff;line-height:16px">
+                                        Copyright
+                                        ©&nbsp;2019
+                                        Fancy.
+                                        All
+                                        rights
+                                        reserved.<br><br><br>
+                                    </span>
+                                    <span class="s1"
+                                          style="text-decoration: underline;color: #ffffff">fancydayevery@gmail.com</span>
+
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+
+

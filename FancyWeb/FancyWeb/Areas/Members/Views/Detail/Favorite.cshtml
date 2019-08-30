@@ -1,0 +1,374 @@
+﻿
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .favorMain {
+        height: 470px;
+        overflow: auto;
+    }
+
+    .img-items {
+        position: relative;
+        height: 150px;
+        background-size: cover;
+        background-position: center;
+    }
+
+        .img-items:hover .heart-icon {
+            display: block;
+        }
+
+    .card .item-name, .card .item-price {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        font-size: 1.5rem;
+        font-weight: 700;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card .item-title {
+        color: rgba(0,0,0,.5);
+        padding-top: 15px;
+        padding-bottom: 15px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .card .item-company {
+        text-align: center;
+    }
+
+    .card .item-title:hover {
+        color: #bcab8f;
+    }
+
+    .title_p {
+        border-left: 5px solid gray;
+    }
+
+    .hrborder {
+        border: 2px solid gray;
+    }
+
+    .card .little-icon {
+        position: absolute;
+        top: 0;
+        left: 10px;
+        padding: 5px;
+        writing-mode: vertical-rl;
+        color: #fff;
+        background: #d9534f;
+        letter-spacing: 5px;
+        font-weight: bold;
+        z-index: 10;
+    }
+
+    .card .heart-icon {
+        position: absolute;
+        display: none;
+        content: '';
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background-color: rgba(255,255,255,0.2);
+        z-index: 10;
+    }
+
+        .card .heart-icon i {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        .card .heart-icon .fa-heart {
+            color: red;
+        }
+
+    .my-input-group {
+        display: flex;
+    }
+
+    .btn-favosearch {
+        background-color: #393b3e;
+    }
+
+    .search-field {
+        position: relative;
+        width: 150px;
+    }
+
+        .search-field select {
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .search-field .select-block {
+            position: absolute;
+            background-color: white;
+            cursor: pointer;
+            left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0
+        }
+
+            .search-field .select-block i {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+            }
+
+    .custom-control-label::before {
+        position: absolute;
+        top: .19rem;
+        left: -2rem;
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        pointer-events: none;
+        content: "";
+        background-color: #fff;
+        border: #adb5bd solid 1px;
+    }
+
+    .custom-control-label::after {
+        position: absolute;
+        top: .19rem;
+        left: -2rem;
+        display: block;
+        width: 1.5rem;
+        height: 1.5rem;
+        content: "";
+        background: no-repeat 50%/50% 50%;
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::before {
+        color: #fff;
+        border: 0;
+        background-color: #343538;
+    }
+
+    .custom-checkbox .custom-control-label::before {
+        border-radius: 0;
+    }
+
+    #filter-container {
+        height: 470px;
+        overflow: auto;
+    }
+
+    .custom-control-label {
+        display: flex;
+        justify-content: space-between;
+    }
+</style>
+@model FancyWeb.Areas.Members.ViewModels.FavoriteViewModel
+<div class="w-100  flipInBottom">
+    <div class="text-left title_p mb-3 d-flex justify-content-between">
+        <h2 class="mb-0">我的收藏</h2>
+        <div class="my-input-group w-25">
+            <input id="search_input" class="my-input w-100" type="text">
+            <button id="forgot_Eb" class="btn btn-favosearch text-white rounded-0" type="button">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
+        <div class="search-field">
+            <div class="select-block border p-2 text-center">
+                <strong class="">依加入順序</strong>
+                <i class="fas fa-sort"></i>
+            </div>
+            <select class="w-100 h-100">
+                <option data-value='{"orderby":"","sortby":""}'>依加入順序</option>
+                <option data-value='{"orderby":"desc","sortby":"price"}'>價格由高至低</option>
+                <option data-value='{"orderby":"asc","sortby":"price"}'>價格由低至高</option>
+            </select>
+        </div>
+    </div>
+    <hr />
+    @*<div class="hrborder col-12"></div>*@
+    <div class="row">
+        <div id="filter-container" class="col-md-3 style-1">
+            <div class="filter-block">
+                <h4 class="p-2 text-white bg-dark text-center shadow">衣服供應商</h4>
+                <div class="chekbox_list p-3">
+                    <ul>
+                        @foreach (var item in Model.CompanyCount())
+                        {
+                            <li>
+                                <div class="custom-control custom-checkbox my-2">
+                                    <input type="checkbox" name="companyfilter" value="@item.Key.Split('-')[1]" class="custom-control-input" id="@item.Key">
+                                    <label class="custom-control-label w-100" for="@item.Key">
+                                        <span>@item.Key.Split('-')[0]</span>
+                                        <span>(@item.Value)</span>
+                                    </label>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="filter-block">
+                <h4 class="p-2 text-white bg-dark text-center shadow">活動分類</h4>
+                <div class="chekbox_list p-3">
+                    <ul>
+                        @foreach (var item in Model.ActivityCount())
+                        {
+                            <li>
+                                <div class="custom-control custom-checkbox my-2">
+                                    <input type="checkbox" name="activtyfilter" value="@item.Key.Split('-')[1]" class="custom-control-input" id="@item.Key">
+                                    <label class="custom-control-label w-100" for="@item.Key">
+                                        <span>@item.Key.Split('-')[0]</span>
+                                        <span>
+                                            (@item.Value)
+                                        </span>
+                                    </label>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row favorMain w-100 col-md-9 style-1">
+            @foreach (var item in Model.Favorlist)
+            {
+                <div class="col-md-4  mb-4">
+                    <div class="card rounded-0 shadow">
+                        @if (item.Activity != null)
+                        {
+                            <div class="little-icon bg-danger">
+                                @item.Activity.Split('-')[0]
+                            </div>
+                        }
+                        <div class="img-items" style="background-image: url('/ProductDisplay/Product/ByteImage/@item.ProductID');">
+                            <div class="heart-icon">
+                                <i data-fv="@item.FavoriteID" class="fas fa-heart fa-lg"></i>
+                                @*<i class="far fa-heart fa-lg"></i>*@
+                            </div>
+                        </div>
+                        <a href="~/ProductDisplay/Product/GetProductDetail/@item.ProductID">
+                            <div class="text-center">
+                                <div class="col item-title">@item.ProductName</div>
+                            </div>
+                        </a>
+                        <div class="d-flex text-center border-top font-weight-bold">
+                            @if (item.Discount != 1)
+                            {
+                                <strong class="col item-name"><del>NT$: @item.UnitePrice</del></strong>
+                                string s = (Math.Floor((@item.UnitePrice * @item.Discount)).ToString("C0"));
+                                <strong class="col item-price text-danger">@s</strong>
+                            }
+                            else
+                            {
+                                <strong class="col item-name">NT$: @item.UnitePrice</strong>
+                            }
+                        </div>
+                        <div class="col item-company py-3 border-top">@item.CompanyName.Split('-')[0]</div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script>
+    var filterClass = {
+        "companyfilter": [],
+        "activtyfilter": [],
+        "orderby": "",
+        "Keyword":""
+    };
+    $("#search_input").keyup(function () {
+        filterClass.Keyword = $(this).val();
+        filterPOST(filterClass);
+    });
+    $(".search-field select").change(function (e) {
+        $(".select-block strong").text($(this).find(":selected").text())
+        filterClass.orderby = $(this).find(":selected").data("value").orderby;
+        filterPOST(filterClass);
+    });
+    $("input[name='companyfilter']").on("click", function () {
+        if ($(this).prop("checked")) {
+            filterClass.companyfilter.push($(this).val());
+            filterPOST(filterClass);
+        } else {
+            filterClass.companyfilter.splice($.inArray($(this).val(), filterClass.companyfilter), 1)
+            filterPOST(filterClass);
+        }
+    });
+    $("input[name='activtyfilter']").on("click", function () {
+        if ($(this).prop("checked")) {
+            filterClass.activtyfilter.push($(this).val());
+            filterPOST(filterClass);
+        } else {
+            filterClass.activtyfilter.splice($.inArray($(this).val(), filterClass.activtyfilter), 1)
+            filterPOST(filterClass);
+        }
+    });
+    $(".favorMain").on("click", "i", function () {
+        $(this).toggleClass("fas").toggleClass("far");
+        let fvid = $(this).data("fv");
+        console.log(fvid);
+        if (!($(this).hasClass("fas"))) {
+            $.post("@Url.Action("RemoveFV", "Detail",new { area = "Members" })", { fvid: fvid }).done(function (data) {
+                console.log(data);
+            });
+        }
+    });
+
+    var filterPOST = function (filterClass) {
+        let favoritem = $(document.createDocumentFragment());
+        let loaddiv = $("<div>").addClass("d-flex justify-content-center align-items-center w-100 h-100");
+        let load = "<div class='spinner-border text-secondary' role='status'></div>"
+        loaddiv.append(load)
+        $(".favorMain").html(loaddiv);
+           $.ajax({
+             url: `@Url.Action("FavoriteFilter","Detail",new { area = "Members" })`,
+             type: 'POST',
+             contentType: 'application/json',
+             data: JSON.stringify(filterClass),
+             success: function (data) {
+                 $.each(data, function (index, value) {
+                     let div = $("<div>").addClass("col-md-4  mb-4");
+                     let div1 = $("<div>").addClass("card rounded-0 shadow");
+                     let div2 = $("<div>").addClass("little-icon bg-danger");
+                     if (value.Activity != null) {
+                         div2.text(value.Activity.split('-')[0])
+                         div1.append(div2);
+                     }
+                     let div3 = $("<div>").addClass("img-items").css("background-image", `url('/ProductDisplay/Product/ByteImage/${value.ProductID}')`);
+                     let div4 = $("<div>").addClass("heart-icon");
+                     let i1 = $("<i>").addClass("fas fa-heart fa-lg").attr("data-fv", value.FavoriteID);
+                     div3.append(div4.append(i1));
+                     div1.append(div3);
+                     let a1 = $("<a>").attr("href", "@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/" + value.ProductID);
+                     let div5 = $("<div>").addClass("text-center").append($("<div>").addClass("col item-title").text(value.ProductName));
+                     a1.append(div5);
+                     div1.append(a1);
+                     let div6 = $("<div>").addClass("d-flex text-center border-top font-weight-bold");
+                     if (value.Discount != 1) {
+                         let s1 = `<strong class='col item-name'><del>NT$: ${value.UnitePrice}</del></strong>`
+                         let s2 = `<strong class='col item-price text-danger'>NT$: ${Math.floor(value.UnitePrice * value.Discount)}</strong>`
+                         div6.append(s1);
+                         div6.append(s2);
+                     } else {
+                         let s1 = `<strong class='col item-name'>NT$: ${value.UnitePrice}</strong>`
+                         div6.append(s1);
+                     }
+                     div1.append(div6);
+                     div1.append($("<div>").addClass("col item-company py-3 border-top").text(value.CompanyName.split('-')[0]));
+                     div.append(div1);
+                     favoritem.append(div);
+                 });
+                 $(".favorMain").html(favoritem);
+             }
+         });
+    };
+
+</script>

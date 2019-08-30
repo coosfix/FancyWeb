@@ -1,0 +1,67 @@
+﻿@model FancyWeb.Areas.Backend.ViewModels.ActivityViewModel
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="row">
+    <div class="offset-2 col-10">
+        <h2 style="color:blue; width:400px;">活動新增</h2>
+    </div>
+</div>
+<div class="container">
+    <hr />
+    @using (Html.BeginForm("Create", "Activity", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate" }))
+    {
+        @*@Html.HiddenFor(p => p.ActivityID)*@
+
+        <div class="form-group row">
+            @Html.LabelFor(p => p.ActivityName, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.ActivityName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入活動名稱" } })
+                @Html.ValidationMessageFor(p => p.ActivityName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.BeginDate, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.BeginDate, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入生效日期(起)" } })
+                @Html.ValidationMessageFor(p => p.BeginDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.EndDate, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+            <div class="col-sm-10">
+                @Html.EditorFor(p => p.EndDate, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入生效日期(迄)" } })
+                @Html.ValidationMessageFor(p => p.EndDate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(p => p.DiscountID, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @{
+                    var discounts = new SelectList(ViewBag.datas, "DiscountID", "DiscountName");
+                }
+                @Html.DropDownListFor(p => p.DiscountID, discounts, "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(p => p.DiscountID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group row">
+            <div class="offset-sm-4 col-sm-8">
+                <input type="submit" value="存檔" class="btn btn-success" />
+            </div>
+        </div>
+    }
+    <hr />
+
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div>
+        @Html.ActionLink("返回", "Index", "Activity", new { area = "Backend", page = @TempData["savepage"] }, null)
+    </div>
+</div>
+
+
+
+
+
