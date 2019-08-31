@@ -29,7 +29,7 @@ namespace FancyWeb.Areas.Management.Service
             dashboard.MemberGender = gender;
             var pupp = db.OrderDetails.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString())
                        .GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).Take(3).ToList();
-            if (pupp != null)
+            if (pupp.Count != 0)
             {
                 foreach (var item in pupp)
                 {
@@ -42,7 +42,7 @@ namespace FancyWeb.Areas.Management.Service
                     });
                 }
             }
-            var rO = db.OrderHeaders.Where(n => n.OrderStatusID == 1).OrderByDescending(n => n.CreateDate).Take(3).ToList();
+            var rO = db.OrderHeaders.Where(n => n.OrderStatusID == 1).OrderByDescending(n => n.CreateDate).Take(5).ToList();
             dashboard.recentOrders = rO;
             var Ev = db.ProductEvaluations.OrderByDescending(n => n.EvaluationDate).Take(10);
             List<EvaluationViewModel> Evlist = new List<EvaluationViewModel>();
@@ -141,7 +141,7 @@ namespace FancyWeb.Areas.Management.Service
         public RegionSell RegionSell()
         {
             var regionsell = db.OrderDetails.AsEnumerable().Where(n => n.OrderHeader.OrderStatusID == 2
-            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.ToString("yyyy/MM"))
+            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.Month.ToString()+"月")
             .Select(n => new
             {
                 n.Key,

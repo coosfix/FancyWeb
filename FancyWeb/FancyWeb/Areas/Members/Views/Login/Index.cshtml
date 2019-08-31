@@ -70,7 +70,13 @@
                             <a href="@Url.Action("OAuthLogin",new { Method="Facebook"})" class="btn btn-FB btn-block text-white rounded-0"><i class="fab fa-facebook-f fa-lg mr-2"></i>登入</a>
                             <a href="@Url.Action("OAuthLogin",new { Method="LINE"})" class="btn btn-Line btn-block text-white rounded-0"><i class="fab fa-line fa-lg mr-2"></i>登入</a>
                             <a href="@Url.Action("OAuthLogin",new { Method="Google"})" class="btn btn-Google btn-block rounded-0"><i class="fab fa-google fa-lg mr-2"></i>登入</a>
+                            <div class="btn-group mt-5" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-outline-primary">一般會員</button>
+                                <button type="button" class="btn btn-outline-info">管理員</button>
+                                <button type="button" class="btn btn-outline-warning">客服中心</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -84,8 +90,9 @@
                 <div class="title_img">
                     <h1>註冊</h1>
                 </div>
-                <p id="message" class="text-danger"></p>
+
                 <form class="mt-2 w-100 needs-validation" id="regpost" novalidate>
+                    <div class="rblock"></div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="rUserName">使用者名稱</label>
@@ -141,16 +148,23 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input" required>
-                            <label class="custom-control-label" for="gender1">男</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline w-100">
-                            <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input" required>
-                            <label class="custom-control-label" for="gender2">女</label>
-                            <div class="invalid-tooltip">
-                                請輸入正確資料
+                        <div class="form-group col-3">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input" required>
+                                <label class="custom-control-label" for="gender1">男</label>
                             </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <div class="custom-control custom-radio custom-control-inline w-100">
+                                <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input" required>
+                                <label class="custom-control-label" for="gender2">女</label>
+                                <div class="invalid-tooltip">
+                                    請選擇性別
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <button id="Demo" type="button" class="btn btn-info btn-block Demo">Demo</button>
                         </div>
                     </div>
 
@@ -234,6 +248,8 @@
         </li>
 
     </ul>
+
+    <div id="message" class="rounded p-4 text-white bg-danger d-flex justify-content-center align-items-center font-weight-bold"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -245,13 +261,41 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="~/Areas/Members/Content/pushbar/pushbar.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+
+    <script>
+        //demo
+        $(".btn-outline-primary").click(function () {
+            $("#UserName").val("Mary");
+            $("#Password").val("123");
+        });
+        $(".btn-outline-info").click(function () {
+            $("#UserName").val("Jay");
+            $("#Password").val("222");
+        });
+        $(".btn-outline-warning").click(function () {
+            $("#UserName").val("Service");
+            $("#Password").val("123");
+        });
+        $("#Demo").click(function () {
+            $(".rblock").css("transform", "translateX(0)");
+
+            setTimeout(function () {
+                $("#rUserName").val("Tom");
+                $("#rUserPassword").val("222");
+                $("#rPhone").val("0979325992");
+                $("#rEmail").val("email@gmail.com");
+                $("#rAddress").val("合順街八巷三弄十七號99樓");
+                $("#gender2").attr("checked", true);
+                $(".rblock").css("transform", "translateX(-100%)");
+            }, 500)
+        });
+    </script>
     <script>
         (function () {
             'use strict';
             window.addEventListener('load', function () {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
-                var forms2 = document.getElementById('regpost');
                 var formsbutton = document.getElementById('Register_post');
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function (form) {
@@ -272,7 +316,6 @@
                         forms2.classList.add('was-validated');
                     }, false);
                 });
-
             }, false);
         })();
     </script>
@@ -333,7 +376,12 @@
             })
             $("#Register_post").click(function () {
                 $.post(`@Url.Action("Register")`, $("#regpost").serialize(), function (data) {
-                    $("#message").html(data);
+                    let mss = $("#message");
+                    mss.html(data);
+                    mss.toggleClass("active");
+                    setTimeout(function () {
+                        mss.toggleClass("active");
+                    },3000);
                     if (data === "成功") {
                         $("#backtoLogin").trigger('click');
                     }
@@ -378,9 +426,6 @@
                     if (data == "done") {
                      $("#awd").html("<h4>新密碼已寄出，準備跳轉。</h4>");
                         $("#forgot_Account .wrapper").toggleClass("d-none");
-                        setInterval(function () {
-
-                        },1000);
                         setTimeout(function () {
                             window.location.href = "https://mail.google.com";
                         },2000);

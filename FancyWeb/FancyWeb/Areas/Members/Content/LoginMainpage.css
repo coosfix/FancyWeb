@@ -468,8 +468,39 @@ footer a {
         padding-left: 5px;
     }
 
-@keyframes youtubeAnim {
-    0%,100% {
+.invalid-tooltip{
+    font-size:0.8rem;
+}
+#regpost{
+    position:relative;
+    overflow:hidden;
+}
+.rblock{
+    position:absolute;
+    content:'';
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    transform:translateX(-100%);
+    background-color:black;
+    transition:all .3s;
+    z-index:99;
+}
+#message {
+    min-width: 30vh;
+    position: absolute;
+    top: 5rem;
+    right: 0;
+    transition: all .3s;
+    transform: translateX(100%);
+}
+    #message.active {
+        right: 10px;
+        transform: translateX(0);
+    }
+    @keyframes youtubeAnim {
+        0%,100% {
         color: #c9110f;
     }
 
