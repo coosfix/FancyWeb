@@ -493,12 +493,28 @@ footer a {
     top: 5rem;
     right: 0;
     transition: all .3s;
+    visibility: hidden;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
     transform: translateX(100%);
 }
     #message.active {
         right: 10px;
+        visibility: visible;
+        animation: fadeInOut 3s;
         transform: translateX(0);
     }
+
+@keyframes fadeInOut {
+    5%,95% {
+        opacity: 1;
+        right: 50px
+    }
+
+    15%,85% {
+        opacity: 1;
+        right: 30px
+    }
+}
     @keyframes youtubeAnim {
         0%,100% {
         color: #c9110f;

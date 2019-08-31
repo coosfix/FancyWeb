@@ -4,7 +4,7 @@
 
 
 body {
-    overflow-x: hidden;
+
 }
 
 .products_items a {
@@ -36,7 +36,6 @@ body {
     }
 
 .banner:before, .banner:after {
-    /*content: "";*/
     position: absolute;
     width: 655px;
     background-color: white;
@@ -245,7 +244,8 @@ body {
         bottom: 0;
     }
 
-@keyframes jumps{
+
+@keyframes jumps {
     0% {
         bottom: 10px;
     }

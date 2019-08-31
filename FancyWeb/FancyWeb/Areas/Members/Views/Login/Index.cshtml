@@ -31,13 +31,11 @@
                             <div class="title_img">
                                 <h1>Fancy</h1>
                             </div>
-                            <form class="mt-2 w-100 needs-validation" method="post" novalidate>
+                            <form id="todologin" class="mt-2 w-100">
                                 <div class="form-group">
                                     <label for="UserName">使用者帳號</label>
                                     <input type="text" class="form-control" id="UserName" name="UserName" placeholder="請輸入你的帳號" required>
-                                    <div class="valid-tooltip">
-                                        看起來可以
-                                    </div>
+
                                     <small class="form-text text-muted">
                                         我們不會告訴任何人您的資料，請您放心。
                                     </small>
@@ -45,16 +43,14 @@
                                 <div class="form-group">
                                     <label for="Password">使用者密碼</label>
                                     <input type="password" class="form-control" id="Password" name="Password" placeholder="密碼" required>
-                                    <div class="valid-tooltip">
-                                        看起來可以
-                                    </div>
+
                                 </div>
 
                                 <div class="custom-control custom-checkbox my-2">
                                     @Html.CheckBox("AutoLogin", new { @class = "custom-control-input", id = "AutoLogin" })
                                     <label class="custom-control-label" for="AutoLogin">保持登入</label>
                                 </div>
-                                <button type="submit" class="btn btn-Fancy btn-block text-white p-2">登入</button>
+                                <button id="loginbutton" type="button" class="btn btn-Fancy btn-block text-white p-2">登入</button>
                                 <div class="d-flex w-100 mt-2">
                                     <a id="register" href="#" class="btn btn-Fancy w-50 text-white border-right">加入我們</a>
                                     <a href="" data-pushbar-target="top" class="btn btn-Fancy w-50 text-white">忘記密碼</a>
@@ -291,6 +287,7 @@
         });
     </script>
     <script>
+        //驗證
         (function () {
             'use strict';
             window.addEventListener('load', function () {
@@ -361,7 +358,7 @@
                 window.open(`https://twitter.com/intent/tweet?hashtags=Fancy&text=分享這項商品到你的朋友圈吧!&url=${url}&via=twitterdev`, "Tweet Share",
                     `top=${y},left=${x},width=500,height=500`);
             });
-
+            //city
             $.getJSON("@Url.Action("ReturnCity","Login")", function (data) {
             let Citylist = $(document.createDocumentFragment());
             $.each(data, function (index, value) {
@@ -374,19 +371,45 @@
                 let cid = $(this).val();
                 getRegion(cid);
             })
+            //登入
+            $("#loginbutton").click(function () {
+                let lgdata = $("#todologin").serialize();
+                let mss = $("#message");
+                $.post("@Url.Action("Index")", lgdata, function (data) {
+                    switch (data) {
+                        case "none":
+                            MessageBox("欄位不能為空");
+                            break;
+                        case "nologin":
+                            MessageBox("帳號密碼錯誤");
+                            break;
+                        case "noenabled":
+                            MessageBox("你的帳號已被黑名單");
+                            break;
+                        default:
+                            window.location = data;
+                            break;
+                    }
+                });
+            });
+            //註冊
             $("#Register_post").click(function () {
                 $.post(`@Url.Action("Register")`, $("#regpost").serialize(), function (data) {
-                    let mss = $("#message");
-                    mss.html(data);
-                    mss.toggleClass("active");
-                    setTimeout(function () {
-                        mss.toggleClass("active");
-                    },3000);
+                    MessageBox(data);
                     if (data === "成功") {
                         $("#backtoLogin").trigger('click');
                     }
                     });
             });
+
+            function MessageBox(mess) {
+                let mss = $("#message");
+                mss.html(mess);
+                mss.toggleClass("active");
+                setTimeout(function () {
+                    mss.removeClass("active");
+                }, 2000);
+            }
             function getRegion(cid) {
                 $.getJSON("@Url.Action("ReturnRegion", "Login")?cid=" + cid, function (data) {
                 let Regionlist = $(document.createDocumentFragment());
@@ -397,6 +420,8 @@
                 $("#Region").html(Regionlist);
             });
             }
+
+            //忘記密碼
             $("#forgot_Eb").click(function () {
                 $.post(`@Url.Action("ForgotPw_step1")`, { Email: $("#forgot_Email input").val() }, function (data) {
                     if (data == "done") {

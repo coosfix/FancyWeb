@@ -12,17 +12,22 @@ namespace FancyWeb.Areas.Members.Service
         private FancyStoreEntities db = new FancyStoreEntities();
         public static string upid { get; set; }
         #region 登入確認
-        public bool LoginCheck(string UserName, string Password)
+        public string LoginCheck(string UserName, string Password)
         {
             if (db.Users.Any(m => m.UserName == UserName))
             {
                 User LoginUser = db.Users.Where(m => m.UserName == UserName).FirstOrDefault();
                 byte[] pw = MemberMethod.HashPw(Password, LoginUser.GUID);
                 upid = LoginUser.UserID.ToString();
-                return BitConverter.ToString(pw) == BitConverter.ToString(LoginUser.UserPassword)
-                    && LoginUser.VerificationCode==String.Empty;
+                if (!LoginUser.Enabled) return "noenabled";
+                if (BitConverter.ToString(pw) == BitConverter.ToString(LoginUser.UserPassword) &&
+                    LoginUser.VerificationCode == String.Empty)
+                {
+                    return "islogin";
+                }
+                else { return "nologin"; }
             }
-            else { return false; }
+            else { return "nologin"; }
         }
         #endregion
 
@@ -152,7 +157,7 @@ namespace FancyWeb.Areas.Members.Service
         }
         #endregion
         #region 清空驗證
-        public  bool ClearV(string PV)
+        public bool ClearV(string PV)
         {
             var data = db.Users.Where(n => n.VerificationCode == PV).FirstOrDefault();
             if (data == null) return true;
@@ -314,7 +319,7 @@ namespace FancyWeb.Areas.Members.Service
 
             if (filter.OrderDate != null)
             {
-                filterlist = filterlist.Where(n => filter.OrderDate.Contains(n.OrderDate.Year+"/"+n.OrderDate.Month)).ToList();
+                filterlist = filterlist.Where(n => filter.OrderDate.Contains(n.OrderDate.Year + "/" + n.OrderDate.Month)).ToList();
             }
             return filterlist;
         }
@@ -333,7 +338,7 @@ namespace FancyWeb.Areas.Members.Service
                     Size = item.ProductSize.Size.SizeName,
                     QTY = item.OrderQTY,
                     UnitPrice = item.UnitPrice,
-                    subtotal = item.OrderQTY* item.UnitPrice,
+                    subtotal = item.OrderQTY * item.UnitPrice,
                     Freight = item.OrderHeader.PayMethod.Freight,
                 });
             }
