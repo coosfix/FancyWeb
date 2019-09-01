@@ -10,7 +10,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
 {
     public class ActivityController : Controller
     {
-        public FancyStoreEntities db;
+        public FancyStoreEntities db = new FancyStoreEntities();
 
         // GET: ProductDisplay/Activity
         public ActionResult Index()
@@ -19,28 +19,22 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
         }
         public ActionResult Browse(int id = 0)
         {
-            using (db = new FancyStoreEntities())
-            {
-                ViewBag.activityid = id;
-                ViewBag.activityname = db.Activities.Find(id).ActivityName;
-                TempData["activityoid"] = (Request.Cookies["activityoid"] == null) ? "1" : Request.Cookies["activityoid"].Values[0].ToString();
+            ViewBag.activityid = id;
+            ViewBag.activityname = db.Activities.Find(id).ActivityName;
+            TempData["activityoid"] = (Request.Cookies["activityoid"] == null) ? "1" : Request.Cookies["activityoid"].Values[0].ToString();
 
-                return View();
-            }
+            return View();
         }
 
         public ActionResult GetProduct(int id = 0, int orderid = 1)
         {
-            using (db = new FancyStoreEntities())
-            {
-                var preproducts = db.ProductColors.Where(p => p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityID == id && p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityName != null);
+            var preproducts = db.ProductColors.Where(p => p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityID == id && p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityName != null);
 
-                var products = ProductMethod.CreateProductCells(preproducts);
+            var products = ProductMethod.CreateProductCells(preproducts);
 
-                var orderresult = ProductMethod.SetCellsByOrder(products, orderid);
+            var orderresult = ProductMethod.SetCellsByOrder(products, orderid);
 
-                return Json(orderresult.ToList(), JsonRequestBehavior.AllowGet);
-            }
+            return Json(orderresult.ToList(), JsonRequestBehavior.AllowGet);
         }
     }
 }

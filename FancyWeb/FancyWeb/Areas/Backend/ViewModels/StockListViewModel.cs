@@ -41,6 +41,5 @@ namespace FancyWeb.Areas.Backend.ViewModels
         public int ProductSizeID { get; set; }
         public int ProductColorID { get; set; }
         public int PhotoID { get; set; }
-        public int SupplierID { get; set; }
     }
 }
