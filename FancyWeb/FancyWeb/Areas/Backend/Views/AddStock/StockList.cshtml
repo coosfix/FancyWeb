@@ -14,46 +14,99 @@
             <h2 style="color:blue;">商品缺貨明細</h2>
         </div>
     </div>
-</div>
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr>
-            @*<th>@Html.DisplayNameFor(p => p.First().StockID)</th>*@
-            <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
-            <th>@Html.DisplayNameFor(p => p.First().ProductColor)</th>
-            <th>@Html.DisplayNameFor(p => p.First().ProductSize)</th>
-            <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
-            <th>@Html.DisplayNameFor(p => p.First().AddQTY)</th>
-            <th>@Html.DisplayNameFor(p => p.First().StockQTY)</th>
-            <th>@Html.DisplayNameFor(p => p.First().CartQTY)</th>
-            <th>@Html.DisplayNameFor(p => p.First().OrderQTY)</th>
-            <th>@Html.DisplayNameFor(p => p.First().MinStock)</th>
-            <th>商品圖片</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
-        <tr>
-            @*<td>@Html.DisplayFor(p => product.StockID)</td>*@
-            <td>@Html.DisplayFor(p => product.ProductName)</td>
-            <td>@Html.DisplayFor(p => product.ProductColor)</td>
-            <td>@Html.DisplayFor(p => product.ProductSize)</td>
-            <td>@Html.DisplayFor(p => product.SupplierName)</td>
-            <td>@Html.DisplayFor(p => product.AddQTY)</td>
-            <td>@Html.DisplayFor(p => product.StockQTY)</td>
-            <td>@Html.DisplayFor(p => product.CartQTY)</td>
-            <td>@Html.DisplayFor(p => product.OrderQTY)</td>
-            <td>@Html.DisplayFor(p => product.MinStock)</td>
-            <td>
-                <img src="@Url.Action("GetImageByte","AddStock",new { id=product.PhotoID})" class="card-img-top" style="width:60px;height:60px">
-            </td>
-            <td><a href="~/Backend/AddStock/Edit/@product.StockID" class="btn btn-primary">修改</a></td>
-        </tr>
-        }
-    </tbody>
-</table>
 
-@Html.PagedListPager(Model, page => Url.Action("StockList", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
+            <tr>
+                @*<th>@Html.DisplayNameFor(p => p.First().StockID)</th>*@
+                <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
+                <th>商品圖片</th>
+                <th>@Html.DisplayNameFor(p => p.First().ProductColor)</th>
+                <th>@Html.DisplayNameFor(p => p.First().ProductSize)</th>
+                <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().AddQTY)</th>
+                <th>@Html.DisplayNameFor(p => p.First().StockQTY)</th>
+                <th>@Html.DisplayNameFor(p => p.First().CartQTY)</th>
+                <th>@Html.DisplayNameFor(p => p.First().OrderQTY)</th>
+                <th>@Html.DisplayNameFor(p => p.First().MinStock)</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    @*<td>@Html.DisplayFor(p => product.StockID)</td>*@
+                    <td>@Html.DisplayFor(p => product.ProductName)</td>
+                    <td>
+                        <img src="@Url.Action("GetImageByte","AddStock",new { id=product.PhotoID})" class="card-img-top" style="width:60px;height:60px">
+                    </td>
+                    <td>@Html.DisplayFor(p => product.ProductColor)</td>
+                    <td>@Html.DisplayFor(p => product.ProductSize)</td>
+                    <td class="act-1" data-toggle="modal" data-target="#myModal" data-spid="@product.SupplierID" data-spname="@product.SupplierName" style="text-decoration:underline; font-size:120%; color:blue; cursor:pointer;">@product.SupplierName</td>
+                    <td style="font-size:120%;color:red;">@product.AddQTY</td>
+                    <td>@Html.DisplayFor(p => product.StockQTY)</td>
+                    <td>@Html.DisplayFor(p => product.CartQTY)</td>
+                    <td>@Html.DisplayFor(p => product.OrderQTY)</td>
+                    <td>@Html.DisplayFor(p => product.MinStock)</td>
+                    <td><a href="~/Backend/AddStock/Edit/@product.StockID" class="btn btn-primary">修改</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @Html.PagedListPager(Model, page => Url.Action("StockList", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+
+
+</div>
+
+
+
+@*彈出視窗*@
+<div class="modal" tabindex="-1" role="dialog" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <p class="modal-title" style="color:blue; font-size:150%;">供應商資訊</p>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3 style="color:maroon;">
+                    <div class="div-act"></div>
+                </h3>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+            //彈出視窗時要做的事
+            var productid = 0;
+        $('.act-1').on('click', function () {
+            $(".modal-title").text($(this).data('spname'));
+                spid = $(this).data('spid');
+                //讀取供應商資料
+                $.getJSON(`@Url.Action("SupplierJson", "AddStock", new { Area = "Backend" })/?spid=${spid}`, function (json) {
+                    var divact = $(".div-act");
+                    var docFrag = $(document.createDocumentFragment());
+                    var str = `<p>電　　話：${json.Phone}</p>`;
+                       str += `<p>傳　　真：${json.Fax}</p>`;
+                       str += `<p>電子郵件：${json.Email}</p>`;
+                       str += `<p>公司地址：${json.Address}</p>`;
+
+                    docFrag.append($(str));
+                    divact.html(docFrag);
+                });
+            });
+
+    </script>
+
+}
 

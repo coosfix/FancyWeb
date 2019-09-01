@@ -317,7 +317,9 @@
             var myid = @ViewBag.uid;
             var myname = "@ViewBag.uname";
             var serviceid = @ViewBag.suid;
-            var servicename = "客服";
+
+            var servicename = "@ViewBag.suname";
+
             var chooseuser = 0;  /*被選擇要talk的userid*/
 
             var chat = $.connection.charHub;   /*宣告連線變數*/
@@ -579,7 +581,8 @@
                 }
                 else {  //一般會員, 則聊天對象預設為Service的ID
                     chooseuser = serviceid;
-                    $("#titlename1").text(servicename);
+                    //$("#titlename1").text(servicename);
+                    $("#titlename1").text("客服專線");
 
                     if ($(`#isread1${serviceid}`).text() != "") {
 
