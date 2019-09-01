@@ -132,51 +132,51 @@
         <div class="container px-4">
             <div id="ramdombar" class="form-row px-2">
                 <div class="col-md-8 px-0">
-                        <div class="form-row mx-0 h-50">
-                            <div class="col-md-6 px-0">
-                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[0].PID)">
-                                    <div class="card-body">
-                                        <h4>@Model.Ramdom[0].PName</h4>
-                                        <h5 class="card-title">@Model.Ramdom[0].CompanyName</h5>
-                                        <p class="card-text">
-                                            @Model.Ramdom[0].Comment
-                                        </p>
-                                        <div class="ui rating" data-max-rating="2">
-                                        </div>
-                                    </div>
-                                    <div class="card-footer mx-1 text-muted text-center border-top-0">
-                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[0].PID" class="btn btn-outline-light">選擇商品</a>
+                    <div class="form-row mx-0 h-50">
+                        <div class="col-md-6 px-0">
+                            <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[0].PID)">
+                                <div class="card-body">
+                                    <h4>@Model.Ramdom[0].PName</h4>
+                                    <h5 class="card-title">@Model.Ramdom[0].CompanyName</h5>
+                                    <p class="card-text">
+                                        @Model.Ramdom[0].Comment
+                                    </p>
+                                    <div class="ui rating" data-max-rating="2">
                                     </div>
                                 </div>
+                                <div class="card-footer mx-1 text-muted text-center border-top-0">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[0].PID" class="btn btn-outline-light">選擇商品</a>
+                                </div>
                             </div>
-                            <div class="col-md-6 px-0">
-                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[1].PID)">
-                                    <div class="card-body">
-                                        <h4>@Model.Ramdom[1].PName</h4>
-                                        <h5 class="card-title">@Model.Ramdom[1].CompanyName</h5>
-                                        <p class="card-text">
-                                            @Model.Ramdom[1].Comment
-                                        </p>
+                        </div>
+                        <div class="col-md-6 px-0">
+                            <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[1].PID)">
+                                <div class="card-body">
+                                    <h4>@Model.Ramdom[1].PName</h4>
+                                    <h5 class="card-title">@Model.Ramdom[1].CompanyName</h5>
+                                    <p class="card-text">
+                                        @Model.Ramdom[1].Comment
+                                    </p>
 
-                                    </div>
-                                    <div class="card-footer text-muted text-center border-top-0">
-                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[1].PID" class="btn btn-outline-light">選擇商品</a>
-                                    </div>
+                                </div>
+                                <div class="card-footer text-muted text-center border-top-0">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[1].PID" class="btn btn-outline-light">選擇商品</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="card text-white bgcover p-3 h-50" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[2].PID)">
-                            <div class="card-body">
-                                <h4>@Model.Ramdom[2].PName</h4>
-                                <h5 class="card-title">@Model.Ramdom[2].CompanyName</h5>
-                                <p class="card-text">
-                                    @Model.Ramdom[2].Comment
-                                </p>
-                            </div>
-                            <div class="card-footer text-muted text-center border-top-0">
-                                <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[2].PID" class="btn btn-outline-light">選擇商品</a>
-                            </div>
+                    </div>
+                    <div class="card text-white bgcover p-3 h-50" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[2].PID)">
+                        <div class="card-body">
+                            <h4>@Model.Ramdom[2].PName</h4>
+                            <h5 class="card-title">@Model.Ramdom[2].CompanyName</h5>
+                            <p class="card-text">
+                                @Model.Ramdom[2].Comment
+                            </p>
                         </div>
+                        <div class="card-footer text-muted text-center border-top-0">
+                            <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[2].PID" class="btn btn-outline-light">選擇商品</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 px-0">
                     <div>
@@ -227,7 +227,6 @@
                 </div>
             </div>
         </div>
-
     </section>
     
     <div class="favBage d-flex justify-content-center align-items-center">
@@ -310,5 +309,6 @@
                 fb.removeClass("active");
             }, 1000);
         }
+
     </script>
 }

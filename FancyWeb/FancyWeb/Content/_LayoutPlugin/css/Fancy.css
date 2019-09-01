@@ -300,7 +300,7 @@ fieldset {
     height: 4vh;
     bottom: 0;
     right: 5%;
-    z-index:999;
+    z-index:2;
     transition: all .3s;
 }
     .clayout.active {
