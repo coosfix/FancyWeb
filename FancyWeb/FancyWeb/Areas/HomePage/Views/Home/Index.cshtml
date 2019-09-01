@@ -9,6 +9,7 @@
     <link href="~/Areas/HomePage/Plugin/slick/slick.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Style/all.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Plugin/slick/slick-theme.css" rel="stylesheet" />
+    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
     @*<link href="~/Areas/HomePage/Style/particles.css" rel="stylesheet" />*@
     @*<link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />*@
 }
@@ -66,7 +67,7 @@
                     {
                         <div data-pid="@item.PID" class="card" style="width: 18rem;">
                             <div style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@item.PID)" class="imgbody bg-cover">
-                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"]!=null? Request.Cookies["upid"].Value:"0"))
+                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"] != null ? Request.Cookies["upid"].Value : "0"))
                                 {
                                     <i class="fas fa-heart"></i>
                                 }
@@ -228,19 +229,149 @@
             </div>
         </div>
     </section>
-    
-    <div class="favBage d-flex justify-content-center align-items-center">
+    <section id="st5" class="px-5 py-2">
+        <div class="title d-flex justify-content-center align-items-center">
+            <a class="d-flex align-items-center" href="https://www.instagram.com/fancydayevery/">
+                <i class="fab fa-instagram fa-2x"></i>
+                <span class="font-weight-bold ml-2">Fancy</span>
+            </a>
+        </div>
+        <div class="slider-body">
+            @for (int i = 0; i < 20; i++)
+            {
+                <div class="card">
+                    <div class="ig-img bg-cover" style="height:200px; background-image:url(https://scontent.cdninstagram.com/vp/d8e7b9ff5098c48003e54bf9d92bc2b0/5DFBB4E5/t51.2885-15/sh0.08/e35/s640x640/67934319_470253220488503_5740013207001792743_n.jpg?_nc_ht=scontent.cdninstagram.com)"></div>
+                </div>
+            }
+        </div>
+        <div class="footer text-center text-white font-weight-bold my-0">
+            <i class="fas fa-hashtag mr-3"></i>fancydayevery
+        </div>
+    </section>
+    <div class="favBage d-flex justify-content-center align-items-center text-white font-weight-bold">
         <i class="far fa-check-circle fa-2x"></i><span>已加入收藏</span>
     </div>
+    <div class="instagram-body">
+        <div class="instagram-box">
+            <div class="row no-gutters">
+                <div class="col-md-8">
+                    <img src="https://scontent.cdninstagram.com/vp/d8e7b9ff5098c48003e54bf9d92bc2b0/5DFBB4E5/t51.2885-15/sh0.08/e35/s640x640/67934319_470253220488503_5740013207001792743_n.jpg?_nc_ht=scontent.cdninstagram.com" class="card-img" alt="...">
+                </div>
+                <div class="col-md-4">
+                    <div class="card-body h-100">
+                        <div class="ig-box-head h-25 d-flex align-items-center justify-content-center flex-column border-bottom">
+                            <p>
+                                <a href="#" target="_blank">
+                                    <i class="fas fa-tags"></i>
+                                    韓國直條紋休閒長版襯衫
+                                </a>
+                            </p>
+                            <p>
+                                <i class="fas fa-tags"></i>
+                                韓國直條紋休閒長版襯衫
+                            </p>
+                            <p>
+                                <i class="fas fa-tags"></i>
+                                韓國直條紋休閒長版襯衫
+                            </p>
+                        </div>
+                        <div class="ui comments h-50 my-0 overflow-auto p-2">
+                            <div class="comment">
+                                <a class="avatar">
+                                    <img src="https://scontent.cdninstagram.com/vp/51707d41bdcf5394840f3e6c8d475e7b/5DF48901/t51.2885-19/s150x150/69565601_510842453005420_7788848287066357760_n.jpg?_nc_ht=scontent.cdninstagram.com">
+                                </a>
+                                <div class="content">
+                                    <a class="author">Elliot Fu</a>
+                                    <div class="metadata">
+                                        <span class="date">2019/08/30</span>
+                                    </div>
+                                    <div class="text">
+                                        <p>This has been very useful for my research. Thanks as well!</p>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="https://scontent.cdninstagram.com/vp/51707d41bdcf5394840f3e6c8d475e7b/5DF48901/t51.2885-19/s150x150/69565601_510842453005420_7788848287066357760_n.jpg?_nc_ht=scontent.cdninstagram.com">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="https://scontent.cdninstagram.com/vp/51707d41bdcf5394840f3e6c8d475e7b/5DF48901/t51.2885-19/s150x150/69565601_510842453005420_7788848287066357760_n.jpg?_nc_ht=scontent.cdninstagram.com">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="https://scontent.cdninstagram.com/vp/51707d41bdcf5394840f3e6c8d475e7b/5DF48901/t51.2885-19/s150x150/69565601_510842453005420_7788848287066357760_n.jpg?_nc_ht=scontent.cdninstagram.com">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comments">
+                                    <div class="comment">
+                                        <a class="avatar">
+                                            <img src="https://scontent.cdninstagram.com/vp/51707d41bdcf5394840f3e6c8d475e7b/5DF48901/t51.2885-19/s150x150/69565601_510842453005420_7788848287066357760_n.jpg?_nc_ht=scontent.cdninstagram.com">
+                                        </a>
+                                        <div class="content">
+                                            <a class="author">Jenny Hess</a>
+                                            <div class="metadata">
+                                                <span class="date">Just now</span>
+                                            </div>
+                                            <div class="text">
+                                                Elliot you are always so right :)
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="h-25 border-top p-3">
+                            <i class="fas fa-heart fa-2x"></i>
+                            <i class="far fa-comment fa-2x ml-3"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
-
 
 @section scripts{
     <script src="~/Areas/HomePage/Plugin/slick/jquery-migrate-1.2.1.min.js"></script>
     @*<script src="~/Areas/HomePage/Plugin/slick/jquery-1.11.0.min.js"></script>*@
     <script src="~/Areas/HomePage/Plugin/slick/slick.js"></script>
     <script src="~/Areas/HomePage/Scripts/all.js"></script>
+    <script src="~/Areas/HomePage/Scripts/InstagramApI.js"></script>
     @*<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>*@
     @*<script src="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.js"></script>*@
     <script>
@@ -310,5 +441,18 @@
             }, 1000);
         }
 
+    </script>
+
+    <script>
+        //instagram 開啟方塊
+        $(".slider-body").on("click", ".card", function () {
+            console.log("hi");
+            $(".instagram-body").toggleClass("active");
+        });
+        $(".instagram-body").click(function (e) {
+            if (e.target === e.currentTarget) {//防止子元素影響到父元素點擊事件
+                $(this).toggleClass("active");
+            }
+        });
     </script>
 }

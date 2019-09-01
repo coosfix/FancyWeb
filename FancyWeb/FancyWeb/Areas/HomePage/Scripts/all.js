@@ -37,4 +37,21 @@
             }
         ]
     });
+    $('.slider-body').slick({
+        slidesToShow: 6,
+        slidesToScroll: 6,
+        arrows: false,
+        responsive: [
+            {
+                breakpoint: 768,
+                settings: {
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    adaptiveHeight: true
+                }
+            }
+        ]
+    });
+
 });
