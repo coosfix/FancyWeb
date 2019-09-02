@@ -72,12 +72,20 @@ namespace FancyWeb.Areas.HomePage.Service
         }
 
         //是否為我的最愛
-        public bool IsFavorite(string uid,string pid)
+        public bool IsFavorite(string uid, string pid)
         {
             int uuid = Int32.Parse(uid);
             int ppid = Int32.Parse(pid);
             return db.MyFavorites.Any(n => n.UserID == uuid && n.ProductID == ppid);
         }
 
+        public string[] IG_HashTagsLink(string[] tags)
+        {
+            for (int i = 0; i < tags.Length; i++)
+            {
+                tags[i] = db.Products.Where(n => tags.Contains(n.ProductName)).Select(n => n.ProductID.ToString()).FirstOrDefault() ?? "";
+            }
+            return tags;
+        }
     }
 }

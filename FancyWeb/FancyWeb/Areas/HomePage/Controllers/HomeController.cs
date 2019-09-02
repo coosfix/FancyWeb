@@ -23,10 +23,18 @@ namespace FancyWeb.Areas.HomePage.Controllers
             int uid = Int32.Parse(Request.Cookies["upid"].Value);
             return service.AddSubFavorite(uid, pid) ? Json("Add") : Json("Sub");
         }
-        public ActionResult InstagrameHashTagLink(string [] tags)
+        public ActionResult InstagrameHashTagLink(string[] tags)
         {
-
-            return Json();
+            string[] pid = service.IG_HashTagsLink(tags);
+            List<string> Link = new List<string>();
+            for (int i = 0; i < pid.Length; i++)
+            {
+                Link.Add(pid[i] != "" ? new UriBuilder(Request.Url)
+                {
+                    Path = Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay", id = pid[i] })
+                }.ToString() : "");
+            }
+            return Json(Link, JsonRequestBehavior.AllowGet);
         }
     }
 }

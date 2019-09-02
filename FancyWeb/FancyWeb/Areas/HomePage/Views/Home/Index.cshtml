@@ -230,11 +230,13 @@
         </div>
     </section>
     <section id="st5" class="px-5 py-2">
-        <div class="title d-flex justify-content-center align-items-center">
+        <div class="title d-flex justify-content-center align-items-center position-relative">
             <a class="d-flex align-items-center" href="https://www.instagram.com/fancydayevery/">
                 <i class="fab fa-instagram fa-2x"></i>
                 <span class="font-weight-bold ml-2">Fancy</span>
             </a>
+            <div class="arrow arrow-first"></div>
+            <div class="arrow arrow-second"></div>
         </div>
         <div class="slider-body">
             <!--ig文章磚-->
@@ -255,21 +257,9 @@
                 <div class="col-md-4">
                     <div class="card-body h-100">
                         <div class="ig-box-head h-25 d-flex align-items-center justify-content-center flex-column border-bottom">
-                            <p>
-                                <a href="#" target="_blank">
-                                    <i class="fas fa-hashtag mr-3"></i>
-                                    韓國直條紋休閒長版襯衫
-                                </a>
-                            </p>
-                            <p>
-                                <a href="#" target="_blank">
-                                    <i class="fas fa-hashtag mr-3"></i>
-                                    韓國直條紋休閒長版襯衫
-                                </a>
-                            </p>
+
                         </div>
                         <div class="ui comments h-55 my-0 overflow-auto p-2">
-
                         </div>
                         <div class="h-20 border-top p-2 text-right">
                             <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
@@ -373,22 +363,28 @@
                 $(".instagram-body").toggleClass("active");
             })
         });
-
-        //製作igbox
-        function Createbox(target, data) {
-            console.log(target);
-            $(".instagram-box .card-img").attr("src", target.images.standard_resolution.url);
-            //hashtag
+        function CreateHashtag(hashtagsArray, datalink) {
             let hashtagsfragme = $(document.createDocumentFragment());
-            for (var tagname of target.tags) {
+            for (var i in hashtagsArray) {
                 hashtagsfragme.append(`<p>
-                                            <a href="#" target="_blank">
+                                            <a href="${datalink[i] === '' ? 'javascript:;' : datalink[i]}" target="${datalink[i] === '' ? '_self' : '_blank'}">
                                             <i class="fas fa-hashtag mr-3"></i>
-                                            ${tagname}
+                                            ${hashtagsArray[i]}
                                             </a>
                                            </p>`)
             }
             $(".ig-box-head").html(hashtagsfragme);
+        }
+        //製作igbox
+        function Createbox(target, data) {
+            $(".instagram-box .card-img").attr("src", target.images.standard_resolution.url);
+            //hashtag
+            let hashtagsArray = target.tags;
+            if (hashtagsArray.length !== 0) {
+                $.post("@Url.Action("InstagrameHashTagLink","Home")", { tags: hashtagsArray }, function (datalink) {
+                    CreateHashtag(hashtagsArray, datalink);
+                })
+            }
             //like comment
             $(".likes").text(target.likes.count)
             $(".igcomment").text(target.comments.count)
@@ -431,7 +427,6 @@
         }
         function ChangeDateFormat(cellval) {
             let date = new Date(parseInt(cellval)*1000);
-            console.log(date);
             let orderd = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
             return orderd;
         }
