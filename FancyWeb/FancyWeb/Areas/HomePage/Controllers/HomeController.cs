@@ -23,5 +23,10 @@ namespace FancyWeb.Areas.HomePage.Controllers
             int uid = Int32.Parse(Request.Cookies["upid"].Value);
             return service.AddSubFavorite(uid, pid) ? Json("Add") : Json("Sub");
         }
+        public ActionResult InstagrameHashTagLink(string [] tags)
+        {
+
+            return Json();
+        }
     }
 }

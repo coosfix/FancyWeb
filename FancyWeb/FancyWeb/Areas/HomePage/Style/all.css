@@ -342,6 +342,12 @@ body {
     margin-right: 0;
     margin-left: 0;
 }
+.h-55 {
+    height: 55% !important;
+}
+.h-20 {
+    height: 20% !important;
+}
 
 @keyframes IGCoreModalShow {
     0% {
