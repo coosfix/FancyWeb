@@ -269,9 +269,12 @@
 
     @if (Request.Cookies["IsLogin"] != null)
     {
-        <div class="clayout">
-            @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
-        </div>
+        if (Request.Cookies["isService"]== null)
+        {
+            <div class="clayout">
+                @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
+            </div>
+        }
     }
 
     <script>
