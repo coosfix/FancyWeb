@@ -98,16 +98,12 @@ namespace FancyWeb.Areas.ProductDisplay.Models
             EvaluationDisplay evaluation;
             foreach (var ordernum in ordernums)
             {
-                string grade = null;
-                for (int i = 1; i <= ordernum.Grade; i++)
-                {
-                    grade+="✩";
-                }
                 evaluation = new EvaluationDisplay
                 {
                     UserPhoto = Convert.ToBase64String(db.Users.Find(ordernum.UserID).Photo.Photo1),
                     Comment = ordernum.Comment,
-                    Grade = grade,
+                    Grade = ordernum.Grade,
+                    Other = 5 - ordernum.Grade,
                     OrderNum = ordernum.OrderNum,
                     EvaluationDate = ordernum.EvaluationDate.ToString("yyyy/MM/dd"),
                     ColorName = db.ProductColors.Where(c => c.ProductID == ordernum.ProductID).FirstOrDefault().Color.ColorName,

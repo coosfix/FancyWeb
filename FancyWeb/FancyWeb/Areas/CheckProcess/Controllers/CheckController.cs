@@ -170,6 +170,7 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
 
                 var orderid = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderID;
                 var ordernum = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderNum;
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
                 OrderDetail orderDetail;
                 foreach (var cartItem in cartItems)
                 {
@@ -184,8 +185,23 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                         CreateDate = DateTime.Now,
                         DiscountID = cartItem.DiscountID
                     };
-                    db.OrderDetails.Add(orderDetail);
+                    orderDetails.Add(orderDetail);
+                    var stockqty = db.ProductStocks.Where(s => s.ProductID == orderDetail.ProductID && s.ProductColorID == orderDetail.ProductColorID && s.ProductSizeID == orderDetail.ProductSizeID).FirstOrDefault().StockQTY;
+                    if (orderDetail.OrderQTY > stockqty)
+                    {
+                        string productname = db.Products.Find(orderDetail.ProductID).ProductName;
+                        UserNotice notice = new UserNotice()
+                        {
+                            UserID = uid,
+                            Comment = $"訂單 [ {ordernum } ] 中 [ {productname} ] 已經為您完成預購，預購商品預計14~30天完成追加到貨，後續將會依序安排出貨，還請留意出貨通知",
+                            IsRead = false,
+                            NoticeDate = DateTime.Now
+                        };
+                        db.UserNotices.Add(notice);
+                        db.SaveChanges();
+                    }
                 }
+                db.OrderDetails.AddRange(orderDetails);
                 db.SaveChanges();
                 var carts = db.Carts.Where(c => c.UserID == uid).ToList();
                 foreach (var cart in carts)
@@ -205,12 +221,6 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
             db = new FancyStoreEntities();
             var final = db.OrderHeaders.Where(o => o.OrderNum == ordernum).FirstOrDefault();
             var details = db.OrderDetails.Where(o => o.OrderHeader.OrderNum == ordernum).ToList();
-            //foreach (var d in details)
-            //{
-            //    d.Product.ProductName,
-            //    d.ProductColor.Color.ColorName,
-            //    d.ProductSize.Size.SizeName
-            //}
             ViewBag.details = details;
             return View(final);
         }

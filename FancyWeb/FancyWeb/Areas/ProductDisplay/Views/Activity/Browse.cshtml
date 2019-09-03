@@ -108,6 +108,10 @@
                 background-color: rgba(217, 207, 191,.7);
                 border-radius: 0 !important;
             }
+
+        #pagelist li {
+            cursor: pointer;
+        }
     </style>
 }
 <div class="row">
@@ -144,7 +148,7 @@
         </div>
         <div class="flex-md-row" id="display">
         </div>
-        <div class="container d-flex justify-content-center " id="pagelist">
+        <div class=" d-flex justify-content-center w-100" id="pagelist">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                 </ul>
@@ -189,10 +193,10 @@
         });
 
         function display(id, oid,page) {
-            $.getJSON(`@Url.Action("GetProduct", "Activity", new { area = "ProductDisplay" })/${id}?orderid=${oid}`, function (datas) {
+            $.getJSON(`@Url.Action("GetProduct", "Activity", new { area = "ProductDisplay" })/${id}?orderid=${oid}&page=${page}`, function (datas) {
                 let Docfrag = $(document.createDocumentFragment());
                 let Docfrag2 = $(document.createDocumentFragment());
-                let count = datas.length;
+                let count = datas.pages;
                 let pages = Math.ceil(count / 16);
                 for (let i = 1; i <= pages; i++) {
                     let apage = $('<a></a>').addClass('page-link').text(`${i}`);
@@ -204,7 +208,7 @@
                 }
                 $('#pagelist ul').html(Docfrag2);
 
-                $.each(datas, function (index, product) {
+                $.each(datas.datas, function (index, product) {
                     let image = `@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`;
                     let Img = $('<img/>').addClass('card-img-top').attr("src", `${image}`);
                     let Lname = $('<h6></h6>').addClass('card-title').text(product.ProductName);
@@ -222,7 +226,7 @@
                     let divcol = $('<div>').addClass('col-md-3 mb-3 p-md-0 pr-md-3');
                     let Acontent = $('<a></a>').attr('href', `@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`).addClass('card border-0 shadow position-relative').append([Img, Sdiv, Sale]);
                     divcol.append(Acontent);
-                    if ((page - 1) * 16 <= index && index < page * 16)
+                    //if ((page - 1) * 16 <= index && index < page * 16)
                     Docfrag.append(divcol);
                 });
                 $('#display').html(Docfrag);

@@ -4,9 +4,19 @@
 }
 @section scripts{
     <style>
+
         * {
             font-family: "微軟正黑體"
         }
+
+        .cbtn {
+            color: white !important;
+            vertical-align: middle;
+        }
+
+            .cbtn:hover {
+                color: crimson !important;
+            }
 
         .process {
             border: 5px solid wheat;
@@ -14,18 +24,18 @@
             border-radius: 50%;
             width: 8rem;
             height: 8rem;
-            background-color: rgb(188, 171, 143);
+            background-color: rgb(217, 207, 191);
         }
 
         .processimg {
             position: absolute;
             font-size: 4.5rem;
-            color: white;
+            color: rgb(88, 89, 91);
             top: 23%;
         }
 
             .processimg.active {
-                color: #db2828;
+                color: rgb(209, 0, 36);
             }
 
                 .processimg.active.done {
@@ -39,14 +49,14 @@
             font-weight: bold;
             top: 120%;
             left: -8%;
-            background-color: rgb(188, 171, 143);
+            background-color: rgb(217, 207, 191);
             border-radius: 1rem;
             width: 115%;
-            color: white;
+            color: rgb(88, 89, 91);
         }
 
             .processtext.active {
-                color: #db2828;
+                color: rgb(209, 0, 36);
             }
 
                 .processtext.active.done {
@@ -56,25 +66,25 @@
         .line {
             position: absolute;
             background-color: rgba(88, 89, 91,0.7);
-            top: 25%;
-            left: 5%;
+            top: 3rem;
+            left: 5rem;
             width: 90%;
-            height: 15%;
+            height: 2rem;
         }
 
         .inline {
             position: absolute;
             background-color: wheat;
-            top: 30%;
-            left: 5%;
-            height: 5%;
+            top: 3.65rem;
+            left: 1rem;
+            height: 0.75rem;
             width: 90%;
             transition: .5s
         }
     </style>
 }
-<div class="container">
-    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+<div class="">
+    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
         <div class="process">
@@ -148,5 +158,8 @@
                 }
             </tbody>
         </table>
+    </div>
+    <div class="text-md-center">
+        <a class="btn btn-dark m-md-3 cbtn" href="@Url.Action("Browse","Product",new {area="ProductDisplay", id=1})" id="last1">繼續購物</a>
     </div>
 </div>

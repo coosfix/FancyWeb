@@ -83,6 +83,10 @@
             vertical-align: middle;
         }
 
+            .cbtn:hover {
+                color: crimson !important;
+            }
+
         .total:before {
             content: "NT$";
         }
@@ -96,7 +100,7 @@
         }
 
         .card-img {
-            height: 200px;
+            height: auto;
             width: 100%;
         }
 
@@ -194,20 +198,20 @@
         .line {
             position: absolute;
             background-color: rgba(88, 89, 91,0.7);
-            top: 25%;
-            left: 5%;
+            top: 3rem;
+            left: 5rem;
             width: 90%;
-            height: 15%;
+            height: 2rem;
         }
 
         .inline {
             position: absolute;
             background-color: wheat;
-            top: 30%;
-            left: 5%;
-            height: 5%;
+            top: 3.65rem;
+            left: 1rem;
+            height: 0.75rem;
             width: 20%;
-            transition: .5s
+            transition: .5s;
         }
 
         .note {
@@ -243,8 +247,9 @@
         }
     </style>
 }
-<div id="top" class="container">
-    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+@*<div id="top" class="container">*@
+<div id="top" class="">
+    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
         <div class="process">
@@ -277,7 +282,8 @@
                         <tr data-pid="@item.ProductID" data-pname="@item.ProductName" data-pcid="@item.ProductColorID" data-cid="@item.ColorID" data-cname="@item.ColorName" data-psid="@item.ProductSizeID" data-sid="@item.SizeID" data-sname="@item.SizeName" data-did="@item.DiscountID" data-price="@item.UnitPrice" data-sprice="@item.SUnitPrice" data-aname="@item.ActivityName">
                             <td class="border-0 px-md-0 py-md-0">
                                 <div class="card">
-                                    <div class="row" style="height:200px;">
+                                    @*<div class="row" style="height:200px;">*@
+                                    <div class="row" style="">
                                         <div class="col-md-2" style="overflow:hidden;">
                                             <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@item.ProductID?colorid=@item.ColorID' class="card-img">
                                         </div>
@@ -414,7 +420,7 @@
     </div>
     @if (ViewBag.recent != null)
     {
-        <h2>最近瀏覽過的商品</h2>
+        <h4>最近瀏覽過的商品</h4>
         <div class="row" id="recent">
             @foreach (var item in ViewBag.recent)
             {
@@ -518,7 +524,8 @@
                 function (datas) {
                     if (datas == 0) {
                         $('#cartlist>tbody>tr').remove();
-                        $('.dropdown>a>div.qty').text(0);
+                        $('#cartqty').text(0);
+                        $('#navcart>h6').text('目前購物車中無商品');
                     }
                     else {
                         generatecart(datas);
