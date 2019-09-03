@@ -11,7 +11,7 @@ body {
     color: #2e90b7;
 }
 
-#st2, #st3, #st4, #st5 {
+#st2, #st3, #st4 {
     margin-top: 10px;
     margin-bottom: 10px;
 }
@@ -36,7 +36,6 @@ body {
     }
 
 .banner:before, .banner:after {
-    /*content: "";*/
     position: absolute;
     width: 655px;
     background-color: white;
@@ -123,10 +122,10 @@ body {
         }
 
 
-            .imgbody i.fa-heart.active {
-                animation-name: jumps;
-                animation-duration: 0.3s;
-            }
+        .imgbody i.fa-heart.active {
+            animation-name: jumps;
+            animation-duration: 0.3s;
+        }
 
     .imgbody:after {
         position: absolute;
@@ -209,9 +208,7 @@ body {
     left: 0;
     top: 0;
     font-family: Arial;
-
     font-weight: 800;
-
     letter-spacing: 1px;
     font-size: 12px;
     padding: 5px;
@@ -222,7 +219,6 @@ body {
 
 .card .card-text {
     height: 40px;
-
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -245,7 +241,130 @@ body {
         bottom: 0;
     }
 
-@keyframes jumps{
+#st5 {
+    background-color: rgb(51, 51, 51)
+}
+
+    #st5 .title {
+        line-height: 60px;
+    }
+
+    #st5 .ig-img {
+        cursor: pointer;
+        position: relative;
+        font-family: "Font Awesome 5 Brands";
+    }
+
+        #st5 .ig-img:hover:after {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 2.5rem;
+            content: '\f16d';
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            transition: all .3s;
+            background-color: rgba(0, 0, 0, 0.50);
+        }
+
+    #st5 .footer {
+        line-height: 60px;
+    }
+
+.instagram-body {
+    position: fixed;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.50);
+    animation: IGCoreModalShow .1s ease-out;
+    z-index: 9999999;
+}
+
+    .instagram-body.active {
+        display: flex;
+    }
+
+    .instagram-body .instagram-box {
+        max-width: 800px;
+        min-height: 30vh;
+        background-color: white;
+    }
+
+.ig-box-head p {
+    text-align: center;
+}
+
+    .ig-box-head p a {
+        position: relative;
+        padding: 5px;
+        font-weight: bold;
+        transition: all .3s;
+        color: #333;
+    }
+
+        .ig-box-head p a:hover {
+            color: white;
+            background-color: #333;
+        }
+
+        .ig-box-head p a:after, .ig-box-head p a:before {
+            position: absolute;
+            content: '';
+            bottom: 0;
+            width: 0;
+            height: 4px;
+            transition: all .5s;
+        }
+
+        .ig-box-head p a:after {
+            left: 50%;
+        }
+
+        .ig-box-head p a:before {
+            right: 50%;
+        }
+
+        .ig-box-head p a:hover::after, .ig-box-head p a:hover::before {
+            background-color: #3aa6d1;
+            width: 50%;
+        }
+
+.row.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+.h-55 {
+    height: 55% !important;
+}
+.h-20 {
+    height: 20% !important;
+}
+
+@keyframes IGCoreModalShow {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(1.2);
+        transform: scale(1.2);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+
+@keyframes jumps {
     0% {
         bottom: 10px;
     }
@@ -269,4 +388,76 @@ body {
     .banner:before, .banner::after {
         display: none;
     }
+}
+.arrow {
+  opacity: 0;
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+}
+
+.arrow-first {
+  -webkit-animation: arrow-movement 2s ease-in-out infinite;
+          animation: arrow-movement 2s ease-in-out infinite;
+}
+
+.arrow-second {
+  -webkit-animation: arrow-movement 2s 1s ease-in-out infinite;
+          animation: arrow-movement 2s 1s ease-in-out infinite;
+}
+
+.arrow:before,
+.arrow:after {
+  background: #fff;
+  content: '';
+  display: block;
+  height: 3px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+}
+
+.arrow:before {
+  -webkit-transform: rotate(-45deg) translateX(-2%);
+          transform: rotate(-45deg) translateX(-2%);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.arrow:after {
+  -webkit-transform: rotate(45deg) translateX(8%);
+          transform: rotate(45deg) translateX(8%);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+@-webkit-keyframes arrow-movement {
+  0% {
+    opacity: 0;
+    left: 90%;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes arrow-movement {
+  0% {
+    opacity: 0;
+    left: 90%;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

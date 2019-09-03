@@ -9,6 +9,7 @@
     <link href="~/Areas/HomePage/Plugin/slick/slick.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Style/all.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Plugin/slick/slick-theme.css" rel="stylesheet" />
+    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
     @*<link href="~/Areas/HomePage/Style/particles.css" rel="stylesheet" />*@
     @*<link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />*@
 }
@@ -66,7 +67,7 @@
                     {
                         <div data-pid="@item.PID" class="card" style="width: 18rem;">
                             <div style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@item.PID)" class="imgbody bg-cover">
-                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"]!=null? Request.Cookies["upid"].Value:"0"))
+                                @if (Model.Favorstatus(item.PID, Request.Cookies["upid"] != null ? Request.Cookies["upid"].Value : "0"))
                                 {
                                     <i class="fas fa-heart"></i>
                                 }
@@ -132,51 +133,51 @@
         <div class="container px-4">
             <div id="ramdombar" class="form-row px-2">
                 <div class="col-md-8 px-0">
-                        <div class="form-row mx-0 h-50">
-                            <div class="col-md-6 px-0">
-                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[0].PID)">
-                                    <div class="card-body">
-                                        <h4>@Model.Ramdom[0].PName</h4>
-                                        <h5 class="card-title">@Model.Ramdom[0].CompanyName</h5>
-                                        <p class="card-text">
-                                            @Model.Ramdom[0].Comment
-                                        </p>
-                                        <div class="ui rating" data-max-rating="2">
-                                        </div>
-                                    </div>
-                                    <div class="card-footer mx-1 text-muted text-center border-top-0">
-                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[0].PID" class="btn btn-outline-light">選擇商品</a>
+                    <div class="form-row mx-0 h-50">
+                        <div class="col-md-6 px-0">
+                            <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[0].PID)">
+                                <div class="card-body">
+                                    <h4>@Model.Ramdom[0].PName</h4>
+                                    <h5 class="card-title">@Model.Ramdom[0].CompanyName</h5>
+                                    <p class="card-text">
+                                        @Model.Ramdom[0].Comment
+                                    </p>
+                                    <div class="ui rating" data-max-rating="2">
                                     </div>
                                 </div>
+                                <div class="card-footer mx-1 text-muted text-center border-top-0">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[0].PID" class="btn btn-outline-light">選擇商品</a>
+                                </div>
                             </div>
-                            <div class="col-md-6 px-0">
-                                <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[1].PID)">
-                                    <div class="card-body">
-                                        <h4>@Model.Ramdom[1].PName</h4>
-                                        <h5 class="card-title">@Model.Ramdom[1].CompanyName</h5>
-                                        <p class="card-text">
-                                            @Model.Ramdom[1].Comment
-                                        </p>
+                        </div>
+                        <div class="col-md-6 px-0">
+                            <div class="card text-white bgcover h-100" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[1].PID)">
+                                <div class="card-body">
+                                    <h4>@Model.Ramdom[1].PName</h4>
+                                    <h5 class="card-title">@Model.Ramdom[1].CompanyName</h5>
+                                    <p class="card-text">
+                                        @Model.Ramdom[1].Comment
+                                    </p>
 
-                                    </div>
-                                    <div class="card-footer text-muted text-center border-top-0">
-                                        <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[1].PID" class="btn btn-outline-light">選擇商品</a>
-                                    </div>
+                                </div>
+                                <div class="card-footer text-muted text-center border-top-0">
+                                    <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[1].PID" class="btn btn-outline-light">選擇商品</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="card text-white bgcover p-3 h-50" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[2].PID)">
-                            <div class="card-body">
-                                <h4>@Model.Ramdom[2].PName</h4>
-                                <h5 class="card-title">@Model.Ramdom[2].CompanyName</h5>
-                                <p class="card-text">
-                                    @Model.Ramdom[2].Comment
-                                </p>
-                            </div>
-                            <div class="card-footer text-muted text-center border-top-0">
-                                <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[2].PID" class="btn btn-outline-light">選擇商品</a>
-                            </div>
+                    </div>
+                    <div class="card text-white bgcover p-3 h-50" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@Model.Ramdom[2].PID)">
+                        <div class="card-body">
+                            <h4>@Model.Ramdom[2].PName</h4>
+                            <h5 class="card-title">@Model.Ramdom[2].CompanyName</h5>
+                            <p class="card-text">
+                                @Model.Ramdom[2].Comment
+                            </p>
                         </div>
+                        <div class="card-footer text-muted text-center border-top-0">
+                            <a href="~/ProductDisplay/Product/GetProductDetail/@Model.Ramdom[2].PID" class="btn btn-outline-light">選擇商品</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-4 px-0">
                     <div>
@@ -227,21 +228,56 @@
                 </div>
             </div>
         </div>
-
     </section>
-    
-    <div class="favBage d-flex justify-content-center align-items-center">
+    <section id="st5" class="px-5 py-2">
+        <div class="title d-flex justify-content-center align-items-center position-relative">
+            <a class="d-flex align-items-center" href="https://www.instagram.com/fancydayevery/">
+                <i class="fab fa-instagram fa-2x"></i>
+                <span class="font-weight-bold ml-2">Fancy</span>
+            </a>
+            <div class="arrow arrow-first"></div>
+            <div class="arrow arrow-second"></div>
+        </div>
+        <div class="slider-body">
+            <!--ig文章磚-->
+        </div>
+        <div class="footer text-center text-white font-weight-bold my-0">
+            <i class="fas fa-hashtag mr-3"></i>fancydayevery
+        </div>
+    </section>
+    <div class="favBage d-flex justify-content-center align-items-center text-white font-weight-bold">
         <i class="far fa-check-circle fa-2x"></i><span>已加入收藏</span>
     </div>
+    <div class="instagram-body">
+        <div class="instagram-box">
+            <div class="row no-gutters">
+                <div class="col-md-8">
+                    <img src="https://scontent.cdninstagram.com/vp/d8e7b9ff5098c48003e54bf9d92bc2b0/5DFBB4E5/t51.2885-15/sh0.08/e35/s640x640/67934319_470253220488503_5740013207001792743_n.jpg?_nc_ht=scontent.cdninstagram.com" class="card-img" alt="...">
+                </div>
+                <div class="col-md-4">
+                    <div class="card-body h-100">
+                        <div class="ig-box-head h-25 d-flex align-items-center justify-content-center flex-column border-bottom">
+
+                        </div>
+                        <div class="ui comments h-55 my-0 overflow-auto p-2">
+                        </div>
+                        <div class="h-20 border-top p-2 text-right">
+                            <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
+                            <i class="far fa-comment fa-lg mr-2"></i><span class="igcomment"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
-
-
 
 @section scripts{
     <script src="~/Areas/HomePage/Plugin/slick/jquery-migrate-1.2.1.min.js"></script>
     @*<script src="~/Areas/HomePage/Plugin/slick/jquery-1.11.0.min.js"></script>*@
     <script src="~/Areas/HomePage/Plugin/slick/slick.js"></script>
     <script src="~/Areas/HomePage/Scripts/all.js"></script>
+    <script src="~/Areas/HomePage/Scripts/InstagramApI.js"></script>
     @*<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>*@
     @*<script src="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.js"></script>*@
     <script>
@@ -266,11 +302,11 @@
             scale: 0
         })
         sr.reveal('#ramdombar .col-md-6:nth-child(odd)', {
-            delay: 400,
+            delay: 300,
             scale: 0
         })
         sr.reveal('#ramdombar .card', {
-            delay: 600,
+            delay: 200,
             scale: 0
         })
     </script>
@@ -310,5 +346,95 @@
                 fb.removeClass("active");
             }, 1000);
         }
+
+    </script>
+
+    <script>
+        //instagram 開啟方塊
+        $(".slider-body").on("click", ".card", function (e) {
+            let target_id = $(this).data("igdata");
+            let Getcom_url = `https://api.instagram.com/v1/media/${target_id}/comments?access_token=19072223196.792d131.e00ffb369ef84a0983e5fea1c0f9d093`;
+            $.getJSON(Getcom_url, function (data) {
+                let all_comment = data.data;
+                console.log(all_comment);
+                let target = all_ig_data.find(function (item, index, array) {
+                    return item.id === target_id;// 取得目標文章
+                });//取得文章內容
+                Createbox(target, all_comment);
+                $(".instagram-body").toggleClass("active");
+            })
+        });
+        function CreateHashtag(hashtagsArray, datalink) {
+            let hashtagsfragme = $(document.createDocumentFragment());
+            for (var i in hashtagsArray) {
+                hashtagsfragme.append(`<p>
+                                            <a href="${datalink[i] === '' ? 'javascript:;' : datalink[i]}" target="${datalink[i] === '' ? '_self' : '_blank'}">
+                                            <i class="fas fa-hashtag mr-3"></i>
+                                            ${hashtagsArray[i]}
+                                            </a>
+                                           </p>`)
+            }
+            $(".ig-box-head").html(hashtagsfragme);
+        }
+        //製作igbox
+        function Createbox(target, data) {
+            $(".instagram-box .card-img").attr("src", target.images.standard_resolution.url);
+            //hashtag
+            let hashtagsArray = target.tags;
+            if (hashtagsArray.length !== 0) {
+                $.post("@Url.Action("InstagrameHashTagLink","Home")", { tags: hashtagsArray }, function (datalink) {
+                    CreateHashtag(hashtagsArray, datalink);
+                })
+            }
+            //like comment
+            $(".likes").text(target.likes.count)
+            $(".igcomment").text(target.comments.count)
+            //回覆內容
+            let recomm = "";
+            for (var i of data) {
+                recomm += `<div class="comments">
+                                        <div class="comment">
+                                            <a class="avatar">
+                                            </a>
+                                            <div class="content">
+                                                <a class="author">${i.from.username}</a>
+                                                <div class="metadata">
+                                                    <span class="date">${ChangeDateFormat(i.created_time)}</span>
+                                                </div>
+                                                <div class="text">
+                                                    ${i.text}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+            }
+            //留言內容
+            let comm = `<div class="comment">
+                                    <a class="avatar">
+                                        <img src="${target.user.profile_picture}">
+                                    </a>
+                                    <div class="content">
+                                        <a class="author">${target.user.username}</a>
+                                        <div class="metadata">
+                                            <span class="date">${ChangeDateFormat(target.created_time)}</span>
+                                        </div>
+                                        <div class="text">
+                                            <p>${target.caption.text}</p>
+                                        </div>
+                                    </div>
+                                    ${recomm}
+                                </div>`
+            $(".ui.comments").html(comm);
+        }
+        function ChangeDateFormat(cellval) {
+            let date = new Date(parseInt(cellval)*1000);
+            let orderd = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+            return orderd;
+        }
+        $(".instagram-body").click(function (e) {
+            if (e.target === e.currentTarget) {//防止子元素影響到父元素點擊事件
+                $(this).toggleClass("active");
+            }
+        });
     </script>
 }

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -142,21 +142,21 @@
 
             </div>
             @*<footer class="navpanel-footer">
-                <div class="text-muted clearfix text-right">
-                    <span class="navpanel-text pull-left">Footer text</span>
-                    <div class="dropdown dropup inline-block">
-                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">
-                            <i class="navpanel-icon fa fa-th-large"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <a href="#" class="dropdown-item">Profile</a>
-                            <a href="#" class="dropdown-item">Setting</a>
-                            <div class="dropdown-divider"></div>
-                            <a href="#" class="dropdown-item">Log out</a>
-                        </ul>
+                    <div class="text-muted clearfix text-right">
+                        <span class="navpanel-text pull-left">Footer text</span>
+                        <div class="dropdown dropup inline-block">
+                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">
+                                <i class="navpanel-icon fa fa-th-large"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <a href="#" class="dropdown-item">Profile</a>
+                                <a href="#" class="dropdown-item">Setting</a>
+                                <div class="dropdown-divider"></div>
+                                <a href="#" class="dropdown-item">Log out</a>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-            </footer>*@
+                </footer>*@
         </div>
     </nav>
 
@@ -197,10 +197,13 @@
     @RenderSection("scripts", false)
     @if (HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString() != "Main")
     {
-        <div class="clayout blayour">
-            @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
-        </div>
-        <button class="chat__button chat__toggle text-white"><i class="fas fa-comments"></i></button>
+        if (Request.Cookies["isService"]!= null)
+        {
+            <div class="clayout blayour">
+                @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
+            </div>
+            <button class="chat__button chat__toggle text-white"><i class="fas fa-comments"></i></button>
+        }
     }
 
 </body>

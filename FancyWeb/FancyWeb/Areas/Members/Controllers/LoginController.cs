@@ -27,31 +27,39 @@ namespace FancyWeb.Areas.Members.Controllers
         {
             if (UserName == "" || Password == "")
             {
-                ViewBag.Message = "欄位不能為空";
-                return View();
+                return Json("none");
             }
-            if (service.LoginCheck(UserName, Password))
+            string status = service.LoginCheck(UserName, Password);
+            if (status == "islogin")
             {
-                if (AutoLogin)
-                {
-                    addcookie(7);
-                }
-                else
-                {
-                    addcookie(1);
-                }
-
+                if (AutoLogin) addcookie(7); else addcookie(1);
                 if (Session["RequestURL"] != null)
                 {
                     string[] CA = Session["RequestURL"].ToString().Split('-');
-                    return RedirectToAction(CA[1], CA[0]);
+                    UriBuilder url = new UriBuilder(Request.Url)
+                    {
+                        Path = Url.Action(CA[1], CA[0])
+                    };
+                    return Json(url.ToString());
                 }
-                else return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                else
+                {
+                    UriBuilder url = new UriBuilder(Request.Url)
+                    {
+                        Path = Url.Action("Index", "Home", new { area = "HomePage" })
+                    };
+                    return Json(url.ToString());
+                }; 
+            }
+            else if (status == "noenabled")
+            {
+                ViewBag.Message = "你的帳戶已被黑名單";
+                return Json("noenabled");
             }
             else
             {
                 ViewBag.Message = "帳號密碼錯誤";
-                return View();
+                return Json("nologin");
             }
         }
         [HttpPost]
@@ -201,7 +209,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     default:
                         break;
                 }
-                if (service.LoginCheck(UserData["name"], UserData["ID"]))
+                if (service.LoginCheck(UserData["name"], UserData["ID"]) == "islogin")
                 {
                     addcookie(7);
                     HttpCookie userimg = new HttpCookie("userimg")
@@ -210,7 +218,7 @@ namespace FancyWeb.Areas.Members.Controllers
                         Expires = DateTime.Now.AddDays(7)
                     };
                     Response.Cookies.Add(userimg);
-                    return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                    return RedirectToAction("Index", "Home", new { area = "HomePage" });
                 }
                 else
                 {
@@ -239,10 +247,10 @@ namespace FancyWeb.Areas.Members.Controllers
                             Expires = DateTime.Now.AddDays(7)
                         };
                         Response.Cookies.Add(userimg);
-                        return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                        return RedirectToAction("Index", "Home", new { area = "HomePage" });
                     }
                 }
-                return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                return RedirectToAction("Index", "Login", new { area = "Members" });
             }
             else
             {
@@ -270,6 +278,15 @@ namespace FancyWeb.Areas.Members.Controllers
                     Expires = DateTime.Now.AddDays(day)
                 };
                 Response.Cookies.Add(isadmin);
+            }
+            if (service.isService(MemberService.upid))
+            {
+                HttpCookie isService = new HttpCookie("isService")
+                {
+                    Value = MemberService.upid,
+                    Expires = DateTime.Now.AddDays(day)
+                };
+                Response.Cookies.Add(isService);
             }
             Response.Cookies.Add(LoginCookie);
             Response.Cookies.Add(upid);

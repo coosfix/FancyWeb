@@ -162,6 +162,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\HomePage\Scripts\InstagramApI.js" />
     <Content Include="Areas\ProductDisplay\Content\css\GetProductDetail.css" />
     <Content Include="Areas\ProductDisplay\Images\activity_icon.svg" />
     <Content Include="Areas\ProductDisplay\Images\color_icon.svg" />
@@ -729,6 +730,10 @@
     <Content Include="Areas\HomePage\Plugin\slick\slick.less" />
     <Content Include="Areas\HomePage\Plugin\slick\slick.scss" />
     <Content Include="Areas\Backend\Views\Chat\Main.cshtml" />
+    <Content Include="Areas\Rating\Views\Rating\Index.cshtml" />
+    <Content Include="Areas\Rating\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Rating\Views\web.config" />
+    <Content Include="Areas\Rating\Views\_ViewStart.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy1.pubxml" />
@@ -903,6 +908,9 @@
     <Compile Include="Areas\ProductDisplay\ViewModels\EvaluationDisplay.cs" />
     <Compile Include="Areas\ProductDisplay\ViewModels\ProdcutDisplay.cs" />
     <Compile Include="Areas\ProductDisplay\Models\CategoryFilter.cs" />
+    <Compile Include="Areas\Rating\Controllers\RatingController.cs" />
+    <Compile Include="Areas\Rating\RatingAreaRegistration.cs" />
+    <Compile Include="Areas\Rating\ViewModel\RatingProductViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

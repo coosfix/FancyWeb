@@ -27,20 +27,22 @@ namespace FancyWeb.Areas.Management.Service
                 m = n.Where(m => !m.Gender).Count(),
             }).ToDictionary(p => p.Key.ToString(), p => new double[] { p.f, p.m });
             dashboard.MemberGender = gender;
-
             var pupp = db.OrderDetails.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString())
-                       .GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).FirstOrDefault();
-            if (pupp != null)
+                       .GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).Take(3).ToList();
+            if (pupp.Count != 0)
             {
-                var product = db.Products.Find(pupp.Key);
-                dashboard.PopularProducts = new PopularProducts
+                foreach (var item in pupp)
                 {
-                    Pid = product.ProductID,
-                    Pname = product.ProductName,
-                    count = pupp.sum
-                };
+                    var product = db.Products.Find(item.Key);
+                    dashboard.PopularProducts.Add(new PopularProducts
+                    {
+                        Pid = product.ProductID,
+                        Pname = product.ProductName,
+                        count = item.sum
+                    });
+                }
             }
-            var rO = db.OrderHeaders.Where(n => n.OrderStatusID == 1).OrderByDescending(n => n.CreateDate).Take(3).ToList();
+            var rO = db.OrderHeaders.Where(n => n.OrderStatusID == 1).OrderByDescending(n => n.CreateDate).Take(5).ToList();
             dashboard.recentOrders = rO;
             var Ev = db.ProductEvaluations.OrderByDescending(n => n.EvaluationDate).Take(10);
             List<EvaluationViewModel> Evlist = new List<EvaluationViewModel>();
@@ -139,7 +141,7 @@ namespace FancyWeb.Areas.Management.Service
         public RegionSell RegionSell()
         {
             var regionsell = db.OrderDetails.AsEnumerable().Where(n => n.OrderHeader.OrderStatusID == 2
-            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.ToString("yyyy/MM"))
+            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.Month.ToString()+"月")
             .Select(n => new
             {
                 n.Key,

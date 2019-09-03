@@ -9,15 +9,15 @@ namespace FancyWeb.Areas.ProductDisplay.Functions
 {
     public class SearchMethod
     {
-        public static IEnumerable<ProductCell> ClassifyResult(SearchFilters searchFilters)
+        public static IQueryable<ProductCell> ClassifyResult(SearchFilters searchFilters)
         {
             FancyStoreEntities db = new FancyStoreEntities();
 
             IQueryable<ProductColor> preproducts = db.ProductColors.AsQueryable();
 
             var products = ProductMethod.CreateProductCells(preproducts).OrderBy(c => c.ProductID);
-           
-            IEnumerable<ProductCell> result;
+
+            IQueryable<ProductCell> result;
 
             result = products.Where(p => p.ProductName.Contains(searchFilters.Keyword));
 
