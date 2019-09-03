@@ -2,7 +2,7 @@
 @{
     /**/
 
-    ViewBag.Title = "首頁";
+    ViewBag.Title = "Fnacy  |Fancy meeting you here!|💫";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section styles{
@@ -231,7 +231,7 @@
     </section>
     <section id="st5" class="px-5 py-2">
         <div class="title d-flex justify-content-center align-items-center position-relative">
-            <a class="d-flex align-items-center" href="https://www.instagram.com/fancydayevery/">
+            <a class="ig_logo d-flex align-items-center" href="https://www.instagram.com/fancydayevery/" target="_blank">
                 <i class="fab fa-instagram fa-2x"></i>
                 <span class="font-weight-bold ml-2">Fancy</span>
             </a>
@@ -256,14 +256,21 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card-body h-100">
-                        <div class="ig-box-head h-25 d-flex align-items-center justify-content-center flex-column border-bottom">
-
+                        <div class="ig-box-head h-20 d-flex align-items-center justify-content-center flex-column border-bottom overflow-auto">
                         </div>
                         <div class="ui comments h-55 my-0 overflow-auto p-2">
+
                         </div>
-                        <div class="h-20 border-top p-2 text-right">
-                            <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
-                            <i class="far fa-comment fa-lg mr-2"></i><span class="igcomment"></span>
+                        <div class="border-top p-2 d-flex align-items-center">
+                            <a class="mr-auto ig-link" href="#" target="_blank">
+                                <i class="fas fa-link fa-lg"></i>
+                            </a>
+                            <div class="mr-2">
+                                <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
+                            </div>
+                            <div class="mr-2">
+                                <i class="far fa-comment fa-lg mr-2"></i><span class="igcomment"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -386,6 +393,8 @@
                     CreateHashtag(hashtagsArray, datalink);
                 })
             }
+            //Link
+            $("a.ig-link").attr("href", target.link);
             //like comment
             $(".likes").text(target.likes.count)
             $(".igcomment").text(target.comments.count)
