@@ -353,9 +353,10 @@
         //instagram 開啟方塊
         $(".slider-body").on("click", ".card", function (e) {
             let target_id = $(this).data("igdata");
-            let Getcom_url = `https://api.instagram.com/v1/media/${target_id}/comments?access_token=19072223196.b9b5186.45135071495644058c3c604d78701281`;
+            let Getcom_url = `https://api.instagram.com/v1/media/${target_id}/comments?access_token=19072223196.792d131.e00ffb369ef84a0983e5fea1c0f9d093`;
             $.getJSON(Getcom_url, function (data) {
                 let all_comment = data.data;
+                console.log(all_comment);
                 let target = all_ig_data.find(function (item, index, array) {
                     return item.id === target_id;// 取得目標文章
                 });//取得文章內容

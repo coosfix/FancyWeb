@@ -1,10 +1,11 @@
-﻿// var getauthtoken = "https://api.instagram.com/oauth/authorize/?client_id=b9b51863faca448e8f75bc1db4c6a4d7&redirect_uri=http://127.0.0.1:5500/book.html&response_type=token";
+﻿//var getauthtoken = "https://api.instagram.com/oauth/authorize/?client_id=792d1319f95a49529408600f12165515&redirect_uri=https://localhost:44395/HomePage&response_type=token";
 // $("#bb").click(function(){
 //     let win = window.open(getauthtoken,"auth_window");
 //     console.log(window.location);
 // });
 
-var token = '19072223196.b9b5186.45135071495644058c3c604d78701281',
+//var token = '19072223196.b9b5186.45135071495644058c3c604d78701281',
+var token = '19072223196.792d131.e00ffb369ef84a0983e5fea1c0f9d093',
     num_photos = 20,
     all_ig_data;
 $.ajax({
