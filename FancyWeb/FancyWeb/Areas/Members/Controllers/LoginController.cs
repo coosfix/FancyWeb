@@ -279,6 +279,15 @@ namespace FancyWeb.Areas.Members.Controllers
                 };
                 Response.Cookies.Add(isadmin);
             }
+            if (service.isService(MemberService.upid))
+            {
+                HttpCookie isService = new HttpCookie("isService")
+                {
+                    Value = MemberService.upid,
+                    Expires = DateTime.Now.AddDays(day)
+                };
+                Response.Cookies.Add(isService);
+            }
             Response.Cookies.Add(LoginCookie);
             Response.Cookies.Add(upid);
         }

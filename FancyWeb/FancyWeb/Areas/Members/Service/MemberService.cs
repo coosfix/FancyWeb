@@ -54,6 +54,13 @@ namespace FancyWeb.Areas.Members.Service
             return db.Users.Find(Convert.ToInt32(id)).Admin;
         }
         #endregion
+        #region 是否為Service
+        public bool isService(string id)
+        {
+            string su = db.Users.Where(x => x.UserName == "service").FirstOrDefault().UserID.ToString();
+            return su == id;
+        }
+        #endregion
         #region 更新密碼
         public string UpdatePassword(string NewPw, string Account)
         {
