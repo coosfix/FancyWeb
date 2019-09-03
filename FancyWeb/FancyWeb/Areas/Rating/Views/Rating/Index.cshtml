@@ -40,35 +40,35 @@
 </div>*@
 <hr />
 
-<div class="row">
+<div class="row allcard">
     @foreach (var rp in Model)
     {
-        <div class="col-md-4 card mb-3" style="max-width: 650px;">
-            <div class="row">
-                <div class="col-md-4">
-                    <img style="width:200px; height:250px; margin:20px 10px 20px 10px" ; src="@Url.Action("GetImageByte", "Rating", new { id = rp.PhotoID })" class="card-img" object-fit="cover" title="@rp.ProductName">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <label class="card-text">訂單編號：</label>
-                        <span class="orderNum">@rp.OrderNum</span>
-                        <br />
-                        <label class="card-text">購買日期：</label>
-                        <span>@rp.CreateDate</span>
-                        <br />
-                        <label class="card-text">商品名稱：</label>
-                        <span class="prodName">@rp.ProductName</span>
-                        <br />
-                        <label class="card-text">顏色：</label>
-                        <span>@rp.ColorName</span>
-                        <br />
-                        <label class="card-text">尺寸：</label>
-                        <span>@rp.SizeName</span>
-                        <br />
-                        <button class="rating_comment" type="button" data-userid="@rp.UserID" data-prodid="@rp.ProductID" data-toggle="modal" data-target="#editModal">評價此商品</button>
+        <div class="col-md-6 mb-3" style="max-width: 650px;">
+            <div class="card d-flex justify-content-center flex-row h-100">
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <img style="width:100%; height:auto; margin:20px 10px 20px 10px" ; src="@Url.Action("GetImageByte", "Rating", new { id = rp.PhotoID })" class="card-img" object-fit="cover" title="@rp.ProductName">
                     </div>
-                </div>
-               </div>
+                    <div class="col-md-8 d-flex  justify-content-center align-items-center">
+                        <div class="card-body">
+                            <label class="card-text">訂單編號：</label>
+                            <span class="orderNum">@rp.OrderNum</span>
+                            <br />
+                            <label class="card-text">購買日期：</label>
+                            <span>@rp.CreateDate</span>
+                            <br />
+                            <label class="card-text">商品名稱：</label>
+                            <span class="prodName">@rp.ProductName</span>
+                            <br />
+                            <label class="card-text">顏色：</label>
+                            <span>@rp.ColorName</span>
+                            <br />
+                            <label class="card-text">尺寸：</label>
+                            <span>@rp.SizeName</span>
+                            <br />
+                            <button class="rating_comment" type="button" data-userid="@rp.UserID" data-prodid="@rp.ProductID" data-toggle="modal" data-target="#editModal">評價此商品</button>
+                        </div>
+                    </div>
+            </div>
             </div>
 
     }
@@ -214,7 +214,12 @@
 
         });
 
+        window.sr = ScrollReveal();
 
+        sr.reveal('.allcard .col-md-6', {
+            delay: 400,
+            scale: 0
+        });
 
     </script>
 }

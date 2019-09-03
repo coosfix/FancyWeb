@@ -83,7 +83,7 @@ namespace FancyWeb.Areas.HomePage.Service
         {
             for (int i = 0; i < tags.Length; i++)
             {
-                tags[i] = db.Products.Where(n => tags.Contains(n.ProductName)).Select(n => n.ProductID.ToString()).FirstOrDefault() ?? "";
+                tags[i] = db.Products.AsEnumerable().Where(n => n.ProductName.ToUpper().Contains(tags[i].ToUpper())).Select(n => n.ProductID.ToString()).FirstOrDefault() ?? "";
             }
             return tags;
         }
