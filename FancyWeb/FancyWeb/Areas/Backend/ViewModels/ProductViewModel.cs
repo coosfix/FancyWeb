@@ -25,7 +25,7 @@ namespace FancyWeb.Areas.Backend.ViewModels
 
         [DisplayName("單價")]
         [DisplayFormat(DataFormatString = "{0:C0}")]
-        [Range(1000, 10000, ErrorMessage = "商品價格在100 ~ 10000之間")]
+        [Range(10, 10000, ErrorMessage = "商品價格在10 ~ 10000之間")]
         public int UnitPrice { get; set; }
 
         [DisplayName("供應商")]
