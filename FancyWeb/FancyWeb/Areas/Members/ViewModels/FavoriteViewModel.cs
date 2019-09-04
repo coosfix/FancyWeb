@@ -15,7 +15,7 @@ namespace FancyWeb.Areas.Members.ViewModels
             {
                 n.Key,
                 companyn = n.Count()
-            });
+            }).ToList();
             Dictionary<string, int> keyValues = new Dictionary<string, int>();
             foreach (var item in tt)
             {
