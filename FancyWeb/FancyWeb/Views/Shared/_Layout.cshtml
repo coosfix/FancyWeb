@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="icon" href="@Url.Content("~/Content/favicon.ico")" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/_LayoutPlugin/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
@@ -13,6 +14,7 @@
     <link href="~/Content/_LayoutPlugin/css/Fancy.css" rel="stylesheet" />
     <link href="~/Content/_LayoutPlugin/animsition/css/animsition.min.css" rel="stylesheet" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <style>
 
@@ -312,7 +314,12 @@
             console.log(datas)
         });
         if (sessionStorage.clliid) {
-            $($("#navigation .main-nav li")[sessionStorage.clliid]).addClass("active").siblings().removeClass("active")
+            let area = "@ViewContext.RouteData.DataTokens["area"].ToString()";
+            if (area != "ProductDisplay") {
+                $("#navigation .main-nav li").removeClass("active");
+            } else {
+                $($("#navigation .main-nav li")[sessionStorage.clliid]).addClass("active").siblings().removeClass("active");
+            }
         } else {
             console.log("")
         }
@@ -395,8 +402,8 @@
             $('#cartqty').text(count);
             $('#cartlist>tbody').html(Docfrag);
         }
-
         getcart();
+
 
         window.addEventListener("pageshow", function (event) {
             var historyTraversal = event.persisted ||

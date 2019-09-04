@@ -11,12 +11,14 @@ namespace FancyWeb.Areas.HomePage.ViewModels
     public class HomePageData
     {
         public List<ProductsModels> Popular { get; set; }
+        public List<ProductsModels> DayPopular { get; set; }
         public List<ProductsModels> NEWs { get; set; }
         public List<RamdomProducts> Ramdom { get; set; }
 
         public HomePageData()
         {
             this.Popular = new List<ProductsModels>();
+            this.DayPopular = new List<ProductsModels>();
             this.NEWs = new List<ProductsModels>();
             this.Ramdom = new List<RamdomProducts>();
         }

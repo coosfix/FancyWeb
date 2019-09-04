@@ -16,6 +16,11 @@ namespace FancyWeb.Areas.HomePage.Service
             // 熱門
             var p = db.OrderDetails.GroupBy(n => n.ProductID.ToString()).OrderByDescending(n => n.Count())
                 .Select(n => new { n.Key, item = n.ToList() }).ToList().Take(20);
+
+            var daypupp = db.OrderDetails.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString())
+                .GroupBy(n => n.ProductID.ToString()).OrderByDescending(n => n.Count())
+                .Select(n => new { n.Key, item = n.ToList() }).ToList().Take(3);
+            //歷史熱門
             foreach (var item in p)
             {
                 data.Popular.Add(new ProductsModels
@@ -24,6 +29,15 @@ namespace FancyWeb.Areas.HomePage.Service
                     PName = item.item.First().Product.ProductName,
                     CompanyName = item.item.First().Product.Supplier.SupplierName,
                     UnitPrice = item.item.First().UnitPrice
+                });
+            }
+            //今日熱銷
+            foreach (var item in daypupp)
+            {
+                data.DayPopular.Add(new ProductsModels
+                {
+                    PID = item.Key,
+                    PName = item.item.First().Product.ProductName,
                 });
             }
             //最新
