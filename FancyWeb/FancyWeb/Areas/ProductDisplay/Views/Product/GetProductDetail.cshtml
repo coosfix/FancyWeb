@@ -96,7 +96,8 @@
             left: 5rem;
             border-radius: 0.3rem;
             border-color: transparent;
-            background-color: #dee2e6
+            background-color: #dee2e6;
+            padding:0;
         }
 
         .pinput {
@@ -224,10 +225,10 @@
         .note {
             position: fixed;
             background-color: black;
-            border-radius: 5%;
-            width: 350px;
-            height: 200px;
-            top: 30%;
+            border-radius: 0.5rem;
+            width: 30rem;
+            height: 10rem;
+            top: 30rem;
             left: 40%;
             opacity: 0;
             transition: .5s;
@@ -375,7 +376,7 @@
                         <button class="btn  btn-sm mx-auto pbtn" disabled id="btncart"><i class="fa fa-shopping-cart"></i>    加入購物車</button>
                     </div>
                     <div class="my-3" style="text-align-last:center">
-                        <button class="btn btn-secondary  btn-sm pbtn" id="btnfav"><i class="fa fa-heart"></i>   加入最愛</button>
+                        <button class="btn btn-secondary  btn-sm pbtn" id="btnfav"><i class="fa fa-heart"></i>   加入收藏</button>
                     </div>
                     <hr />
                     <div>
@@ -656,12 +657,12 @@
                     //alert(datas);
                     if (datas == "remove") {
                         let icon = $('<h1><i class="fa fa-times mx-3" style="color:white"></i></h1>');
-                        let word = $('<h3 style="color:white;" class="mb-md-0">  移除最愛</h3>');
+                        let word = $('<h3 style="color:white;" class="mb-md-0">  移除收藏</h3>');
                         $('.note').html([icon, word]);
                     }
                     else if (datas == "add") {
                         let icon = $('<h1><i class="fa fa-check mx-3" style="color:white"></i></h1>');
-                        let word = $('<h3 style="color:white;" class="mb-md-0">  加入最愛</h3>');
+                        let word = $('<h3 style="color:white;" class="mb-md-0">  加入收藏</h3>');
                         $('.note').html([icon, word]);
                     }
                     else {
@@ -679,7 +680,7 @@
 
                 timer = setInterval(function () {
                     $('.note').removeClass('active');
-                }, 500);
+                }, 700);
                 timer;
             }
 
@@ -695,9 +696,6 @@
                 $(this).toggleClass('active');
             })
 
-            $('#zoom').click(function () {
-
-            })
         });
     </script>
     <script>

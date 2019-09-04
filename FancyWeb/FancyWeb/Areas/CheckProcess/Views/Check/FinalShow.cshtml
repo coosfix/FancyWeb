@@ -1,6 +1,6 @@
 ﻿@model FancyWeb.Models.OrderHeader
 @{
-    ViewBag.Title = "FinalShow";
+    ViewBag.Title = "Fancy";
 }
 @section scripts{
     <style>
@@ -70,24 +70,35 @@
             position: absolute;
             background-color: rgba(88, 89, 91,0.7);
             top: 3rem;
-            left: 5rem;
-            width: 90%;
+            left: 0;
+            width: 100%;
             height: 2rem;
+            border-radius: 1rem;
         }
 
         .inline {
             position: absolute;
             background-color: wheat;
             top: 3.65rem;
-            left: 1rem;
+            left: 0;
             height: 0.75rem;
-            width: 90%;
-            transition: .5s
+            width: 100%;
+            transition: .5s;
+            border-radius: 1rem;
+        }
+
+        .tle1 {
+            background-color: rgb(217, 207, 191);
+            line-height: 190%;
+            text-align-last: center;
+            margin-bottom: 0;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
         }
     </style>
 }
 <div class="">
-    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:15rem">
+    <div class="d-inline-flex justify-content-sm-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
         <div class="process">
@@ -109,7 +120,7 @@
     </div>
     <div class="  justify-content-center">
         <h2 class="text-center my-md-3" style="color:red">訂單已送出，訂購完成</h2>
-        <h3 class="text-center">訂單資料</h3>
+        <h3 class="text-center tle1">訂單資料</h3>
         <table class="table table-striped">
             <tbody>
                 <tr>
@@ -139,7 +150,7 @@
             </tbody>
         </table>
         <hr />
-        <h3 class="text-center">訂單明細</h3>
+        <h3 class="text-center tle1">訂單明細</h3>
         <table class="table table-striped">
             <thead>
                 <tr>

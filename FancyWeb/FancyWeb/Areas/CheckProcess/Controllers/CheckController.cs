@@ -32,16 +32,16 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                     foreach (var pd in recent)
                     {
                         decimal sprice;
-                        //string activityname;
+                        string activityname;
                         if (db.ActivityProducts.Where(a => a.ProductID == pd).Count() > 0)
                         {
                             sprice = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.DiscountMethod.Discount;
-                            //activityname = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.ActivityName;
+                            activityname = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.ActivityName;
                         }
                         else
                         {
                             sprice = 0;
-                            //activityname = null;
+                            activityname = null;
                         }
                         citem = new CartItem()
                         {
@@ -49,7 +49,7 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                             ProductName = db.Products.Find(pd).ProductName,
                             UnitPrice = db.Products.Find(pd).UnitPrice,
                             SUnitPrice = Convert.ToInt32(Math.Floor(sprice * db.Products.Find(pd).UnitPrice)),
-                            //ActivityName = activityname
+                            ActivityName = activityname
                         };
                         citems.Add(citem);
                     }

@@ -1,9 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "Browse";
+    ViewBag.Title = ViewBag.categorymname + " - Fancy";
 }
 @section styles{
     <style>
+
 
         body {
             font-family: "微軟正黑體";
@@ -254,7 +255,7 @@
         }
 
         $('#pagelist ul').on('click', 'li', function () {
-            display(nowmid, nowsid, nowoid, $(this).children('a').text());
+            display(nowmid, nowsid, $('#olist').val(), $(this).children('a').text());
         })
 
         display(nowmid, nowsid,nowoid,1);
