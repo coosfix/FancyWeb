@@ -17,7 +17,7 @@ namespace FancyWeb.Areas.Backend.Controllers
             //Login ID
             ViewBag.uid = Int32.Parse(Request.Cookies["upid"].Value);
             User u = db.Users.Find(ViewBag.uid);
-            ViewBag.uname = u.UserName;
+            ViewBag.uname = u != null ? u.UserName : "";
 
             //service ID (客服)
             User su = db.Users.Where(x => x.UserName == "service").FirstOrDefault();
