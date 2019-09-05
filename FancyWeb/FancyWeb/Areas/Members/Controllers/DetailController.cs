@@ -20,10 +20,16 @@ namespace FancyWeb.Areas.Members.Controllers
         {
             if (Request.Cookies["IsLogin"] != null)
             {
+
                 return View();
             }
             else
             {
+                
+                string Controller = Request.RequestContext.RouteData.Values["controller"].ToString();
+                string Action = Request.RequestContext.RouteData.Values["Action"].ToString();
+                string Area = Request.RequestContext.RouteData.DataTokens["area"].ToString();
+                Session.Add("RequestURL", $"{Controller }-{ Action}-{Area}");
                 return RedirectToAction("Index", "Login");
             }
         }
