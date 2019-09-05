@@ -41,6 +41,25 @@
         .dropdown-menu td {
             text-align: start;
         }
+
+        .note {
+            position: fixed;
+            background-color: black;
+            border-radius: 0.5rem;
+            width: 30rem;
+            height: 10rem;
+            top: 30rem;
+            left: 40%;
+            opacity: 0;
+            transition: .5s;
+            z-index: -1;
+        }
+
+            .note.active {
+                opacity: 0.5;
+                z-index: 10;
+            }
+
     </style>
     @RenderSection("styles", false)
 </head>
@@ -108,7 +127,7 @@
                                         <table class="table text-black" id="cartlist">
                                             <tbody></tbody>
                                         </table>
-                                        <a class="btn btn-primary btn-block" id="check" href="~/CheckProcess/Check/Detail">結帳</a>
+                                        <a class="btn btn-primary btn-block" id="check"style="color:white">結帳</a>
                                     </div>
                                 </div>
                             </div>
@@ -287,6 +306,7 @@
             <span class="fas fa-angle-up"></span>
         </span>
     </div>
+    <div class="note d-flex justify-content-center align-items-center"></div>
     <!-- <div id="container">
         <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world">
             Tweet</a>
@@ -364,7 +384,7 @@
         function getcart() {
             $.getJSON("@Url.Action("LoadCart", "Product", new { area = "ProductDisplay" })", function (datas) {
                 console.log(datas)
-                if (datas != "")
+                if (datas != 0)
                     generatecart(datas);
                 else
                     $('#navcart>h6').text('目前購物車中無商品');
@@ -427,6 +447,54 @@
             })
             $('#keywords').append(doc);
         })
+
+        let timer;
+        let url ="@Url.Action("Index", "Login", new { area = "Members" })";
+        $('#check').click(function () {
+            var username = getCookie("IsLogin");
+            if (username != "") {
+                url = "@Url.Action("Detail", "Check",new { area= "CheckProcess" })";
+                location.href = url;
+            }
+            else {
+                let word = $('<h3 style="color:white" class="mb-md-0">  請先登入會員</h3>');
+                $('.note').html([word]);
+                note();
+                setTimeout(delayjump, 1000);
+            }
+                });
+
+
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var decodedCookie = decodeURIComponent(document.cookie);
+                    var ca = decodedCookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return "";
+                }
+
+                function delayjump() {
+                    location.href = url;
+                }
+
+        function note() {
+            $('.note').addClass('active');
+
+            clearInterval(timer);
+
+            timer = setInterval(function () {
+                $('.note').removeClass('active');
+            }, 1000);
+            timer;
+        }
 
         $(document).on("click", ".click_updown", function () {
             $(".clayout").toggleClass("active");

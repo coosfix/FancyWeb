@@ -214,7 +214,7 @@ namespace FancyWeb.Areas.Members.Service
                     FavoriteID = item.FavoriteID,
                     ProductID = item.ProductID,
                     ProductName = item.Product.ProductName,
-                    CompanyName = item.Product.Supplier.SupplierName + "-" + item.Product.SupplierID,
+                    CompanyName = item.Product.CategorySmall.CategorySName + "-" + item.Product.CategorySmall.CategorySID,
                     Activity = item.Product.ActivityProducts.Any(n => n.ProductID == item.ProductID) ?
                     item.Product.ActivityProducts.Where(n => n.ProductID == item.ProductID).FirstOrDefault().Activity.ActivityName + "-" + item.Product.ActivityProducts.Where(n => n.ProductID == item.ProductID).FirstOrDefault().Activity.ActivityID : null,
                     UnitePrice = item.Product.UnitPrice,

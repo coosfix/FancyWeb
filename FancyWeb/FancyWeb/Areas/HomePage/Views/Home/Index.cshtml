@@ -2,14 +2,13 @@
 @{
     /**/
 
-    ViewBag.Title = "首頁";
+    ViewBag.Title = "Fnacy  |Fancy meeting you here!|💫";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section styles{
     <link href="~/Areas/HomePage/Plugin/slick/slick.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Style/all.css" rel="stylesheet" />
     <link href="~/Areas/HomePage/Plugin/slick/slick-theme.css" rel="stylesheet" />
-    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
     @*<link href="~/Areas/HomePage/Style/particles.css" rel="stylesheet" />*@
     @*<link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />*@
 }
@@ -27,38 +26,10 @@
         </div>
     </section>
 
-    <section>
-        <div class="container">
-            <div class="row justify-content-center header_box">
-                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/1937394/pexels-photo-1937394.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260)">
-                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=1">
-                        <div class="atv">
-                            顯瘦五公斤
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/2397412/pexels-photo-2397412.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=2">
-                        <div class="atv">
-                            清涼一下
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(https://images.pexels.com/photos/1144686/pexels-photo-1144686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260)">
-                    <a href="@Url.Action("Browse","Activity",new {area = "ProductDisplay"})?id=3">
-                        <div class="atv">
-                            好康優惠
-                        </div>
-                    </a>
-                </div>
 
-            </div>
-        </div>
-    </section>
-    <!--中間section-->
     <section id="st2">
         <div class="container">
-            <div class="st_title ">
+            <div class="st_title">
                 <h2 class="text-center"><span>熱門商品</span></h2>
             </div>
             <div class="st_content">
@@ -91,7 +62,8 @@
                 </div>
             </div>
         </div>
-
+        <div class="arrow active arrow-first text-dark"></div>
+        <div class="arrow active arrow-second text-dark"></div>
     </section>
     <section id="st3">
         <div class="container">
@@ -128,8 +100,32 @@
                 </div>
             </div>
         </div>
+        <div class="arrow active arrow-first text-dark"></div>
+        <div class="arrow active arrow-second text-dark"></div>
     </section>
-    <section id="st4" class="mb-0">
+    <section id="st6">
+        <div class="container">
+            <div class="st_title ">
+                <h2 class="text-center"><span>今日熱銷</span></h2>
+            </div>
+            <div class="row justify-content-center header_box">
+                @foreach (var item in Model.DayPopular)
+                {
+                    <div class="col-4 col-md-3 nav-box bg-cover" style="background-image:url(@Url.Action("ByteImage","Product",new { area="ProductDisplay"})/@item.PID)">
+                        <a href="@Url.Action("GetProductDetail","Product",new {area = "ProductDisplay"})/@item.PID">
+                            <div class="atv">
+                                @item.PName
+                                @*<div class="atv-text">
+                                    </div>*@
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+    <!--中間section-->
+    <section id="st4" class="mb-0 mt-5">
         <div class="container px-4">
             <div id="ramdombar" class="form-row px-2">
                 <div class="col-md-8 px-0">
@@ -231,7 +227,7 @@
     </section>
     <section id="st5" class="px-5 py-2">
         <div class="title d-flex justify-content-center align-items-center position-relative">
-            <a class="d-flex align-items-center" href="https://www.instagram.com/fancydayevery/">
+            <a class="ig_logo d-flex align-items-center" href="https://www.instagram.com/fancydayevery/" target="_blank">
                 <i class="fab fa-instagram fa-2x"></i>
                 <span class="font-weight-bold ml-2">Fancy</span>
             </a>
@@ -256,14 +252,21 @@
                 </div>
                 <div class="col-md-4">
                     <div class="card-body h-100">
-                        <div class="ig-box-head h-25 d-flex align-items-center justify-content-center flex-column border-bottom">
-
+                        <div class="ig-box-head h-20 d-flex align-items-center justify-content-center flex-column border-bottom overflow-auto">
                         </div>
                         <div class="ui comments h-55 my-0 overflow-auto p-2">
+
                         </div>
-                        <div class="h-20 border-top p-2 text-right">
-                            <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
-                            <i class="far fa-comment fa-lg mr-2"></i><span class="igcomment"></span>
+                        <div class="border-top p-2 d-flex align-items-center">
+                            <a class="mr-auto ig-link" href="#" target="_blank">
+                                <i class="fas fa-link fa-lg"></i>
+                            </a>
+                            <div class="mr-2">
+                                <i class="fas fa-heart fa-lg mr-2 text-danger"></i><span class="likes"></span>
+                            </div>
+                            <div class="mr-2">
+                                <i class="far fa-comment fa-lg mr-2"></i><span class="igcomment"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -285,9 +288,9 @@
             distance: '60px',
             viewFactor: 0.3
         });
-        sr.reveal('.header_box', {
+        sr.reveal('#st6', {
             delay: 200,
-            scale: 0
+            origin: 'left'
         });
         sr.reveal('#st2', {
             delay: 100,
@@ -386,6 +389,8 @@
                     CreateHashtag(hashtagsArray, datalink);
                 })
             }
+            //Link
+            $("a.ig-link").attr("href", target.link);
             //like comment
             $(".likes").text(target.likes.count)
             $(".igcomment").text(target.comments.count)

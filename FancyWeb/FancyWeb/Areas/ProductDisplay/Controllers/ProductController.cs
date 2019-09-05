@@ -244,33 +244,33 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             //非會員
             else
             {
-                //已有購物車(非購買第一件商品)
-                if (Session["cart"] != null)
-                {
-                    cart = (List<CartItem>)Session["cart"];
-                    var incart = cart.Where(c => c.ProductID == item.ProductID && c.ColorID == item.ColorID && c.SizeID == item.SizeID).ToList();
-                    //購物車內已有相同款式商品
-                    if (incart.Count() > 0)
-                    {
-                        incart.First().OrderQTY += item.OrderQTY;
-                    }
-                    //購物車內無相同款式
-                    else
-                    {
-                        cart.Add(item);
-                    }
-                    Session.Add("cart", cart);
-                }
-                //尚未產生購物車(購買第一項商品)
-                else
-                {
-                    //建立購物車
-                    cart = new List<CartItem>();
-                    //加入商品
-                    cart.Add(item);
-                    Session.Add("cart", cart);
-                }
-                return Json(cart, JsonRequestBehavior.AllowGet);
+                ////已有購物車(非購買第一件商品)
+                //if (Session["cart"] != null)
+                //{
+                //    cart = (List<CartItem>)Session["cart"];
+                //    var incart = cart.Where(c => c.ProductID == item.ProductID && c.ColorID == item.ColorID && c.SizeID == item.SizeID).ToList();
+                //    //購物車內已有相同款式商品
+                //    if (incart.Count() > 0)
+                //    {
+                //        incart.First().OrderQTY += item.OrderQTY;
+                //    }
+                //    //購物車內無相同款式
+                //    else
+                //    {
+                //        cart.Add(item);
+                //    }
+                //    Session.Add("cart", cart);
+                //}
+                ////尚未產生購物車(購買第一項商品)
+                //else
+                //{
+                //    //建立購物車
+                //    cart = new List<CartItem>();
+                //    //加入商品
+                //    cart.Add(item);
+                //    Session.Add("cart", cart);
+                //}
+                return Json("notmember", JsonRequestBehavior.AllowGet);
             }
 
         }
@@ -288,12 +288,13 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 {
                     //把db.cart內容回傳cart>
                     cart = ProductMethod.Cart(uid).ToList();
+                    return Json(cart, JsonRequestBehavior.AllowGet);
+
                 }
                 else
                 {
-                    cart = new List<CartItem>();
+                    return Json(0, JsonRequestBehavior.AllowGet);
                 }
-                return Json(cart, JsonRequestBehavior.AllowGet);
             }
             //非會員
             else
@@ -305,7 +306,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 else
                 {
                     List<CartItem> empty = new List<CartItem>();
-                    return Json(empty);
+                    return Json(empty, JsonRequestBehavior.AllowGet);
                 }
             }
         }
