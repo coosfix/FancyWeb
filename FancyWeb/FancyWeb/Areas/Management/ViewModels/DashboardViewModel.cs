@@ -32,7 +32,7 @@ namespace FancyWeb.Areas.Management.ViewModels
     }
     public class EvaluationViewModel
     {
-        public int Puid { get; set; }
+        public string uphoto { get; set; }
         public string productname { get; set; }
         public int Uid { get; set; }
         public string Username { get; set; }

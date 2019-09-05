@@ -3,6 +3,7 @@ using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace FancyWeb.Areas.Management.Service
@@ -19,7 +20,11 @@ namespace FancyWeb.Areas.Management.Service
             dashboard.DayMembers = db.Users.AsEnumerable().Where(n => n.RegistrationDate.ToShortDateString() == DateTime.Now.ToShortDateString()).Count();
             dashboard.DayOrders = db.OrderHeaders.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).Count();
             dashboard.WaitShip = db.OrderHeaders.Count(n => n.OrderStatusID == 1);
-            dashboard.MemberSource = db.Users.GroupBy(n => n.OauthType).Select(n => new { n.Key, count = n.Count() }).ToDictionary(p => p.Key, p => p.count);
+            var ms = db.Users.GroupBy(n => n.OauthType).Select(n => new { n.Key, count = n.Count() }).ToDictionary(p => p.Key, p => p.count);
+            if(!ms.ContainsKey("G")) ms.Add("G",0);
+            if(!ms.ContainsKey("F")) ms.Add("F",0);
+            if(!ms.ContainsKey("L")) ms.Add("L",0);
+            dashboard.MemberSource = ms;
             var gender = db.Users.GroupBy(n => n.RegistrationDate.Year).OrderByDescending(n => n.Key).Select(n => new
             {
                 n.Key,
@@ -48,9 +53,10 @@ namespace FancyWeb.Areas.Management.Service
             List<EvaluationViewModel> Evlist = new List<EvaluationViewModel>();
             foreach (var item in Ev)
             {
+                var user = db.Users.Find(item.UserID);
                 Evlist.Add(new EvaluationViewModel
                 {
-                    //Puid = db.Users.Find(item.UserID).PhotoID.Value,
+                    uphoto = db.Users.Find(item.UserID).OauthType!="N"? Encoding.UTF8.GetString(user.Photo.Photo1) : $"data:Image/jpeg;base64,{Convert.ToBase64String(user.Photo.Photo1)}",
                     productname = item.Product.ProductName,
                     Username = db.Users.Find(item.UserID).UserName,
                     Uid = item.UserID,
