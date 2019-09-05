@@ -1,4 +1,5 @@
-﻿using FancyWeb.Areas.ProductDisplay.Models;
+﻿using FancyWeb.Areas.CheckProcess.Function;
+using FancyWeb.Areas.ProductDisplay.Models;
 using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -170,6 +171,21 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
 
                 var orderid = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderID;
                 var ordernum = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderNum;
+
+                string tempmail = System.IO.File.ReadAllText(Server.MapPath(@"~/Areas/CheckProcess/Email/ordersucess.html"));//讀取html
+
+                UriBuilder ValidateUrl = new UriBuilder(Request.Url)
+                {
+                    Path = Url.Action("Account", "Detail", new
+                    {
+                        area = "Members",
+                        ad = "ord"
+                    })
+                };
+                string email = db.Users.Find(uid).Email;
+
+                CheckMethod.SendEmail(email, CheckMethod.VerificationCodeMailBody(tempmail, orderHeader, ValidateUrl.ToString().Replace("%3F", "?")));
+
                 List<OrderDetail> orderDetails = new List<OrderDetail>();
                 OrderDetail orderDetail;
                 foreach (var cartItem in cartItems)

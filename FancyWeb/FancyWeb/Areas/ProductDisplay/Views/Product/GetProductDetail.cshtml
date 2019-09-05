@@ -97,7 +97,8 @@
             border-radius: 0.3rem;
             border-color: transparent;
             background-color: #dee2e6;
-            padding:0;
+            padding: 0;
+            height: 2.45rem;
         }
 
         .pinput {
@@ -237,7 +238,7 @@
 
             .note.active {
                 opacity: 0.5;
-                z-index: 1;
+                z-index: 10;
             }
 
         .col-md-2 a, #route span, #olist {
@@ -446,7 +447,7 @@
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <div class="card-body h-100 d-md-flex align-items-center justify-content-sm-center">
-                                                            <img src="data:Image/jpeg;base64,@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
+                                                            <img src="@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-7">
@@ -498,7 +499,7 @@
         </div>
     </div>
 </div>
-<div class="note d-flex justify-content-center align-items-center"></div>
+@*<div class="note d-flex justify-content-center align-items-center"></div>*@
 @section scripts{
     <script src="~/Areas/ProductDisplay/Content/js/lightslider.js"></script>
     <script src="~/Areas/ProductDisplay/Content/dist/js/lightbox.js"></script>
@@ -556,7 +557,7 @@
                 slideMargin: 3,
                 vertical: true,
                 //autoWidth:true
-                verticalHeight: 690
+                verticalHeight: 690,
             });
 
             $("#light-slider2").lightSlider({
@@ -619,9 +620,20 @@
                     SUnitPrice: $('#SUnitPrice').val(),
                     UnitPrice: $('#UnitPrice').val(),
                     OrderQTY: parseInt($('#OrderQTY').val())
-                    }, function (datas) {
+                }, function (datas) {
+                    if (datas != "notmember") {
                         generatecart(datas);
                         $('#navcart>h6').text('已選擇商品');
+                        let icon = $('<h1><i class="fa fa-shopping-cart mx-3" style="color:white"></i></h1>');
+                        let word = $('<h3 style="color:white" class="mb-md-0">  加入購物車</h3>');
+                        $('.note').html([icon, word]);
+                    }
+                    else {
+                        //location.href = url;
+                        let word = $('<h3 style="color:white" class="mb-md-0">  請先登入會員</h3>');
+                        $('.note').html([word]);
+                        setTimeout(delayjump, 1000);
+                    }
                         }
                 );
             };
@@ -650,7 +662,7 @@
                 );
             }
 
-            let timer;
+
             let url = "@Url.Action("Index", "Login", new { area = "Members" })";
             $('#btnfav').click(function () {
                 $.post('@Url.Action("AddFavorite", "Product", new { area = "ProductDisplay" })', {ProductID :$('#ProductID').val()}, function (datas) {
@@ -659,36 +671,26 @@
                         let icon = $('<h1><i class="fa fa-times mx-3" style="color:white"></i></h1>');
                         let word = $('<h3 style="color:white;" class="mb-md-0">  移除收藏</h3>');
                         $('.note').html([icon, word]);
+                        $('#btnfav').toggleClass('active');
                     }
                     else if (datas == "add") {
                         let icon = $('<h1><i class="fa fa-check mx-3" style="color:white"></i></h1>');
                         let word = $('<h3 style="color:white;" class="mb-md-0">  加入收藏</h3>');
                         $('.note').html([icon, word]);
+                        $('#btnfav').toggleClass('active');
                     }
                     else {
-                        location.href = url;
+                        let word = $('<h3 style="color:white;" class="mb-md-0">  請先登入會員</h3>');
+                        $('.note').html([word]);
+                        setTimeout(delayjump, 1000);
                     }
                 });
-                $(this).toggleClass('active');
                 note();
+                //$(this).toggleClass('active');
             });
-
-            function note() {
-                $('.note').addClass('active');
-
-                clearInterval(timer);
-
-                timer = setInterval(function () {
-                    $('.note').removeClass('active');
-                }, 700);
-                timer;
-            }
 
             $('#btncart').on('click', function () {
                 add();
-                let icon = $('<h1><i class="fa fa-shopping-cart mx-3" style="color:white"></i></h1>');
-                let word = $('<h3 style="color:white" class="mb-md-0">  加入購物車</h3>');
-                $('.note').html([icon, word]);
                 note();
             });
 
