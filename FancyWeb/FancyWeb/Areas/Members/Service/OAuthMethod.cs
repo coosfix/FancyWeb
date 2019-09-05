@@ -13,8 +13,8 @@ namespace FancyWeb.Areas.Members.Service
 {
     public class OAuthMethod
     {
-        static string redirect_uri = "https://localhost:44395/Login/callback";
-
+        //static string redirect_uri = "https://localhost:44395/Login/callback";
+        static string redirect_uri = "https://192.168.39.25:7000/Login/callback";
         static public Dictionary<string, string> LineResponse(string code, string state)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>();
