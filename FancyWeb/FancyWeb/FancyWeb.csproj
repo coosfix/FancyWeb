@@ -787,6 +787,7 @@
     <Compile Include="Areas\Backend\ViewModels\StockListViewModel.cs" />
     <Compile Include="Areas\CheckProcess\CheckProcessAreaRegistration.cs" />
     <Compile Include="Areas\CheckProcess\Controllers\CheckController.cs" />
+    <Compile Include="Areas\CheckProcess\Function\CheckMethod.cs" />
     <Compile Include="Areas\HomePage\Controllers\HomeController.cs" />
     <Compile Include="Areas\HomePage\HomePageAreaRegistration.cs" />
     <Compile Include="Areas\HomePage\Service\HomePageService.cs" />

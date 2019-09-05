@@ -220,7 +220,7 @@
             border-radius: 1rem;
         }
 
-        .note {
+        /*.note {
             position: fixed;
             background-color: black;
             border-radius: 0.5rem;
@@ -236,7 +236,7 @@
             .note.active {
                 opacity: 0.5;
                 z-index: 1;
-            }
+            }*/
 
         .Trapezoid {
             width: 70%;
@@ -577,7 +577,7 @@
             $('#camount').text(parseInt($('#pamount').text()) + parseInt($(this).data('charge')));
         });
 
-        let timer;
+
         $('#next2').on('click', function () {
             if ($('input[name=method]:checked', '#payform').val() != null) {
                 sendcart();
@@ -591,22 +591,11 @@
             }
         });
 
-        function note() {
-            $('.note').addClass('active');
-
-            clearInterval(timer);
-
-            timer = setInterval(function () {
-                $('.note').removeClass('active');
-            }, 700);
-            timer;
-        }
-
         $('#recent>div').on("mouseenter mouseleave", 'a.card', function () {
             $(this).toggleClass('active');
         })
 
-        let url = "@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })";
+        let url2 = "@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })";
 
         function sendcart() {
             let cartitems = new Array();
@@ -635,7 +624,7 @@
             }
 
             $.post(`@Url.Action("CartDetail", "Check", new { area = "CheckProcess" })`, { orderHeader: orderheader, cartItems: cartitems }, function (datas) {
-            location.href = url;
+            location.href = url2;
             });
         };
     </script>

@@ -61,7 +61,6 @@
                 opacity: 0.5;
                 z-index: 10;
             }
-
     </style>
     @RenderSection("styles", false)
 </head>
@@ -129,7 +128,7 @@
                                         <table class="table text-black" id="cartlist">
                                             <tbody></tbody>
                                         </table>
-                                        <a class="btn btn-primary btn-block" id="check"style="color:white">結帳</a>
+                                        <a class="btn btn-primary btn-block" id="check" style="color:white">結帳</a>
                                     </div>
                                 </div>
                             </div>
@@ -422,8 +421,8 @@
             $('#cartqty').text(count);
             $('#cartlist>tbody').html(Docfrag);
         }
-        getcart();
 
+        getcart();
 
         window.addEventListener("pageshow", function (event) {
             var historyTraversal = event.persisted ||

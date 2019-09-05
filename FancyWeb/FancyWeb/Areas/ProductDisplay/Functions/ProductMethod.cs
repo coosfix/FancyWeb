@@ -3,6 +3,7 @@ using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace FancyWeb.Areas.ProductDisplay.Models
@@ -98,9 +99,12 @@ namespace FancyWeb.Areas.ProductDisplay.Models
             EvaluationDisplay evaluation;
             foreach (var ordernum in ordernums)
             {
+                var user = db.Users.Find(ordernum.UserID);
+                string photo = user.OauthType != "N" ? Encoding.UTF8.GetString(user.Photo.Photo1) : $"data:Image/jpeg;base64,{Convert.ToBase64String(user.Photo.Photo1)}";
                 evaluation = new EvaluationDisplay
                 {
-                    UserPhoto = Convert.ToBase64String(db.Users.Find(ordernum.UserID).Photo.Photo1),
+                    //UserPhoto = Convert.ToBase64String(db.Users.Find(ordernum.UserID).Photo.Photo1),
+                    UserPhoto = photo,
                     Comment = ordernum.Comment,
                     Grade = ordernum.Grade,
                     Other = 5 - ordernum.Grade,

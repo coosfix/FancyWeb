@@ -447,7 +447,7 @@
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <div class="card-body h-100 d-md-flex align-items-center justify-content-sm-center">
-                                                            <img src="data:Image/jpeg;base64,@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
+                                                            <img src="@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-7">
@@ -662,7 +662,7 @@
                 );
             }
 
-            
+
             let url = "@Url.Action("Index", "Login", new { area = "Members" })";
             $('#btnfav').click(function () {
                 $.post('@Url.Action("AddFavorite", "Product", new { area = "ProductDisplay" })', {ProductID :$('#ProductID').val()}, function (datas) {
@@ -671,22 +671,22 @@
                         let icon = $('<h1><i class="fa fa-times mx-3" style="color:white"></i></h1>');
                         let word = $('<h3 style="color:white;" class="mb-md-0">  移除收藏</h3>');
                         $('.note').html([icon, word]);
-                        $(this).toggleClass('active');
-
+                        $('#btnfav').toggleClass('active');
                     }
                     else if (datas == "add") {
                         let icon = $('<h1><i class="fa fa-check mx-3" style="color:white"></i></h1>');
                         let word = $('<h3 style="color:white;" class="mb-md-0">  加入收藏</h3>');
                         $('.note').html([icon, word]);
+                        $('#btnfav').toggleClass('active');
                     }
                     else {
                         let word = $('<h3 style="color:white;" class="mb-md-0">  請先登入會員</h3>');
                         $('.note').html([word]);
                         setTimeout(delayjump, 1000);
-                        $(this).toggleClass('active');
                     }
                 });
                 note();
+                //$(this).toggleClass('active');
             });
 
             $('#btncart').on('click', function () {
