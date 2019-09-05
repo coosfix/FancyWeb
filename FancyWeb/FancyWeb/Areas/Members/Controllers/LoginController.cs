@@ -38,7 +38,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     string[] CA = Session["RequestURL"].ToString().Split('-');
                     UriBuilder url = new UriBuilder(Request.Url)
                     {
-                        Path = Url.Action(CA[1], CA[0])
+                        Path = Url.Action(CA[1], CA[0],new {area= CA[2] })
                     };
                     return Json(url.ToString());
                 }

@@ -16,8 +16,8 @@ namespace FancyWeb
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new {controller = "Login", action = "Index", id = UrlParameter.Optional}
-            ).DataTokens.Add("Area", "Members");
+                defaults: new {controller = "Home", action = "Index", id = UrlParameter.Optional}
+            ).DataTokens.Add("Area", "HomePage");
         }
     }
 }
