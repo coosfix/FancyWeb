@@ -7,8 +7,8 @@ namespace FancyWeb.Areas.Members.Service
 {
     public class OAuthRequestUrl
     {
-        //static string redirect_uri = HttpUtility.UrlEncode("https://localhost:44395/Login/callback");
-        static string redirect_uri = HttpUtility.UrlEncode("https://192.168.39.25:7000/Login/callback");
+        static string redirect_uri = HttpUtility.UrlEncode("https://localhost:44395/Login/callback");
+        //static string redirect_uri = HttpUtility.UrlEncode("https://192.168.39.25:7000/Login/callback");
         static public string LineUrl()
         {
             string client_id = "1595990013";

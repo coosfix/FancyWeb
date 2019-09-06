@@ -63,7 +63,7 @@
         }
 
         .feecontent {
-            background-color: rgb(208, 196, 176);
+            background-color: rgb(217, 207, 191);
             width: 100%;
             height: 7rem;
             overflow: hidden;
@@ -239,12 +239,10 @@
             }*/
 
         .Trapezoid {
-            width: 70%;
-            border-left: 300px solid transparent;
-            border-top: 180px solid rgb(217, 207, 191);
-            position: absolute;
-            right: 0;
-            top: 1rem;
+            border-right: 90rem solid transparent;
+            border-bottom: 30rem solid rgb(208, 196, 176);
+            top: 0;
+            z-index: -1;
         }
 
         #payform label:hover {
@@ -286,11 +284,11 @@
                 @{foreach (var item in Model)
                     {
                         <tr data-pid="@item.ProductID" data-pname="@item.ProductName" data-pcid="@item.ProductColorID" data-cid="@item.ColorID" data-cname="@item.ColorName" data-psid="@item.ProductSizeID" data-sid="@item.SizeID" data-sname="@item.SizeName" data-did="@item.DiscountID" data-price="@item.UnitPrice" data-sprice="@item.SUnitPrice" data-aname="@item.ActivityName">
-                            <td class="border-0 px-md-0 py-md-0">
+                            <td class="border-0 px-md-0 py-md-1">
                                 <div class="card">
                                     @*<div class="row" style="height:200px;">*@
-                                    <div class="row" style="">
-                                        <div class="col-md-2" style="overflow:hidden;">
+                                    <div class="row">
+                                        <div class="col-md-2 d-flex align-items-center" style="overflow:hidden;height: 15rem">
                                             <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@item.ProductID?colorid=@item.ColorID' class="card-img">
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -385,7 +383,6 @@
         </form>
     </div>
     <div class="mb-md-3 feecontent position-relative">
-        <div class="Trapezoid"></div>
         <div class="col-md-12" style="background-color:rgb(88, 89, 91);height:15px"></div>
         <div class="col-md-2 offset-md-2">
             <div class="my-md-4 text">
@@ -416,6 +413,7 @@
                 </tbody>
             </table>
         </div>
+        <div class="Trapezoid"></div>
     </div>
     <div class="note d-flex justify-content-center align-items-center"></div>
     <div class="text-md-center">
@@ -584,9 +582,10 @@
             }
             else {
                 //alert("尚未選擇付款方式");
-                let icon = $('<h1><i class="fa fa-times  mx-3" style="color:white"></i></h1>');
-                let word = $('<h3 style="color:white"  class="mb-md-0">  尚未選擇付款方式</h3>');
-                $('.note').html([icon, word]);
+                let icon = $('<h2><i class="fa fa-times  mx-3" style="color:white"></i></h2>');
+                let word = $('<h4 style="color:white"  class="mb-md-0">  尚未選擇付款方式</h4>');
+                //$('.note').html([icon, word]);
+                $('#message1').html([icon, word]);
                 note();
             }
         });

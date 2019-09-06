@@ -81,7 +81,7 @@
                     @foreach (var item in Model.recentEvaluation)
                     {
                         <div class="media mb-3 border-bottom p-1">
-                            <img class="mr-3 thumb-sm rounded-circle mr-2" style="width:64px;height:64px;" src="@Url.Action("GetImageByte","Detail",new { area="Members"})/@item.Uid" alt="Generic placeholder image">
+                            <img class="mr-3 thumb-sm rounded-circle mr-2" style="width:64px;height:64px;" src="@item.uphoto" alt="Generic placeholder image">
                             <div class="media-body">
                                 <h5>@item.productname</h5>
                                 <strong class="h5 mt-0">@item.Username</strong>
@@ -105,7 +105,7 @@
                         @if (Model.PopularProducts.Count != 0)
                         {
                             <div class=" d-flex justify-content-lg-around">
-                                @for (int i = 0; i < 3; i++)
+                                @for (int i = 0; i < Model.PopularProducts.Count; i++)
                                 {
                                     <div class="card mx-1 border-0" style="width:100%;">
                                         <div class="bg-cover imgbody" style="background-image:url(/ProductDisplay/Product/ByteImage/@Model.PopularProducts[i].Pid)">
@@ -188,65 +188,49 @@
                 <div class="row h-100">
                     <div class="col-md-6 h-100">
                         <div class="card h-100 flex-column">
-                                <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">用戶來源</span>
+                            <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">用戶來源</span>
                             <div id="ec03" class="px-4 pt-4" style="height: 100%;min-height:450px;"></div>
                             <div class="px-3 h-50">
                                 <ul class="list-inline widget-chart text-center">
-                                    <li class="list-inline-item">
-                                        <h5 class="mb-0">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">@Model.MemberSource["F"]人</font>
-                                            </font>
-                                        </h5>
-                                        <p class="text-muted">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Facebook</font>
-                                            </font>
-                                        </p>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <h5 class="mb-0">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">@Model.MemberSource["G"]人</font>
-                                            </font>
-                                        </h5>
-                                        <p class="text-muted">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">Google</font>
-                                            </font>
-                                        </p>
-                                    </li>
-                                    <li class="list-inline-item">
-                                        <h5 class="mb-0">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">@Model.MemberSource["L"]人</font>
-                                            </font>
-                                        </h5>
-                                        <p class="text-muted">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">LINE</font>
-                                            </font>
-                                        </p>
-                                    </li>
-                                    <li class="list-inline-item mr-2">
-                                        <h5 class="mb-0">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">@Model.MemberSource["N"]人</font>
-                                            </font>
-                                        </h5>
-                                        <p class="text-muted">
-                                            <font style="vertical-align: inherit;">
-                                                <font style="vertical-align: inherit;">一般會員</font>
-                                            </font>
-                                        </p>
-                                    </li>
+                                    @foreach (var item in Model.MemberSource)
+                                    {
+                                        <li class="list-inline-item">
+                                            <h5 class="mb-0">
+                                                <font style="vertical-align: inherit;">
+                                                    <font style="vertical-align: inherit;">@item.Value 人</font>
+                                                </font>
+                                            </h5>
+                                            <p class="text-muted">
+                                                <font style="vertical-align: inherit;">
+                                                    @{
+                                                        if (item.Key == "G")
+                                                        {
+                                                            <font style="vertical-align: inherit;">Google</font>
+                                                        }
+                                                        else if (item.Key == "F")
+                                                        {
+                                                            <font style="vertical-align: inherit;">Facebook</font>
+                                                        }
+                                                        else if (item.Key == "L")
+                                                        {
+                                                            <font style="vertical-align: inherit;">Line</font>
+                                                        }
+                                                        else
+                                                        {
+                                                            <font style="vertical-align: inherit;">一般用戶</font>
+                                                        }
+                                                    }
+                                                </font>
+                                            </p>
+                                        </li>
+                                    }
                                 </ul>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 h-100">
                         <div class="card h-100">
-                                <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">男女佔比</span>
+                            <span class="mt-0 mb-4 h5 badge badge-dark" style="font-size:16px !important">男女佔比</span>
                             <div id="ec02" class="px-4 pt-4" style="height: 100%;min-height:400px;"></div>
                             <div class="px-3 h-50">
                                 <table class="table mb-0">
@@ -719,13 +703,14 @@
                     },
                     data: [
                         { name: '一般用戶', value: @Model.MemberSource["N"] },
-                        { name: 'Google', value: @Model.MemberSource["G"] },
+                        { name: 'Google', value:@Model.MemberSource["G"] },
                         { name: 'Facebook', value: @Model.MemberSource["F"] },
                         { name: 'Line', value: @Model.MemberSource["L"] },
                     ]
                 }
             ]
         };
+
         if (option && typeof option === "object") {
             ec03.setOption(option, true);
         }

@@ -4,6 +4,7 @@ using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +14,7 @@ namespace FancyWeb.Areas.Members.Controllers
     {
 
         MemberService service = new MemberService();
-
+        private FancyStoreEntities db = new FancyStoreEntities();
         public ActionResult Index()
         {
             //if (Request.Cookies["IsLogin"] != null)
@@ -38,7 +39,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     string[] CA = Session["RequestURL"].ToString().Split('-');
                     UriBuilder url = new UriBuilder(Request.Url)
                     {
-                        Path = Url.Action(CA[1], CA[0],new {area= CA[2] })
+                        Path = Url.Action(CA[1], CA[0], new { area = CA[2] })
                     };
                     return Json(url.ToString());
                 }
@@ -49,7 +50,7 @@ namespace FancyWeb.Areas.Members.Controllers
                         Path = Url.Action("Index", "Home", new { area = "HomePage" })
                     };
                     return Json(url.ToString());
-                }; 
+                };
             }
             else if (status == "noenabled")
             {
@@ -73,7 +74,13 @@ namespace FancyWeb.Areas.Members.Controllers
             if (MemberMethod.IsValidEmail(RegisterMember.Email) && MemberMethod.IsValidPhone(RegisterMember.Phone))
             {
                 string guid = Guid.NewGuid().ToString("N");
-
+                Photo photo = new Photo
+                {
+                    Photo1 = db.Photos.Find(1).Photo1,
+                    CreateDate = DateTime.Now
+                };
+                db.Photos.Add(photo);
+                db.SaveChanges();
                 RegisterMember.newMember = new User()
                 {
                     UserName = RegisterMember.UserName,
@@ -85,7 +92,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     Enabled = true,
                     RegionID = RegisterMember.Region,
                     OauthType = "N",
-                    PhotoID = 1,
+                    PhotoID = photo.PhotoID,
                     Address = RegisterMember.Address,
                     Gender = RegisterMember.Gender.Equals("male"),
                     VerificationCode = String.Empty
@@ -223,6 +230,13 @@ namespace FancyWeb.Areas.Members.Controllers
                 else
                 {
                     string guid = Guid.NewGuid().ToString("N");
+                    Photo photo = new Photo
+                    {
+                        Photo1 = Encoding.UTF8.GetBytes(UserData["picture"]),
+                        CreateDate = DateTime.Now
+                    };
+                    db.Photos.Add(photo);
+                    db.SaveChanges();
                     Models.User user = new User()
                     {
                         UserName = UserData["name"],
@@ -230,14 +244,16 @@ namespace FancyWeb.Areas.Members.Controllers
                         Email = UserData["email"],
                         GUID = guid,
                         Phone = "0912345678",
+                        PhotoID = photo.PhotoID,
                         RegistrationDate = DateTime.Now,
                         Enabled = true,
                         RegionID = 1,
-                        Address = "NONE",
+                        Address = "",
                         OauthType = state.Split('-')[1].Substring(0, 1),
                         VerificationCode = String.Empty,
                         Gender = true
                     };
+
                     if (service.Register(user))
                     {
                         addcookie(7);

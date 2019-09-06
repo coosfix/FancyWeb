@@ -609,7 +609,8 @@
                 event.preventDefault();
                 //drop後將區域隱藏
                 //$(event.target).css("z-index", "-1");
-                img.attr("src", "https://ia601508.us.archive.org/11/items/62_20190821/" + draggableElementBrand.coid + ".jpg");
+                img.attr("src", "https://msit12201.azurewebsites.net/ProductDisplay/Product/ByteImage/"+draggableElementBrand.coid);
+                //img.attr("src", "https://ia601508.us.archive.org/11/items/62_20190821/" + draggableElementBrand.coid + ".jpg");
                 a.attr("href", "{{imgurl}}@Url.Action("GetProductDetail", "Product",new { area= "ProductDisplay" })/" + draggableElementBrand.coid);
                 prdname.text(draggableElementBrand.name);
 
