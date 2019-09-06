@@ -21,9 +21,9 @@ namespace FancyWeb.Areas.Management.Service
             dashboard.DayOrders = db.OrderHeaders.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).Count();
             dashboard.WaitShip = db.OrderHeaders.Count(n => n.OrderStatusID == 1);
             var ms = db.Users.GroupBy(n => n.OauthType).Select(n => new { n.Key, count = n.Count() }).ToDictionary(p => p.Key, p => p.count);
-            if(!ms.ContainsKey("G")) ms.Add("G",0);
-            if(!ms.ContainsKey("F")) ms.Add("F",0);
-            if(!ms.ContainsKey("L")) ms.Add("L",0);
+            if (!ms.ContainsKey("G")) ms.Add("G", 0);
+            if (!ms.ContainsKey("F")) ms.Add("F", 0);
+            if (!ms.ContainsKey("L")) ms.Add("L", 0);
             dashboard.MemberSource = ms;
             var gender = db.Users.GroupBy(n => n.RegistrationDate.Year).OrderByDescending(n => n.Key).Select(n => new
             {
@@ -56,7 +56,7 @@ namespace FancyWeb.Areas.Management.Service
                 var user = db.Users.Find(item.UserID);
                 Evlist.Add(new EvaluationViewModel
                 {
-                    uphoto = db.Users.Find(item.UserID).OauthType!="N"? Encoding.UTF8.GetString(user.Photo.Photo1) : $"data:Image/jpeg;base64,{Convert.ToBase64String(user.Photo.Photo1)}",
+                    uphoto = db.Users.Find(item.UserID).OauthType != "N" ? Encoding.UTF8.GetString(user.Photo.Photo1) : $"data:Image/jpeg;base64,{Convert.ToBase64String(user.Photo.Photo1)}",
                     productname = item.Product.ProductName,
                     Username = db.Users.Find(item.UserID).UserName,
                     Uid = item.UserID,
@@ -147,7 +147,7 @@ namespace FancyWeb.Areas.Management.Service
         public RegionSell RegionSell()
         {
             var regionsell = db.OrderDetails.AsEnumerable().Where(n => n.OrderHeader.OrderStatusID == 2
-            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.Month.ToString()+"月")
+            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.Month.ToString() + "月")
             .Select(n => new
             {
                 n.Key,
@@ -158,22 +158,22 @@ namespace FancyWeb.Areas.Management.Service
                 }).ToList()
             }).ToList();
             RegionSell Rs = new RegionSell();
-            foreach (var item in regionsell)
+            for (int j = 0; j < regionsell.Count; j++)
             {
-                Rs.month.Add(item.Key);
-                foreach (var item2 in item.month)
+                Rs.month.Add(regionsell[j].Key);
+                for (int i = 0; i < regionsell[j].month.Count; i++)
                 {
-                    if (Rs.regionGroup.Any(n => n.name == item2.Key))
+                    if (Rs.regionGroup.Any(n => n.name == regionsell[j].month[i].Key))
                     {
-                        Rs.regionGroup.Find(n => n.name == item2.Key).data.Add(item2.region);
+                        Rs.regionGroup.Find(n => n.name == regionsell[j].month[i].Key).data[j] = regionsell[j].month[i].region;
                     }
                     else
                     {
-                        List<int> rse = new List<int>();
-                        rse.Add(item2.region);
+                        List<int> rse = new List<int>(new int[regionsell.Count]);
+                        rse[j] = regionsell[j].month[i].region;
                         Rs.regionGroup.Add(new RegionGroup
                         {
-                            name = item2.Key,
+                            name = regionsell[j].month[i].Key,
                             type = "line",
                             data = rse
                         });
