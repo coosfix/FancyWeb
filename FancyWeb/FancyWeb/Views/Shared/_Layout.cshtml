@@ -18,6 +18,7 @@
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <style>
 
+
         #navcart {
             overflow: auto;
             max-height: 22rem;
@@ -40,11 +41,15 @@
             background-color: rgba(0,0,0,.05);
         }
 
+        #cartlist tr a:hover {
+            color: crimson !important;
+        }
+
         .dropdown-menu td {
             text-align: start;
         }
 
-        .note {
+        /*.note {
             position: fixed;
             background-color: black;
             border-radius: 0.5rem;
@@ -60,6 +65,25 @@
             .note.active {
                 opacity: 0.5;
                 z-index: 10;
+            }*/
+
+        #message1 {
+            min-width: 30vh;
+            position: fixed;
+            top: 20rem;
+            right: 0;
+            transition: all .3s;
+            visibility: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            transform: translateX(100%);
+            z-index: 10;
+        }
+
+            #message1.active {
+                right: 10px;
+                visibility: visible;
+                animation: fadeInOut 3s;
+                transform: translateX(0);
             }
     </style>
     @RenderSection("styles", false)
@@ -203,6 +227,7 @@
         </div>
         <!-- /MAIN HEADER -->
     </header>
+    <div id="message1" class="rounded p-4 text-white bg-danger d-flex justify-content-center align-items-center font-weight-bold"></div>
     <nav id="navigation" class="sticky-top">
         <!-- container -->
         <div class="container d-flex justify-content-center text-center">
@@ -307,7 +332,6 @@
             <span class="fas fa-angle-up"></span>
         </span>
     </div>
-    <div class="note d-flex justify-content-center align-items-center"></div>
     <!-- <div id="container">
         <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Hello%20world">
             Tweet</a>
@@ -330,7 +354,7 @@
     <script>
         $.post("@Url.Action("UserName", "Detail", new { area = "Members" })", function (datas) {
             $("span.badge.badge-primary").text(datas);
-            console.log(datas)
+            //console.log(datas)
         });
         if (sessionStorage.clliid) {
             let area = "@ViewContext.RouteData.DataTokens["area"].ToString()";
@@ -340,7 +364,7 @@
                 $($("#navigation .main-nav li")[sessionStorage.clliid]).addClass("active").siblings().removeClass("active");
             }
         } else {
-            console.log("")
+            //console.log("")
         }
 
         $("#navigation .main-nav li").on("click", function () {
@@ -349,7 +373,7 @@
 
         function getcaution() {
             $.getJSON("@Url.Action("LoadCaution", "Product", new { area = "ProductDisplay" })", function (datas) {
-                console.log(datas)
+                //console.log(datas)
                 if (datas.notice != "nocaution")
                     generatecaution(datas);
                 else
@@ -376,7 +400,7 @@
 
             $('#cautionlist tr').click(function () {
                 let nid = $(this).data('nid');
-                console.log(nid)
+                //console.log(nid)
                  $.post(`@Url.Action("ReadByNoticeId", "Product", new { area="ProductDisplay"})/${nid}`, function (datas) {
                     if (datas != "notmember") {
                         $('#cautionqty').text(datas);
@@ -389,7 +413,7 @@
 
         function getcart() {
             $.getJSON("@Url.Action("LoadCart", "Product", new { area = "ProductDisplay" })", function (datas) {
-                console.log(datas)
+                //console.log(datas)
                 if (datas != 0)
                     generatecart(datas);
                 else
@@ -455,18 +479,17 @@
         })
 
         let timer;
-        let url ="@Url.Action("Index", "Login", new { area = "Members" })";
+        let url = "@Url.Action("Index", "Login", new { area = "Members" })";
+        let username = getCookie("IsLogin");
+
         $('#check').click(function () {
-            var username = getCookie("IsLogin");
             if (username != "") {
                 url = "@Url.Action("Detail", "Check",new { area= "CheckProcess" })";
                 location.href = url;
             }
             else {
-                let word = $('<h3 style="color:white" class="mb-md-0">  請先登入會員</h3>');
-                $('.note').html([word]);
+                notmember();
                 note();
-                setTimeout(delayjump, 1000);
             }
                 });
 
@@ -487,17 +510,25 @@
                     return "";
                 }
 
+        function notmember(){
+            let word = $('<h4 style="color:white" class="mb-md-0">  請先登入會員</h4>');
+            $('#message1').html([word]);
+            setTimeout(delayjump, 1000);
+        }
+
                 function delayjump() {
                     location.href = url;
                 }
 
         function note() {
-            $('.note').addClass('active');
+            //$('.note').addClass('active');
+            $('#message1').addClass('active');
 
             clearInterval(timer);
 
             timer = setInterval(function () {
-                $('.note').removeClass('active');
+                //$('.note').removeClass('active');
+                $('#message1').removeClass('active');
             }, 1000);
             timer;
         }

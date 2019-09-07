@@ -377,7 +377,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { area = "Members" });
+                return Json(0);
             }
         }
     }
