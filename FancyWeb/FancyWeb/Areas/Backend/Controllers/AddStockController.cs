@@ -55,6 +55,7 @@ namespace FancyWeb.Areas.Backend.Controllers
 
                 var s = suppliers.Where(x=>x.SupplierID==(int)p.SupplierID).FirstOrDefault();
                 stk.SupplierName = s.SupplierName;
+                stk.SupplierID = s.SupplierID;
 
                 var pc = prodColors.Where(x=>x.ProductColorID==item.ProductColorID).FirstOrDefault();
                 stk.ProductColor = colors.Where(x=>x.ColorID==pc.ColorID).FirstOrDefault().ColorName;
@@ -73,7 +74,7 @@ namespace FancyWeb.Areas.Backend.Controllers
                 }
             }
 
-            return View(prodStockList.OrderByDescending(p => p.AddQTY).ToPagedList(page ?? 1, 5));
+            return View(prodStockList.OrderByDescending(p => p.SupplierID).ToPagedList(page ?? 1, 5));
         }
 
         /// <summary>
@@ -139,6 +140,20 @@ namespace FancyWeb.Areas.Backend.Controllers
             byte[] img = ph.Photo1;
 
             return File(img, "image/jpeg");
+        }
+
+        //讀取Supplier
+        public ActionResult SupplierJson(int spid)
+        {
+            var splist = db.Suppliers.Where(x => x.SupplierID == spid).Select(x => new
+            {
+                x.Phone,
+                x.Fax,
+                x.Email,
+                x.Address
+            }).FirstOrDefault();
+
+            return Json(splist, JsonRequestBehavior.AllowGet);
         }
     }
 }

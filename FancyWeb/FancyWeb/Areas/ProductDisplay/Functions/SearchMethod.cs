@@ -16,7 +16,7 @@ namespace FancyWeb.Areas.ProductDisplay.Functions
             IQueryable<ProductColor> preproducts = db.ProductColors.AsQueryable();
 
             var products = ProductMethod.CreateProductCells(preproducts).OrderBy(c => c.ProductID);
-           
+
             IEnumerable<ProductCell> result;
 
             result = products.Where(p => p.ProductName.Contains(searchFilters.Keyword));

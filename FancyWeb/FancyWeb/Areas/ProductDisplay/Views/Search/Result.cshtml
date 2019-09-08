@@ -1,9 +1,10 @@
 ﻿@model IEnumerable<FancyWeb.Areas.ProductDisplay.Models.ProductCell>
 @{
-    ViewBag.Title = "Result";
+    ViewBag.Title = "商品搜尋 - "+ ViewBag.keyword+" - Fancy";
 }
 @section styles{
     <style>
+
 
         body {
             font-family: "微軟正黑體";
@@ -42,7 +43,7 @@
 
         /*選項內容*/
         .custom-control-label span {
-            font-size: 17px;
+            font-size: 14px;
             margin-left: 10px
         }
 
@@ -141,6 +142,10 @@
             height: 2rem;
             margin-right: 0.5rem;
         }
+
+        #pagelist li {
+            cursor: pointer;
+        }
     </style>
 }
 <div class="row" id="filters">
@@ -194,7 +199,7 @@
         <h4 style="line-height:2.5rem">搜尋結果</h4>
         <div class="flex-md-row" id="display">
         </div>
-        <div class="container d-flex justify-content-center w-100" id="pagelist">
+        <div class="d-flex justify-content-center w-100" id="pagelist">
             <nav aria-label="Page navigation example">
                 <ul class="pagination"></ul>
             </nav>
@@ -268,16 +273,16 @@
                 MinSunitPrice: $('input[type=radio][name=price]:checked').data('min'),
                 ActivityID: $('input[type=radio][name=activity]:checked').val()
             };
-            //console.log(searchfilters.ActivityID);
+            console.log(searchfilters);
             display(1);
         });
 
 
         function display(page) {
-            $.post(`@Url.Action("GetProduct", "Search", new { area = "ProductDisplay" })`, { searchFilters: searchfilters }, function (datas) {
+            $.post(`@Url.Action("GetProduct", "Search", new { area = "ProductDisplay" })?page=${page}`, { searchFilters: searchfilters }, function (datas) {
                 let Docfrag = $(document.createDocumentFragment());
                 let Docfrag2 = $(document.createDocumentFragment());
-                let count = datas.length;
+                let count = datas.pages;
                 let pages = Math.ceil(count / 16);
                 for (let i = 1; i <= pages; i++) {
                     let apage = $('<a></a>').addClass('page-link').text(`${i}`);
@@ -290,8 +295,8 @@
                 }
                 $('#pagelist ul').html(Docfrag2);
 
-                if (datas != "noanswer") {
-                    $.each(datas, function (index, product) {
+                if (datas.datas != "noresult") {
+                    $.each(datas.datas, function (index, product) {
                         let image = `@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`;
                         let Img = $('<img/>').addClass('card-img-top').attr("src", `${image}`);
                         let Lname = $('<h6></h6>').addClass('card-title').text(product.ProductName);
@@ -309,7 +314,7 @@
                         let divcol = $('<div>').addClass('col-md-3 mb-md-3 px-md-0 pr-md-3 ');
                         let Acontent = $('<a></a>').attr('href', `@Url.Action("GetProductDetail", "Product", new { area = "ProductDisplay" })/${product.ProductID}?colorid=${product.ColorID}`).addClass('card border-0 shadow position-relative').append([Img, Sdiv, Sale]);
                         divcol.append(Acontent);
-                        if ((page - 1) * 16 <= index && index < page * 16)
+                        //if ((page - 1) * 16 <= index && index < page * 16)
                             Docfrag.append(divcol);
                     });
                     $('#display').html(Docfrag);

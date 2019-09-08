@@ -14,6 +14,7 @@ namespace FancyWeb.Areas.ProductDisplay.ViewModels
         public string ColorName { get; set; }
         public string SizeName { get; set; }
         public string EvaluationDate { get; set; }
-        public string Grade { get; set; }
+        public int Grade { get; set; }
+        public int Other { get; set; }
     }
 }

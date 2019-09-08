@@ -67,14 +67,15 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             return PartialView(activities);
         }
 
-        public ActionResult GetProduct(SearchFilters searchFilters)
+        public ActionResult GetProduct(SearchFilters searchFilters, int page = 1)
         {
-            IEnumerable<ProductCell> result = SearchMethod.ClassifyResult(searchFilters);
+            IEnumerable<ProductCell> result = SearchMethod.ClassifyResult(searchFilters).AsEnumerable();
+            int pages = result.Count();
 
-            if (result.Count() > 0)
-                return Json(result.ToList(), JsonRequestBehavior.AllowGet);
+            if (pages > 0)
+                return Json(new { pages = pages, datas = result.Skip((page - 1) * 16).Take(16).ToList() }, JsonRequestBehavior.AllowGet);
             else
-                return Json("noanswer");
+                return Json(new { pages = 1, datas = "noresult" }, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetKeyWord()

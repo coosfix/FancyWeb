@@ -1,4 +1,5 @@
-﻿using FancyWeb.Areas.ProductDisplay.Models;
+﻿using FancyWeb.Areas.CheckProcess.Function;
+using FancyWeb.Areas.ProductDisplay.Models;
 using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
@@ -32,16 +33,16 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                     foreach (var pd in recent)
                     {
                         decimal sprice;
-                        //string activityname;
+                        string activityname;
                         if (db.ActivityProducts.Where(a => a.ProductID == pd).Count() > 0)
                         {
                             sprice = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.DiscountMethod.Discount;
-                            //activityname = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.ActivityName;
+                            activityname = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.ActivityName;
                         }
                         else
                         {
                             sprice = 0;
-                            //activityname = null;
+                            activityname = null;
                         }
                         citem = new CartItem()
                         {
@@ -49,7 +50,7 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                             ProductName = db.Products.Find(pd).ProductName,
                             UnitPrice = db.Products.Find(pd).UnitPrice,
                             SUnitPrice = Convert.ToInt32(Math.Floor(sprice * db.Products.Find(pd).UnitPrice)),
-                            //ActivityName = activityname
+                            ActivityName = activityname
                         };
                         citems.Add(citem);
                     }
@@ -170,6 +171,22 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
 
                 var orderid = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderID;
                 var ordernum = db.OrderHeaders.OrderByDescending(o => o.OrderID).FirstOrDefault().OrderNum;
+
+                string tempmail = System.IO.File.ReadAllText(Server.MapPath(@"~/Areas/CheckProcess/Email/ordersucess.html"));//讀取html
+
+                UriBuilder ValidateUrl = new UriBuilder(Request.Url)
+                {
+                    Path = Url.Action("Account", "Detail", new
+                    {
+                        area = "Members",
+                        ad = "ord"
+                    })
+                };
+                string email = db.Users.Find(uid).Email;
+
+                CheckMethod.SendEmail(email, CheckMethod.VerificationCodeMailBody(tempmail, orderHeader, ValidateUrl.ToString().Replace("%3F", "?")));
+
+                List<OrderDetail> orderDetails = new List<OrderDetail>();
                 OrderDetail orderDetail;
                 foreach (var cartItem in cartItems)
                 {
@@ -184,8 +201,23 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                         CreateDate = DateTime.Now,
                         DiscountID = cartItem.DiscountID
                     };
-                    db.OrderDetails.Add(orderDetail);
+                    orderDetails.Add(orderDetail);
+                    var stockqty = db.ProductStocks.Where(s => s.ProductID == orderDetail.ProductID && s.ProductColorID == orderDetail.ProductColorID && s.ProductSizeID == orderDetail.ProductSizeID).FirstOrDefault().StockQTY;
+                    if (orderDetail.OrderQTY > stockqty)
+                    {
+                        string productname = db.Products.Find(orderDetail.ProductID).ProductName;
+                        UserNotice notice = new UserNotice()
+                        {
+                            UserID = uid,
+                            Comment = $"訂單 [ {ordernum } ] 中 [ {productname} ] 已經為您完成預購，預購商品預計14~30天完成追加到貨，後續將會依序安排出貨，還請留意出貨通知",
+                            IsRead = false,
+                            NoticeDate = DateTime.Now
+                        };
+                        db.UserNotices.Add(notice);
+                        db.SaveChanges();
+                    }
                 }
+                db.OrderDetails.AddRange(orderDetails);
                 db.SaveChanges();
                 var carts = db.Carts.Where(c => c.UserID == uid).ToList();
                 foreach (var cart in carts)
@@ -205,12 +237,6 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
             db = new FancyStoreEntities();
             var final = db.OrderHeaders.Where(o => o.OrderNum == ordernum).FirstOrDefault();
             var details = db.OrderDetails.Where(o => o.OrderHeader.OrderNum == ordernum).ToList();
-            //foreach (var d in details)
-            //{
-            //    d.Product.ProductName,
-            //    d.ProductColor.Color.ColorName,
-            //    d.ProductSize.Size.SizeName
-            //}
             ViewBag.details = details;
             return View(final);
         }

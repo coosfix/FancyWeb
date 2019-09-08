@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title</title>
+    <link rel="icon" href="@Url.Content("~/Content/favicon.ico")" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/_LayoutPlugin/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
@@ -13,7 +14,78 @@
     <link href="~/Content/_LayoutPlugin/css/Fancy.css" rel="stylesheet" />
     <link href="~/Content/_LayoutPlugin/animsition/css/animsition.min.css" rel="stylesheet" />
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="~/Areas/Management/Plugin/Semantic-UI-CSS-master/semantic.css" rel="stylesheet" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <style>
+
+
+        #navcart {
+            overflow: auto;
+            max-height: 22rem;
+        }
+
+        #navcaution {
+            overflow: auto;
+            max-height: 48rem;
+        }
+
+        #cautionlist td * {
+            color: black;
+        }
+
+        #cautionlist td:hover {
+            background-color: rgba(0,0,0,.05);
+        }
+
+        #cartlist tr:hover {
+            background-color: rgba(0,0,0,.05);
+        }
+
+        #cartlist tr a:hover {
+            color: crimson !important;
+        }
+
+        .dropdown-menu td {
+            text-align: start;
+        }
+
+        /*.note {
+            position: fixed;
+            background-color: black;
+            border-radius: 0.5rem;
+            width: 30rem;
+            height: 10rem;
+            top: 30rem;
+            left: 40%;
+            opacity: 0;
+            transition: .5s;
+            z-index: -1;
+        }
+
+            .note.active {
+                opacity: 0.5;
+                z-index: 10;
+            }*/
+
+        #message1 {
+            min-width: 30vh;
+            position: fixed;
+            top: 20rem;
+            right: 0;
+            transition: all .3s;
+            visibility: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            transform: translateX(100%);
+            z-index: 10;
+        }
+
+            #message1.active {
+                right: 10px;
+                visibility: visible;
+                animation: fadeInOut 3s;
+                transform: translateX(0);
+            }
+    </style>
     @RenderSection("styles", false)
 </head>
 <body class="animsition">
@@ -43,12 +115,6 @@
                                 </fieldset>
                             </div>
                             <div class="trend" id="keywords">
-                                @*<a href="/search?free_shipping_geo=TW&amp;q=%E6%89%8B%E6%A9%9F%E6%AE%BC&amp;ref=trends">免運手機殼</a>
-                                    <a href="/search?category=0&amp;q=連身裙&amp;ref=trends">連身裙</a>
-                                    <a href="https://www.pinkoi.com/search?q=%E7%9A%AE%E5%A4%BE&amp;ref=trends">皮夾</a>
-                                    <a href="https://www.pinkoi.com/search?q=%E6%B3%B3%E8%A1%A3&amp;ref=trends">泳衣</a>
-                                    <a href="/store/pinkoi-experience?ref_itemlist_tid=vZWu9nbP&amp;ref_itemlist=TmMUuTFP&amp;ref=trends">手作體驗活動</a>
-                                    <a href="/search?category=12&amp;q=女鞋&amp;landing_page=ny-shoes&amp;ref=trends">設計女鞋</a>*@
                             </div>
                         </div>
                     </div>
@@ -57,28 +123,36 @@
                     <div class="col-md-3 d-flex justify-content-center">
                         <div class="header-ctn d-flex justify-content-between align-items-center">
                             <!-- 我的收藏 -->
-                            <div>
-                                <a href="#">
+                            <div class="dropdown caution">
+                                <a href="#" data-toggle="dropdown" aria-expanded="true">
                                     <i class="far fa-comment-dots"></i>
                                     <span>通知</span>
-                                    <div class="qty">2</div>
+                                    <div class="qty" id="cautionqty">0</div>
                                 </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menumy2" style="min-width: 400px;z-index: 9999">
+                                    <div class="px-4 py-3" id="navcaution">
+                                        <h6>所有通知</h6>
+                                        <table class="table text-black mb-md-0" id="cautionlist">
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <!-- 購物車 -->
-                            <div class="dropdown">
+                            <div class="dropdown cart">
                                 <a href="" data-toggle="dropdown" aria-expanded="true">
                                     <i class="fa fa-shopping-cart"></i>
                                     <span>購物車</span>
                                     @*<div class="qty">3</div>*@
-                                    <div class="qty">0</div>
+                                    <div class="qty" id="cartqty">0</div>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-menumy2" style="min-width: 400px;z-index: 9999">
-                                    <div class="px-4 py-3">
+                                    <div class="px-4 py-3" id="navcart">
                                         <h6>已選擇商品</h6>
                                         <table class="table text-black" id="cartlist">
                                             <tbody></tbody>
                                         </table>
-                                        <a class="btn btn-primary btn-block" id="check" href="~/CheckProcess/Check/Detail">結帳</a>
+                                        <a class="btn btn-primary btn-block" id="check" style="color:white">結帳</a>
                                     </div>
                                 </div>
                             </div>
@@ -117,10 +191,11 @@
                                             <a class="dropdown-item" href="@Url.Action("Account", "Detail", new { area = "Members", ad = "det" })"><i class="fas fa-user fa-lg"></i>基本資料</a>
                                             <a class="dropdown-item" href="@Url.Action("Account", "Detail", new { area = "Members", ad = "ord" })"><i class="far fa-list-alt fa-lg"></i>訂單查詢</a>
                                             <a class="dropdown-item" href="@Url.Action("Account", "Detail", new { area = "Members", ad = "favo" })"><i class="far fa-heart fa-lg"></i>我的收藏</a>
+                                            <a class="dropdown-item" href="@Url.Action("Index", "Rating", new { area = "Rating"})"><i class="far fa-star fa-lg"></i>商品評價</a>
                                             <a class="dropdown-item" href="@Url.Action("Account", "Detail", new { area = "Members", ad = "chang" })"><i class="far fa-question-circle fa-lg"></i>修改密碼</a>
                                             @if (Request.Cookies["isadmin"] != null)
                                             {
-                                                <a class="dropdown-item" href="@Url.Action("Index", "Shipment", new { area = "Backend" })"><i class="far fa-question-circle fa-lg"></i>後台管理</a>
+                                                <a class="dropdown-item" href="@Url.Action("Index", "Dashboard", new { area = "Management" })"><i class="fas fa-columns fa-lg"></i>後台管理</a>
                                             }
                                             <div class="dropdown-divider"></div>
                                             <a class="dropdown-item" href="@Url.Action("Logout", "Login", new { area = "Members", })"><i class="fas fa-sign-out-alt fa-lg"></i>登出</a>
@@ -152,6 +227,7 @@
         </div>
         <!-- /MAIN HEADER -->
     </header>
+    <div id="message1" class="rounded p-4 text-white bg-danger d-flex justify-content-center align-items-center font-weight-bold"></div>
     <nav id="navigation" class="sticky-top">
         <!-- container -->
         <div class="container d-flex justify-content-center text-center">
@@ -159,12 +235,12 @@
             <div id="responsive-nav">
                 <!-- NAV -->
                 <ul class="main-nav nav navbar-nav flex-md-row text-white">
-                    <li class="active"><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 1 })">上衣</a></li>
-                    <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 2 })">下身</a></li>
-                    <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 5 })">飾品</a></li>
-                    <li><a href="#">洋裝</a></li>
-                    <li><a href="#">包包</a></li>
-                    <li><a href="#">熱門商品</a></li>
+                    <li class="active"><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 1 })">衣料品</a></li>
+                    <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 2 })">下半身</a></li>
+                    <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 5 })">配件</a></li>
+                    <li><a href="~/ProductDisplay/Activity/?id=1">活動專區</a></li>
+                    @*<li><a href="#">包包</a></li>*@
+                    @*<li><a href="#">熱門商品</a></li>*@
                 </ul>
                 <!-- /NAV -->
             </div>
@@ -266,32 +342,82 @@
     <script src="~/Content/_LayoutPlugin/js/Fancy.js"></script>
     <script src="~/Areas/HomePage/Plugin/scrollreveal.min.js"></script>
     <!-- <script src="https://platform.twitter.com/widgets.js"></script> -->
-
     @if (Request.Cookies["IsLogin"] != null)
     {
-        <div class="clayout">
-            @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
-        </div>
+        if (Request.Cookies["isService"] == null)
+        {
+            <div class="clayout">
+                @{Html.RenderAction("Index", "Chat", new { area = "Backend" });}
+            </div>
+        }
     }
-
     <script>
         $.post("@Url.Action("UserName", "Detail", new { area = "Members" })", function (datas) {
             $("span.badge.badge-primary").text(datas);
-            console.log(datas)
+            //console.log(datas)
         });
         if (sessionStorage.clliid) {
-            $($("#navigation .main-nav li")[sessionStorage.clliid]).addClass("active").siblings().removeClass("active")
+            let area = "@ViewContext.RouteData.DataTokens["area"].ToString()";
+            if (area != "ProductDisplay") {
+                $("#navigation .main-nav li").removeClass("active");
+            } else {
+                $($("#navigation .main-nav li")[sessionStorage.clliid]).addClass("active").siblings().removeClass("active");
+            }
         } else {
-            console.log("")
+            //console.log("")
         }
 
         $("#navigation .main-nav li").on("click", function () {
             sessionStorage.clliid =$(this).index();
         });
 
+        function getcaution() {
+            $.getJSON("@Url.Action("LoadCaution", "Product", new { area = "ProductDisplay" })", function (datas) {
+                //console.log(datas)
+                if (datas.notice != "nocaution")
+                    generatecaution(datas);
+                else
+                    $('#navcaution>h6').text('目前沒有通知');
+            }
+        )};
+
+        function generatecaution(datas) {
+            let Docfrag = $(document.createDocumentFragment());
+            let count = datas.unread;
+            let order = '/Members/Detail/Account?ad=ord';
+            $.each(datas.notice, function (index, caution) {
+                let date = $('<h5></h5>').text(`${caution.NoticeDate}`);
+                let comment = $('<p></p>').html(`<a>${caution.Comment}</a>`);
+                let all = $(`<a href=${order}></a>`).append([date, comment]);
+                let td = $('<td></td>').append(all);
+                if (caution.IsRead == false)
+                    td.css('background-color', 'rgb(237, 242, 250)');
+                let item = $(`<tr data-nid=${caution.NoticeID}></tr>`).append(td);
+                Docfrag.append(item);
+            });
+            $('#cautionqty').text(count);
+            $('#cautionlist>tbody').html(Docfrag);
+
+            $('#cautionlist tr').click(function () {
+                let nid = $(this).data('nid');
+                //console.log(nid)
+                 $.post(`@Url.Action("ReadByNoticeId", "Product", new { area="ProductDisplay"})/${nid}`, function (datas) {
+                    if (datas != "notmember") {
+                        $('#cautionqty').text(datas);
+                    }
+                })
+        });
+        }
+
+        getcaution();
+
         function getcart() {
             $.getJSON("@Url.Action("LoadCart", "Product", new { area = "ProductDisplay" })", function (datas) {
-                generatecart(datas);
+                //console.log(datas)
+                if (datas != 0)
+                    generatecart(datas);
+                else
+                    $('#navcart>h6').text('目前購物車中無商品');
             }
         )};
 
@@ -299,10 +425,6 @@
             let count = 0;
             let Docfrag = $(document.createDocumentFragment());
             $.each(datas, function (index, cart) {
-                //let id = $('<td></td>').html(`<a href="" data-toggle="modal" data-title="${cart.ProductID}"
-                //        data-target="#removeModal">
-                //        <i class="far fa-trash-alt"></i>
-                //    </a>`);
                 let url = `/ProductDisplay/Product/GetProductDetail/${cart.ProductID}?colorid=${cart.ColorID}`;
                 let name = $('<td></td>').html(`<a style="color:black" href=${url}>${cart.ProductName}</a>`);
                 let color = $('<td></td>').text(cart.ColorName);
@@ -320,8 +442,7 @@
                 let item = $('<tr></tr>').append([name, color, size, qty, price])
                 Docfrag.append(item);
             });
-            $('.dropdown>a>div.qty').text(count);
-            //console.log(count);
+            $('#cartqty').text(count);
             $('#cartlist>tbody').html(Docfrag);
         }
 
@@ -333,7 +454,7 @@
                     window.performance.navigation.type === 2);
             if (historyTraversal) {
                 // Handle page restore.
-                window.location.reload();
+                getcart();
             }
         });
 
@@ -356,6 +477,61 @@
             })
             $('#keywords').append(doc);
         })
+
+        let timer;
+        let url = "@Url.Action("Index", "Login", new { area = "Members" })";
+        let username = getCookie("IsLogin");
+
+        $('#check').click(function () {
+            if (username != "") {
+                url = "@Url.Action("Detail", "Check",new { area= "CheckProcess" })";
+                location.href = url;
+            }
+            else {
+                notmember();
+                note();
+            }
+                });
+
+
+                function getCookie(cname) {
+                    var name = cname + "=";
+                    var decodedCookie = decodeURIComponent(document.cookie);
+                    var ca = decodedCookie.split(';');
+                    for (var i = 0; i < ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                            c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                            return c.substring(name.length, c.length);
+                        }
+                    }
+                    return "";
+                }
+
+        function notmember(){
+            let word = $('<h4 style="color:white" class="mb-md-0">  請先登入會員</h4>');
+            $('#message1').html([word]);
+            setTimeout(delayjump, 1000);
+        }
+
+                function delayjump() {
+                    location.href = url;
+                }
+
+        function note() {
+            //$('.note').addClass('active');
+            $('#message1').addClass('active');
+
+            clearInterval(timer);
+
+            timer = setInterval(function () {
+                //$('.note').removeClass('active');
+                $('#message1').removeClass('active');
+            }, 1000);
+            timer;
+        }
 
         $(document).on("click", ".click_updown", function () {
             $(".clayout").toggleClass("active");

@@ -31,13 +31,11 @@
                             <div class="title_img">
                                 <h1>Fancy</h1>
                             </div>
-                            <form class="mt-2 w-100 needs-validation" method="post" novalidate>
+                            <form id="todologin" class="mt-2 w-100">
                                 <div class="form-group">
                                     <label for="UserName">使用者帳號</label>
                                     <input type="text" class="form-control" id="UserName" name="UserName" placeholder="請輸入你的帳號" required>
-                                    <div class="valid-tooltip">
-                                        看起來可以
-                                    </div>
+
                                     <small class="form-text text-muted">
                                         我們不會告訴任何人您的資料，請您放心。
                                     </small>
@@ -45,16 +43,14 @@
                                 <div class="form-group">
                                     <label for="Password">使用者密碼</label>
                                     <input type="password" class="form-control" id="Password" name="Password" placeholder="密碼" required>
-                                    <div class="valid-tooltip">
-                                        看起來可以
-                                    </div>
+
                                 </div>
 
                                 <div class="custom-control custom-checkbox my-2">
                                     @Html.CheckBox("AutoLogin", new { @class = "custom-control-input", id = "AutoLogin" })
                                     <label class="custom-control-label" for="AutoLogin">保持登入</label>
                                 </div>
-                                <button type="submit" class="btn btn-Fancy btn-block text-white p-2">登入</button>
+                                <button id="loginbutton" type="button" class="btn btn-Fancy btn-block text-white p-2">登入</button>
                                 <div class="d-flex w-100 mt-2">
                                     <a id="register" href="#" class="btn btn-Fancy w-50 text-white border-right">加入我們</a>
                                     <a href="" data-pushbar-target="top" class="btn btn-Fancy w-50 text-white">忘記密碼</a>
@@ -70,7 +66,13 @@
                             <a href="@Url.Action("OAuthLogin",new { Method="Facebook"})" class="btn btn-FB btn-block text-white rounded-0"><i class="fab fa-facebook-f fa-lg mr-2"></i>登入</a>
                             <a href="@Url.Action("OAuthLogin",new { Method="LINE"})" class="btn btn-Line btn-block text-white rounded-0"><i class="fab fa-line fa-lg mr-2"></i>登入</a>
                             <a href="@Url.Action("OAuthLogin",new { Method="Google"})" class="btn btn-Google btn-block rounded-0"><i class="fab fa-google fa-lg mr-2"></i>登入</a>
+                            <div class="btn-group mt-5" role="group" aria-label="First group">
+                                <button type="button" class="btn btn-outline-primary">一般會員</button>
+                                <button type="button" class="btn btn-outline-info">管理員</button>
+                                <button type="button" class="btn btn-outline-warning">客服中心</button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -84,8 +86,9 @@
                 <div class="title_img">
                     <h1>註冊</h1>
                 </div>
-                <p id="message" class="text-danger"></p>
+
                 <form class="mt-2 w-100 needs-validation" id="regpost" novalidate>
+                    <div class="rblock"></div>
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="rUserName">使用者名稱</label>
@@ -141,16 +144,23 @@
                     </div>
 
                     <div class="form-row">
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input" required>
-                            <label class="custom-control-label" for="gender1">男</label>
-                        </div>
-                        <div class="custom-control custom-radio custom-control-inline w-100">
-                            <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input" required>
-                            <label class="custom-control-label" for="gender2">女</label>
-                            <div class="invalid-tooltip">
-                                請輸入正確資料
+                        <div class="form-group col-3">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="gender1" name="Gender" value="male" class="custom-control-input" required>
+                                <label class="custom-control-label" for="gender1">男</label>
                             </div>
+                        </div>
+                        <div class="form-group col-3">
+                            <div class="custom-control custom-radio custom-control-inline w-100">
+                                <input type="radio" id="gender2" name="Gender" value="female" class="custom-control-input" required>
+                                <label class="custom-control-label" for="gender2">女</label>
+                                <div class="invalid-tooltip">
+                                    請選擇性別
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group col-6">
+                            <button id="Demo" type="button" class="btn btn-info btn-block Demo">Demo</button>
                         </div>
                     </div>
 
@@ -234,6 +244,8 @@
         </li>
 
     </ul>
+
+    <div id="message" class="rounded p-4 text-white bg-danger d-flex justify-content-center align-items-center font-weight-bold"></div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
@@ -245,13 +257,38 @@
             crossorigin="anonymous"></script>
     <script type="text/javascript" src="~/Areas/Members/Content/pushbar/pushbar.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
+
     <script>
+        //demo
+        $(".btn-outline-primary").click(function () {
+            $("#UserName").val("Mary");
+            $("#Password").val("123");
+        });
+        $(".btn-outline-info").click(function () {
+            $("#UserName").val("Jay");
+            $("#Password").val("222");
+        });
+        $(".btn-outline-warning").click(function () {
+            $("#UserName").val("Service");
+            $("#Password").val("123");
+        });
+        $("#Demo").click(function () {
+            $("#rUserName").val("Tom");
+            $("#rUserPassword").val("222");
+            $("#rPhone").val("0979325992");
+            $("#rEmail").val("email@gmail.com");
+            $("#rAddress").val("合順街八巷三弄十七號99樓");
+            $("#gender2").attr("checked", true);
+            $(".rblock").css("transform", "translateX(-100%)");
+        });
+    </script>
+    <script>
+        //驗證
         (function () {
             'use strict';
             window.addEventListener('load', function () {
                 // Fetch all the forms we want to apply custom Bootstrap validation styles to
                 var forms = document.getElementsByClassName('needs-validation');
-                var forms2 = document.getElementById('regpost');
                 var formsbutton = document.getElementById('Register_post');
                 // Loop over them and prevent submission
                 var validation = Array.prototype.filter.call(forms, function (form) {
@@ -272,7 +309,6 @@
                         forms2.classList.add('was-validated');
                     }, false);
                 });
-
             }, false);
         })();
     </script>
@@ -318,7 +354,7 @@
                 window.open(`https://twitter.com/intent/tweet?hashtags=Fancy&text=分享這項商品到你的朋友圈吧!&url=${url}&via=twitterdev`, "Tweet Share",
                     `top=${y},left=${x},width=500,height=500`);
             });
-
+            //city
             $.getJSON("@Url.Action("ReturnCity","Login")", function (data) {
             let Citylist = $(document.createDocumentFragment());
             $.each(data, function (index, value) {
@@ -331,14 +367,45 @@
                 let cid = $(this).val();
                 getRegion(cid);
             })
+            //登入
+            $("#loginbutton").click(function () {
+                let lgdata = $("#todologin").serialize();
+                let mss = $("#message");
+                $.post("@Url.Action("Index")", lgdata, function (data) {
+                    switch (data) {
+                        case "none":
+                            MessageBox("欄位不能為空");
+                            break;
+                        case "nologin":
+                            MessageBox("帳號密碼錯誤");
+                            break;
+                        case "noenabled":
+                            MessageBox("你的帳號已被黑名單");
+                            break;
+                        default:
+                            window.location = data;
+                            break;
+                    }
+                });
+            });
+            //註冊
             $("#Register_post").click(function () {
                 $.post(`@Url.Action("Register")`, $("#regpost").serialize(), function (data) {
-                    $("#message").html(data);
+                    MessageBox(data);
                     if (data === "成功") {
                         $("#backtoLogin").trigger('click');
                     }
                     });
             });
+
+            function MessageBox(mess) {
+                let mss = $("#message");
+                mss.html(mess);
+                mss.toggleClass("active");
+                setTimeout(function () {
+                    mss.removeClass("active");
+                }, 2000);
+            }
             function getRegion(cid) {
                 $.getJSON("@Url.Action("ReturnRegion", "Login")?cid=" + cid, function (data) {
                 let Regionlist = $(document.createDocumentFragment());
@@ -349,6 +416,8 @@
                 $("#Region").html(Regionlist);
             });
             }
+
+            //忘記密碼
             $("#forgot_Eb").click(function () {
                 $.post(`@Url.Action("ForgotPw_step1")`, { Email: $("#forgot_Email input").val() }, function (data) {
                     if (data == "done") {
@@ -378,9 +447,6 @@
                     if (data == "done") {
                      $("#awd").html("<h4>新密碼已寄出，準備跳轉。</h4>");
                         $("#forgot_Account .wrapper").toggleClass("d-none");
-                        setInterval(function () {
-
-                        },1000);
                         setTimeout(function () {
                             window.location.href = "https://mail.google.com";
                         },2000);

@@ -13,6 +13,8 @@ namespace FancyWeb.Areas.Management.Controllers
     public class MainController : Controller
     {
         // GET: Management/Main
+        private FancyStoreEntities db = new FancyStoreEntities();
+
         public ActionResult Index()
         {
             AdminService admin = new AdminService();
@@ -87,6 +89,13 @@ namespace FancyWeb.Areas.Management.Controllers
         {
             string guid = Guid.NewGuid().ToString("N");
             AdminService admin = new AdminService();
+            Photo photo = new Photo
+            {
+                Photo1 = db.Photos.Find(1).Photo1,
+                CreateDate = DateTime.Now
+            };
+            db.Photos.Add(photo);
+            db.SaveChanges();
             User user = new User()
             {
                 UserName = data.UserName,
@@ -96,9 +105,10 @@ namespace FancyWeb.Areas.Management.Controllers
                 Phone = data.Phone,
                 RegistrationDate = DateTime.Now,
                 Enabled = true,
-                PhotoID = 1,
+                PhotoID = photo.PhotoID,
                 Admin = true,
                 RegionID = data.Region,
+                VerificationCode = "",
                 Address = "",
                 OauthType = "N",
                 Gender = data.Gender.Equals("male")

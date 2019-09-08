@@ -1,17 +1,14 @@
 ﻿@{
     string Controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
     string Action = HttpContext.Current.Request.RequestContext.RouteData.Values["Action"].ToString();
+    string Area = HttpContext.Current.Request.RequestContext.RouteData.Values["Area"].ToString();
     if (Controller == "Login")
     {
         Layout = null;
     }
     else
     {
-        Response.Cookies.Add(new HttpCookie("RequestURL")
-        {
-            Value = $"{Controller }-{ Action}",
-        });
-
+        Session.Add("RequestURL", $"{Controller }-{ Action}-{Area}");
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 }

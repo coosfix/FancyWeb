@@ -1,9 +1,10 @@
 ﻿@model FancyWeb.Models.User
 @{
-    ViewBag.Title = "OrderInfo";
+    ViewBag.Title = "Fancy";
 }
 @section styles{
     <style>
+
 
 
         body {
@@ -14,6 +15,10 @@
             color: white !important;
             font-size: 17px;
         }
+
+            .cbtn:hover {
+                color: crimson !important;
+            }
 
         #table * {
             font-size: 15px;
@@ -26,6 +31,9 @@
             width: 8rem;
             height: 8rem;
             background-color: rgb(217, 207, 191);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .processimg {
@@ -67,20 +75,22 @@
         .line {
             position: absolute;
             background-color: rgba(88, 89, 91,0.7);
-            top: 25%;
-            left: 5%;
-            width: 90%;
-            height: 15%;
+            top: 3rem;
+            left: 0;
+            width: 100%;
+            height: 2rem;
+            border-radius: 1rem;
         }
 
         .inline {
             position: absolute;
             background-color: wheat;
-            top: 30%;
-            left: 5%;
-            height: 5%;
+            top: 3.65rem;
+            left: 0;
+            height: 0.75rem;
             width: 80%;
-            transition: .5s
+            transition: .5s;
+            border-radius: 1rem;
         }
 
         .note {
@@ -102,12 +112,16 @@
             }
 
         .Trapezoid {
-            width: 70%;
-            border-left: 300px solid transparent;
-            border-top: 145px solid rgba(217, 207, 191,.5);
-            position: absolute;
-            right: 0rem;
-            top: -3rem;
+            /*width: 70%;*/
+            /*border-left: 300px solid transparent;
+            border-top: 148px solid rgba(217, 207, 191,.5);*/
+            /*position: absolute;*/
+            /*right: 0rem;
+            top: -3rem;*/
+            border-right: 90rem solid transparent;
+            border-bottom: 30rem solid rgba(217, 207, 191,.5);
+            top: 0;
+            z-index: -1;
         }
 
         #member, #buyer label, text {
@@ -116,15 +130,17 @@
 
         .formcheck {
             color: red;
+            position: absolute;
         }
 
         .tle1 {
-            background-color: rgb(217, 207, 191);
+            background-color: rgb(88, 89, 91);
             line-height: 190%;
             text-align-last: center;
             margin-bottom: 0;
             border-top-left-radius: 0.5rem;
             border-top-right-radius: 0.5rem;
+            color: white;
         }
 
         #bigtable {
@@ -137,24 +153,24 @@
         }
     </style>
 }
-<div class="container">
-    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+<div class="">
+    <div class="d-inline-flex justify-content-sm-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
         <div class="process">
-            <i class="fa fa-shopping-cart processimg active done" id="process1" style="left:23%;"></i>
+            <i class="fa fa-shopping-cart processimg active done" id="process1"></i>
             <p class="processtext active done text-center px-1">購物清單</p>
         </div>
         <div class="process">
-            <i class="fa fa-truck processimg  active done" id="process2" style="left:20%"></i>
+            <i class="fa fa-truck processimg  active done" id="process2"></i>
             <p class="processtext active done text-center px-1">付款方式</p>
         </div>
         <div class="process">
-            <i class="fa fa-pencil-square processimg active" id="process3" style="left:28%"></i>
+            <i class="fa fa-pencil-square processimg active" id="process3"></i>
             <p class="processtext active text-center px-1">填寫資料</p>
         </div>
         <div class="process">
-            <i class="fa fa-handshake-o processimg" id="process4" style="left:15%"></i>
+            <i class="fa fa-handshake-o processimg" id="process4"></i>
             <p class="processtext text-center px-1">完成訂購</p>
         </div>
     </div>
@@ -168,10 +184,10 @@
                 @foreach (var cartItem in ViewBag.cartItems)
                 {
                     <tr class="my-md-3" data-pid="@cartItem.ProductID" data-pname="@cartItem.ProductName" data-pcid="@cartItem.ProductColorID" data-cid="@cartItem.ColorID" data-cname="@cartItem.ColorName" data-psid="@cartItem.ProductSizeID" data-sid="@cartItem.SizeID" data-sname="@cartItem.SizeName" data-did="@cartItem.DiscountID" data-price="@cartItem.UnitPrice" data-sprice="@cartItem.SUnitPrice" data-qty="@cartItem.OrderQTY">
-                        <td class="border-0 p-md-0">
+                        <td class="border-0 p-md-0 py-md-1">
                             <div class="card">
-                                <div class="row" style="height:200px;">
-                                    <div class="col-md-2">
+                                <div class="row">
+                                    <div class="col-md-2 d-flex align-items-center" style="overflow:hidden;height: 15rem">
                                         <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@cartItem.ProductID?colorid=@cartItem.ColorID' class="card-img" style="height:200px;width:auto">
                                     </div>
                                     <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -234,57 +250,56 @@
             <h4 class="col-md-4 my-md-3 text-center" style="color:red">訂單總額   : @ViewBag.orderHeader.OrderAmount.ToString("C0")</h4>
         </div>
         <hr />
-        <form id="member">
-            <h3 class="tle1">會員資料</h3>
-            <div class=" position-relative">
-                <div class="Trapezoid"></div>
-                <div class="form-row mt-md-5">
-                    <div class="form-group col-md-5 offset-md-1">
+        <form id="member" style="height:15rem;overflow:hidden">
+            <h3 class="tle1">會 員 資 料</h3>
+            <div>
+                <div>
+                    <div class="col-md-5 offset-md-1 pt-md-4">
                         <label for="UserName">會員姓名    :</label>
                         <text id="UserName">@Model.UserName</text>
                     </div>
-                    <div class="form-group col-md-5 offset-md-1">
+                    <div class="col-md-5 offset-md-1 pt-md-4">
                         <label for="Phone">會員電話    :</label>
                         <text id="Phone">@Model.Phone</text>
                     </div>
                 </div>
-                <div class="form-row mt-md-5">
-                    <div class="form-group col-md-2 offset-md-1">
+                <div class="">
+                    <div class="col-md-2 offset-md-1 pt-md-4">
                         <label for="CityName">居住城市   :</label>
                         <text id="CityName">@Model.Region.City.CityName</text>
                     </div>
-                    <div class="form-group col-md-2 offset-md-1">
+                    <div class="col-md-2 offset-md-1 pt-md-4">
                         <label for="RegionName">居住地區  :</label>
                         <text id="RegionName">@Model.Region.RegionName</text>
                     </div>
-                    <div class="form-group col-md-5 offset-md-1">
+                    <div class="col-md-5 offset-md-1 pt-md-4">
                         <label for="Address">居住地址  :</label>
                         <text id="Address">@Model.Address</text>
                     </div>
                 </div>
+                <div class="Trapezoid"></div>
             </div>
         </form>
         <hr />
-        <form id="buyer">
-            <h3 class="tle1">訂購人資料</h3>
-            <div class=" position-relative">
-                <div class="Trapezoid" style="border-top-width:215px;border-left-width:370px"></div>
-                <div class="form-row mt-md-5">
-                    <div class="form-group col-md-5 offset-md-1">
+        <form id="buyer" style="height: 25rem;overflow:hidden">
+            <h3 class="tle1">訂 購 人 資 料</h3>
+            <div>
+                <div>
+                    <div class="col-md-5 offset-md-1 pt-md-4">
                         <label for="buyername">訂購人    :</label>
                         <input type="checkbox" id="same" />
                         <label>資料與會員相同</label>
                         <input type="text" class="form-control" placeholder="訂購人姓名" id="buyername" />
                         <div class="d-none formcheck">姓名未填寫</div>
                     </div>
-                    <div class="form-group col-md-4 offset-md-1">
+                    <div class="col-md-4 offset-md-1 pt-md-4">
                         <label for="buyerphone">訂購人手機    :</label>
                         <input type="text" class="form-control" placeholder="訂購人手機  ( ex: 0912345678 )" id="buyerphone" />
                         <div class="d-none formcheck">手機填寫錯誤</div>
                     </div>
                 </div>
-                <div class="form-row mt-md-5">
-                    <div class="form-group col-md-2 offset-md-1">
+                <div>
+                    <div class="col-md-2 offset-md-1 pt-md-5">
                         <label for="buyercity">訂購人城市   :</label>
                         <select class="form-control" id="buyercity">
                             <option selected value="0" disabled="disabled">請選擇城市</option>
@@ -295,7 +310,7 @@
                         </select>
                         <div class="d-none formcheck">城市未選擇</div>
                     </div>
-                    <div class="form-group col-md-2 offset-md-1">
+                    <div class="col-md-2 offset-md-1 pt-md-5">
                         <label for="buyerregion">訂購人地區  :</label>
                         <select class="form-control" id="buyerregion">
                             <option selected value="0" disabled="disabled">請選擇地區</option>
@@ -306,12 +321,13 @@
                         </select>
                         <div class="d-none formcheck">地區未選擇</div>
                     </div>
-                    <div class="form-group col-md-4 offset-md-1">
+                    <div class="col-md-4 offset-md-1 pt-md-5">
                         <label for="buyeraddress">訂購人地址  :</label>
                         <input type="text" class="form-control" placeholder="訂購人地址" id="buyeraddress" />
                         <div class="d-none formcheck">地址未填寫</div>
                     </div>
                 </div>
+                <div class="Trapezoid"></div>
             </div>
         </form>
         <div class="text-md-center">

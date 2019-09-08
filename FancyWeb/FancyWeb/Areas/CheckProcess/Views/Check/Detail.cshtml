@@ -1,9 +1,10 @@
 ﻿@model  IEnumerable<FancyWeb.Areas.ProductDisplay.Models.CartItem>
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = "Fancy";
 }
 @section styles{
     <style>
+
         body {
             font-family: "微軟正黑體";
         }
@@ -62,7 +63,7 @@
         }
 
         .feecontent {
-            background-color: rgb(208, 196, 176);
+            background-color: rgb(217, 207, 191);
             width: 100%;
             height: 7rem;
             overflow: hidden;
@@ -83,6 +84,10 @@
             vertical-align: middle;
         }
 
+            .cbtn:hover {
+                color: crimson !important;
+            }
+
         .total:before {
             content: "NT$";
         }
@@ -96,7 +101,7 @@
         }
 
         .card-img {
-            height: 200px;
+            height: auto;
             width: 100%;
         }
 
@@ -134,12 +139,12 @@
 
         .sale {
             position: absolute;
-            background-color: red;
+            background-color: crimson;
             top: 0;
             left: 10px;
             width: 20px;
             text-align: center;
-            color: white;
+            color: wheat;
         }
 
         #table * {
@@ -153,6 +158,9 @@
             width: 8rem;
             height: 8rem;
             background-color: rgb(217, 207, 191);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .processimg {
@@ -194,29 +202,31 @@
         .line {
             position: absolute;
             background-color: rgba(88, 89, 91,0.7);
-            top: 25%;
-            left: 5%;
-            width: 90%;
-            height: 15%;
+            top: 3rem;
+            left: 0;
+            width: 100%;
+            height: 2rem;
+            border-radius: 1rem;
         }
 
         .inline {
             position: absolute;
             background-color: wheat;
-            top: 30%;
-            left: 5%;
-            height: 5%;
+            top: 3.65rem;
+            left: 0;
+            height: 0.75rem;
             width: 20%;
-            transition: .5s
+            transition: .5s;
+            border-radius: 1rem;
         }
 
-        .note {
+        /*.note {
             position: fixed;
             background-color: black;
-            border-radius: 5%;
-            width: 350px;
-            height: 200px;
-            top: 30%;
+            border-radius: 0.5rem;
+            width: 30rem;
+            height: 10rem;
+            top: 30rem;
             left: 40%;
             opacity: 0;
             transition: .5s;
@@ -226,15 +236,13 @@
             .note.active {
                 opacity: 0.5;
                 z-index: 1;
-            }
+            }*/
 
         .Trapezoid {
-            width: 70%;
-            border-left: 300px solid transparent;
-            border-top: 180px solid rgb(217, 207, 191);
-            position: absolute;
-            right: 0;
-            top: 1rem;
+            border-right: 90rem solid transparent;
+            border-bottom: 30rem solid rgb(208, 196, 176);
+            top: 0;
+            z-index: -1;
         }
 
         #payform label:hover {
@@ -243,24 +251,25 @@
         }
     </style>
 }
-<div id="top" class="container">
-    <div class="d-inline-flex justify-content-lg-between w-100 position-relative" style="height:18vh">
+@*<div id="top" class="container">*@
+<div id="top" class="">
+    <div class="d-inline-flex justify-content-sm-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
         <div class="process">
-            <i class="fa fa-shopping-cart processimg active" id="process1" style="left:23%;"></i>
+            <i class="fa fa-shopping-cart processimg active" id="process1"></i>
             <p class="processtext active text-center px-1">購物清單</p>
         </div>
         <div class="process">
-            <i class="fa fa-truck processimg" id="process2" style="left:20%"></i>
+            <i class="fa fa-truck processimg" id="process2"></i>
             <p class="processtext text-center px-1">付款方式</p>
         </div>
         <div class="process">
-            <i class="fa fa-pencil-square processimg" id="process3" style="left:28%"></i>
+            <i class="fa fa-pencil-square processimg" id="process3"></i>
             <p class="processtext text-center px-1">填寫資料</p>
         </div>
         <div class="process">
-            <i class="fa fa-handshake-o processimg" id="process4" style="left:15%"></i>
+            <i class="fa fa-handshake-o processimg" id="process4"></i>
             <p class="processtext text-center px-1">完成訂購</p>
         </div>
     </div>
@@ -275,10 +284,11 @@
                 @{foreach (var item in Model)
                     {
                         <tr data-pid="@item.ProductID" data-pname="@item.ProductName" data-pcid="@item.ProductColorID" data-cid="@item.ColorID" data-cname="@item.ColorName" data-psid="@item.ProductSizeID" data-sid="@item.SizeID" data-sname="@item.SizeName" data-did="@item.DiscountID" data-price="@item.UnitPrice" data-sprice="@item.SUnitPrice" data-aname="@item.ActivityName">
-                            <td class="border-0 px-md-0 py-md-0">
+                            <td class="border-0 px-md-0 py-md-1">
                                 <div class="card">
-                                    <div class="row" style="height:200px;">
-                                        <div class="col-md-2" style="overflow:hidden;">
+                                    @*<div class="row" style="height:200px;">*@
+                                    <div class="row">
+                                        <div class="col-md-2 d-flex align-items-center" style="overflow:hidden;height: 15rem">
                                             <img src='@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@item.ProductID?colorid=@item.ColorID' class="card-img">
                                         </div>
                                         <div class="col-md-6 d-flex justify-content-center align-items-center">
@@ -373,7 +383,6 @@
         </form>
     </div>
     <div class="mb-md-3 feecontent position-relative">
-        <div class="Trapezoid"></div>
         <div class="col-md-12" style="background-color:rgb(88, 89, 91);height:15px"></div>
         <div class="col-md-2 offset-md-2">
             <div class="my-md-4 text">
@@ -404,6 +413,7 @@
                 </tbody>
             </table>
         </div>
+        <div class="Trapezoid"></div>
     </div>
     <div class="note d-flex justify-content-center align-items-center"></div>
     <div class="text-md-center">
@@ -414,7 +424,7 @@
     </div>
     @if (ViewBag.recent != null)
     {
-        <h2>最近瀏覽過的商品</h2>
+        <h4>最近瀏覽過的商品</h4>
         <div class="row" id="recent">
             @foreach (var item in ViewBag.recent)
             {
@@ -433,6 +443,7 @@
                                 <span class="card-text">@item.UnitPrice.ToString("C0")</span>
                             }
                         </div>
+                        <div class="sale">@item.ActivityName</div>
                     </a>
                 </div>
             }
@@ -518,7 +529,8 @@
                 function (datas) {
                     if (datas == 0) {
                         $('#cartlist>tbody>tr').remove();
-                        $('.dropdown>a>div.qty').text(0);
+                        $('#cartqty').text(0);
+                        $('#navcart>h6').text('目前購物車中無商品');
                     }
                     else {
                         generatecart(datas);
@@ -563,36 +575,26 @@
             $('#camount').text(parseInt($('#pamount').text()) + parseInt($(this).data('charge')));
         });
 
-        let timer;
+
         $('#next2').on('click', function () {
             if ($('input[name=method]:checked', '#payform').val() != null) {
                 sendcart();
             }
             else {
                 //alert("尚未選擇付款方式");
-                let icon = $('<h1><i class="fa fa-times  mx-3" style="color:white"></i></h1>');
-                let word = $('<h3 style="color:white"  class="mb-md-0">  尚未選擇付款方式</h3>');
-                $('.note').html([icon, word]);
+                let icon = $('<h2><i class="fa fa-times  mx-3" style="color:white"></i></h2>');
+                let word = $('<h4 style="color:white"  class="mb-md-0">  尚未選擇付款方式</h4>');
+                //$('.note').html([icon, word]);
+                $('#message1').html([icon, word]);
                 note();
             }
         });
-
-        function note() {
-            $('.note').addClass('active');
-
-            clearInterval(timer);
-
-            timer = setInterval(function () {
-                $('.note').removeClass('active');
-            }, 500);
-            timer;
-        }
 
         $('#recent>div').on("mouseenter mouseleave", 'a.card', function () {
             $(this).toggleClass('active');
         })
 
-        let url = "@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })";
+        let url2 = "@Url.Action("OrderInfo", "Check", new { area = "CheckProcess" })";
 
         function sendcart() {
             let cartitems = new Array();
@@ -621,7 +623,7 @@
             }
 
             $.post(`@Url.Action("CartDetail", "Check", new { area = "CheckProcess" })`, { orderHeader: orderheader, cartItems: cartitems }, function (datas) {
-            location.href = url;
+            location.href = url2;
             });
         };
     </script>

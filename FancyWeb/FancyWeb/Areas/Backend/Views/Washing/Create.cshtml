@@ -17,7 +17,7 @@
         <div class="form-group row">
             @Html.LabelFor(p =>p.WashingName, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
             <div class="col-sm-10">
-                @Html.EditorFor(p => p.WashingName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入中分類名稱" } })
+                @Html.EditorFor(p => p.WashingName, new { htmlAttributes = new { @class = "form-control", placeholder = "輸入洗滌方式" } })
                 @Html.ValidationMessageFor(p => p.WashingName, "", new { @class = "text-danger" })
             </div>
         </div>

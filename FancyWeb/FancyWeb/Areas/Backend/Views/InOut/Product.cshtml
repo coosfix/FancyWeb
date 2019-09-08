@@ -11,7 +11,7 @@
 <div class="container">
     <div class="row">
         <div class="col-3">
-            <h2 style="color:blue;">產品資料</h2>
+            <h2 style="color:blue;">商品上下架</h2>
         </div>
         <div class="col-3">
             <a href="~/Backend/InOut/Export" class="btn btn-warning" style="margin:10px">匯出 Excel</i></a>
@@ -20,37 +20,37 @@
             <a href="~/Backend/InOut/Import" class="btn btn-info" style="margin:10px">匯入 Excel</i></a>
         </div>
     </div>
-</div>
-<table class="table table-bordered table-striped table-hover">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(p => p.First().ProductID)</th>
-            <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
-            <th>@Html.DisplayNameFor(p => p.First().CategoryMSName)</th>
-            <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
-            <th>@Html.DisplayNameFor(p => p.First().ProductInDate)</th>
-            <th>@Html.DisplayNameFor(p => p.First().ProductOutDate)</th>
-            <th>@Html.DisplayNameFor(p => p.First().UnitPrice)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
+    <table class="table table-bordered table-striped table-hover">
+        <thead>
             <tr>
-                <td>@Html.DisplayFor(p => product.ProductID)</td>
-                <td>@Html.DisplayFor(p => product.ProductName)</td>
-                <td>@Html.DisplayFor(p => product.CategoryMSName)</td>
-                <td>@Html.DisplayFor(p => product.SupplierName)</td>
-                <td>@Html.DisplayFor(p => product.ProductInDate)</td>
-                <td>@Html.DisplayFor(p => product.ProductOutDate)</td>
-                <td>@Html.DisplayFor(p => product.UnitPrice)</td>
-                <td><a href="~/Backend/InOut/Edit/@product.ProductID" class="btn btn-primary">修改</a></td>
+                <th>@Html.DisplayNameFor(p => p.First().ProductID)</th>
+                <th>@Html.DisplayNameFor(p => p.First().ProductName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().CategoryMSName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().SupplierName)</th>
+                <th>@Html.DisplayNameFor(p => p.First().ProductInDate)</th>
+                <th>@Html.DisplayNameFor(p => p.First().ProductOutDate)</th>
+                <th>@Html.DisplayNameFor(p => p.First().UnitPrice)</th>
+                <th></th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(p => product.ProductID)</td>
+                    <td>@Html.DisplayFor(p => product.ProductName)</td>
+                    <td>@Html.DisplayFor(p => product.CategoryMSName)</td>
+                    <td>@Html.DisplayFor(p => product.SupplierName)</td>
+                    <td>@Html.DisplayFor(p => product.ProductInDate)</td>
+                    <td>@Html.DisplayFor(p => product.ProductOutDate)</td>
+                    <td>@Html.DisplayFor(p => product.UnitPrice)</td>
+                    <td><a href="~/Backend/InOut/Edit/@product.ProductID" class="btn btn-primary">修改</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 
-@Html.PagedListPager(Model, page => Url.Action("Product", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
+    @Html.PagedListPager(Model, page => Url.Action("Product", new { page }), PagedListRenderOptions.ClassicPlusFirstAndLast)
 
+</div>
 

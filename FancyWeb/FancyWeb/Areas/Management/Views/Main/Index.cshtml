@@ -56,7 +56,7 @@
                             {
                                 <tr>
                                     <td data-pid="@item.PhotoID">
-                                        <img class="uphoto" src="@Url.Action("GetImageByte","Main")/@item.PhotoID" />
+                                        <img class="uphoto" src="@item.Photo" />
                                     </td>
                                     <td>@item.UserName</td>
                                     <td>@item.Phone</td>
@@ -151,7 +151,7 @@
                             {
                                 <tr>
                                     <td data-pid="@item.PhotoID">
-                                        <img class="uphoto" src="@Url.Action("GetImageByte","Main")/@item.PhotoID" />
+                                        <img class="uphoto" src="@item.Photo" />
                                     </td>
                                     <td>@item.UserName</td>
                                     <td>@item.Phone</td>
@@ -224,12 +224,19 @@
         </form>
         <div class="messgbtn messgbtn-s">送出</div>
         <div class="messgbtn messgbtn-c">取消</div>
+        <div class="loading-d">
+            <div class="spinner-border text-light position-absolute" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
     </div>
+
 </div>
 <!-- Addmodel -->
 <div class="modal fade" id="addAdmin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-0">
             <div class="modal-header rounded-0">
                 <h5 class="modal-title" id="exampleModalLabel">新增員工</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
@@ -284,6 +291,7 @@
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-info demo">Demo</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-primary adda">新增</button>
             </div>
@@ -297,6 +305,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalScrollableTitle">使用者詳細資料</h5>
+                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -305,7 +316,7 @@
                             <img class="ud-img" src="~/Areas/Members/Image/17.jpg" />
                         </div>
                         <div class="mt-3 p-3 border-top">
-                            <ul class="d-table list-unstyled w-100">
+                            <ul class="d-table list-unstyled w-100 ">
                                 <li>
                                     <span>
                                         <strong><i class="far fa-user"></i>姓名</strong>
@@ -316,7 +327,7 @@
                                     <span>
                                         <strong><i class="fas fa-venus-mars"></i>性別</strong>
                                     </span>
-                                    <span><i class="fas fa-male fa-2x"></i></span>
+                                    <span><i class="fas fa-male fa-3x"></i></span>
                                 </li>
                                 <li>
                                     <span>
@@ -408,7 +419,7 @@
             $(".ud-img").attr("src", "@Url.Action("GetImageByte","Main")/" + pid);
             $.post("@Url.Action("UserDetail", "Main")", { id: uid }, function (data) {
                 $("#settingUser .modal-body li:nth-child(1) span:last-child").text(data.UserName)
-                $("#settingUser .modal-body li:nth-child(2) span:last-child").html(data.Gender ? "<i class='fas fa-male fa-2x'></i>" : "<i class='fas fa-female fa-2x'></i>" )
+                $("#settingUser .modal-body li:nth-child(2) span:last-child").html(data.Gender ? "<i class='fas fa-male fa-2x'></i>" : "<i class='fas fa-female fa-3x'></i>" )
                 $("#settingUser .modal-body li:nth-child(3) span:last-child").html(data.Enabled ? "<span class='badge badge-success text-white'>正常</span>" : "<span class='badge badge-danger text-white'>廢除</span>" )
                 $("#settingUser .modal-body li:nth-child(4) span:last-child").text(data.RegisterDateTime)
                 $("#settingUser .modal-body li:nth-child(5) span:last-child").text(data.totalcost)
@@ -457,9 +468,9 @@
             $(".messageBox").css("transform", "translateY(100%)")
         });
         $(".messgbtn-s").click(function () {
+            $(".loading-d").toggleClass("active");
             $.post("@Url.Action("SendEmail", "Main")", $("#Message_form").serialize(), function (data) {
-
-
+                $(".loading-d").toggleClass("active");
             });
         });
        $.getJSON("@Url.Action("ReturnCity","Login",new { area= "Members" })", function (data) {
@@ -528,5 +539,14 @@
                 }
             })
         });
+
+        //demo
+        $(".demo").click(() => {
+            $("#rUserName").val("Bobb");
+            $("#rUserPassword").val("222");
+            $("#rEmail").val("test@gmail.com");
+            $("#rPhone").val("0912345675");
+            $("#gender2").attr("checked", "true");
+        })
     </script>
 }

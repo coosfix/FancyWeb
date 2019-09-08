@@ -4,6 +4,7 @@ using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace FancyWeb.Areas.Management.Service
@@ -17,10 +18,14 @@ namespace FancyWeb.Areas.Management.Service
         {
             var Userlist = db.Users.ToList();
             List<UsersListModel> AllUser = new List<UsersListModel>();
+            
             foreach (var item in Userlist)
             {
+                var user = db.Users.Find(item.UserID);
+                string photo = user.OauthType != "N" ? Encoding.UTF8.GetString(user.Photo.Photo1) : $"data:Image/jpeg;base64,{Convert.ToBase64String(user.Photo.Photo1)}";
                 AllUser.Add(new UsersListModel
                 {
+                    Photo = photo,
                     PhotoID = item.PhotoID,
                     UserID = item.UserID,
                     UserName = item.UserName,

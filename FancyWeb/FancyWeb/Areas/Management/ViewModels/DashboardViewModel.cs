@@ -15,9 +15,14 @@ namespace FancyWeb.Areas.Management.ViewModels
         public int WaitShip { get; set; }
         public Dictionary<string, int> MemberSource { get; set; }
         public Dictionary<string, double[]> MemberGender { get; set; }
-        public PopularProducts PopularProducts { get; set; }
+        public List<PopularProducts> PopularProducts { get; set; }
         public List<OrderHeader> recentOrders { get; set; }
         public List<EvaluationViewModel> recentEvaluation { get; set; }
+
+        public DashboardViewModel()
+        {
+            this.PopularProducts = new List<PopularProducts>();
+        }
     }
     public class PopularProducts
     {
@@ -27,7 +32,7 @@ namespace FancyWeb.Areas.Management.ViewModels
     }
     public class EvaluationViewModel
     {
-        public int Puid { get; set; }
+        public string uphoto { get; set; }
         public string productname { get; set; }
         public int Uid { get; set; }
         public string Username { get; set; }

@@ -8,6 +8,7 @@ namespace FancyWeb.Areas.Management.ViewModels
     public class UsersListModel
     {
         public int? PhotoID { get; set; }
+        public string Photo { get; set; }
         public int UserID { get; set; }
         public bool Admin { get; set; }
         public string UserName { get; set; }

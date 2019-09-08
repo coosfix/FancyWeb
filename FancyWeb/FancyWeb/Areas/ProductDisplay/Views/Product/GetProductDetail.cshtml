@@ -2,8 +2,8 @@
 @section styles{
     @*<link href="~/Areas/ProductDisplay/Content/css/GetProductDetail.css" rel="stylesheet" />*@
     <link type="text/css" href="~/Areas/ProductDisplay/Content/css/lightslider.css" rel="stylesheet" />
+    <link href="~/Areas/ProductDisplay/Content/dist/css/lightbox.css" rel="stylesheet" />
     <style>
-
 
         body {
             font-family: "微軟正黑體";
@@ -42,8 +42,8 @@
 
         /*選項內容*/
         .custom-control-label span {
-            font-size: 17px;
-            margin-left: 10px;
+            font-size: 1.3rem;
+            margin-left: 1.25rem;
             font-weight: normal
         }
 
@@ -90,14 +90,16 @@
         }
 
         #OrderQTY {
-            width: 80%;
+            width: 25rem;
             display: inline-block;
-            text-align-last: center;
+            text-align: center;
             position: absolute;
-            left: 50px;
+            left: 5rem;
             border-radius: 0.3rem;
             border-color: transparent;
-            background-color: #dee2e6
+            background-color: #dee2e6;
+            padding: 0;
+            height: 2.45rem;
         }
 
         .pinput {
@@ -127,30 +129,30 @@
             text-align-last: center;
             border: none;
             background-color: #a2babb;
-            height: 26px;
-            width: 50px;
+            height: 2.45rem;
+            width: 4rem;
             color: white;
-            line-height: 10px;
+            line-height: 1rem;
             /*font-size: 23px;*/
             border-radius: 0;
         }
 
             .qbtn.minus {
                 top: 0;
-                left: 50px;
+                left: 5rem;
                 border-top-left-radius: 0.3rem;
                 border-bottom-left-radius: 0.3rem;
             }
 
             .qbtn.add {
                 top: 0;
-                left: 80%;
+                left: 26rem;
                 border-top-right-radius: 0.3rem;
                 border-bottom-right-radius: 0.3rem;
             }
 
             .qbtn:hover {
-                cursor: not-allowed
+                /*cursor: not-allowed*/
             }
 
             .qbtn.active:hover {
@@ -211,8 +213,8 @@
             position: absolute;
             background-color: crimson;
             top: 0;
-            left: 10px;
-            width: 20px;
+            left: 1rem;
+            width: 2rem;
             text-align: center;
             color: wheat;
             font-family: "微軟正黑體";
@@ -225,10 +227,10 @@
         .note {
             position: fixed;
             background-color: black;
-            border-radius: 5%;
-            width: 350px;
-            height: 200px;
-            top: 30%;
+            border-radius: 0.5rem;
+            width: 30rem;
+            height: 10rem;
+            top: 30rem;
             left: 40%;
             opacity: 0;
             transition: .5s;
@@ -237,11 +239,11 @@
 
             .note.active {
                 opacity: 0.5;
-                z-index: 1;
+                z-index: 10;
             }
 
         .col-md-2 a, #route span, #olist {
-            font-size: 17px;
+            font-size: 15px;
         }
 
         .tle1 {
@@ -274,15 +276,19 @@
                 width: 12%;
                 cursor: pointer;
             }
+
+        #recommend .light3 {
+            height: 197px !important
+        }
     </style>
 }
 <div class="row">
     <div class="col-md-2">
-        <h4 class="tle1">活動專區</h4>
+        <h5 class="tle1">活動專區</h5>
         <div class="list-group-flush" id="activity">
         </div>
         <hr />
-        <h4 class="tle1">商品類別</h4>
+        <h5 class="tle1">商品類別</h5>
         <div class="list-group-flush" id="category">
         </div>
     </div>
@@ -301,9 +307,11 @@
         <div class="row  justify-content-center" id="display">
             <div class="col-md-7 mt-md-3 row">
                 <div class="col-md-9 px-md-0 position-relative d-md-flex justify-content-center" style="overflow:hidden" id="mainpicbox">
-                    <img src="@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=@ViewBag.colorid" id="mainpic" />
+                    <a data-lightbox="test" href="@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=@ViewBag.colorid">
+                        <img src="@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=@ViewBag.colorid" id="mainpic" />
+                    </a>
                     <div>
-                        <img src="~/Areas/ProductDisplay/Images/zoom_icon.png" id="zoom" />
+                        @*<img src="~/Areas/ProductDisplay/Images/zoom_icon.png" id="zoom" />*@
                     </div>
                 </div>
                 <div class="col-md-3 px-md-2">
@@ -312,6 +320,7 @@
                         {
                             <li>
                                 <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
+                                <a data-lightbox="test" href="data:Image/jpeg;base64,@image" hidden></a>
                             </li>
                         }
                     </ul>
@@ -319,18 +328,18 @@
             </div>
             <div class="col-md-5 mt-3">
                 <div>
-                    <h2>@Html.DisplayFor(p => Model.ProductName)</h2>
+                    <h3>@Html.DisplayFor(p => Model.ProductName)</h3>
                     <input class="pinput" type="hidden" value="@Model.ProductID" id="ProductID" name="ProductID" />
                     @if (Model.SUnitPrice > 0)
                     {
-                        <h4 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h4>
+                        <h5 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h5>
                         <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
-                        <h4 style="color:red">@Html.DisplayFor(p => Model.SUnitPrice)</h4>
+                        <h5 style="color:red">@Html.DisplayFor(p => Model.SUnitPrice)</h5>
                         <input class="pinput" type="hidden" value="@Model.SUnitPrice" id="SUnitPrice" name="SUnitPrice" />
                     }
                     else
                     {
-                        <h4>@Html.DisplayFor(p => Model.UnitPrice)</h4>
+                        <h5>@Html.DisplayFor(p => Model.UnitPrice)</h5>
                         <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
                     }
                     <hr />
@@ -352,8 +361,8 @@
                                 <label class="custom-control-label" for="size_@size.SizeID"><span>@size.SizeName</span></label>
                             </div>
                         }
-                        <div class="position-absolute d-none" id="caution" style="top:5%;left:45%;color:red">
-                            此商品庫存不足，購買將轉為預購
+                        <div class="position-absolute d-none" id="caution" style="top: 0.25rem;left:18rem;color:red;font-size:1.2rem;">
+                            此商品庫存不足將轉為預購
                         </div>
                     </div>
                     <div class="my-4">
@@ -370,10 +379,10 @@
                     </div>
                     <hr />
                     <div class="my-3" style="text-align-last:center">
-                        <button class="btn  btn-sm mx-auto pbtn" disabled id="btncart"><i class="fa fa-shopping-cart"></i>    加入購物車</button>
+                        <button class="btn  btn-sm mx-auto pbtn" @*disabled*@ id="btncart"><i class="fa fa-shopping-cart"></i>    加入購物車</button>
                     </div>
                     <div class="my-3" style="text-align-last:center">
-                        <button class="btn btn-secondary  btn-sm pbtn" id="btnfav"><i class="fa fa-heart"></i>   加入最愛</button>
+                        <button class="btn btn-secondary  btn-sm pbtn" id="btnfav"><i class="fa fa-heart"></i>   加入收藏</button>
                     </div>
                     <hr />
                     <div>
@@ -397,7 +406,7 @@
         </div>
         <hr />
         <div>
-            <h2>推薦商品</h2>
+            <h4>你可能也會喜歡</h4>
             <div class="flex-md-row" id="recommend">
                 <ul id="light-slider2">
                     @foreach (var item in ViewBag.recommend)
@@ -410,12 +419,12 @@
                                         <h6 class="card-title">@item.ProductName</h6>
                                         @if (item.SUnitPrice > 0)
                                         {
-                                            <span class="card-text" style="text-decoration: line-through;">@item.UnitPrice.ToString("C0")</span>
-                                            <span class="card-text" style="color: red;">@item.SUnitPrice.ToString("C0")</span>
+                                            <span class="card-text" style="text-decoration: line-through;font-size: 1.3rem">@item.UnitPrice.ToString("C0")</span>
+                                            <span class="card-text" style="color: red;font-size: 1.3rem">@item.SUnitPrice.ToString("C0")</span>
                                         }
                                         else
                                         {
-                                            <span class="card-text">@item.UnitPrice.ToString("C0")</span>
+                                            <span class="card-text" style="font-size: 1.3rem">@item.UnitPrice.ToString("C0")</span>
                                         }
                                     </div>
                                     <div class="sale">@item.ActivityName</div>
@@ -428,7 +437,7 @@
         </div>
         <hr />
         <div>
-            <h2>商品評論</h2>
+            <h4>商品評論</h4>
             <div>
                 <table class="w-75">
                     <tbody id="comment">
@@ -437,29 +446,36 @@
                             {
                                 foreach (var evaluation in ViewBag.evaluation)
                                 {
-                                    <tr>
+                                    <tr style="box-shadow: 1px 1px 1px grey;">
                                         <td class="border-0">
-                                            <div class="card w-100">
+                                            <div class="card w-100" style="background-color:rgba(217, 207, 191,.3)">
                                                 <div class="row">
                                                     <div class="col-md-2">
                                                         <div class="card-body h-100 d-md-flex align-items-center justify-content-sm-center">
-                                                            <img src="data:Image/jpeg;base64,@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
+                                                            <img src="@evaluation.UserPhoto" style="border-radius:50%;width:80%" />
                                                         </div>
                                                     </div>
                                                     <div class="col-md-7">
                                                         <div class="card-body h-100">
-                                                            <h5 class="card-title">@evaluation.OrderNum</h5>
-                                                            <p class="card-text">
-                                                                @evaluation.Comment<br />
-                                                                @evaluation.ColorName   -   @evaluation.SizeName
+                                                            <span style="font-weight:lighter;font-size:small">@evaluation.OrderNum</span>
+                                                            <p class="card-text my-md-1">
+                                                                @evaluation.Comment
                                                             </p>
+                                                            <span style="font-weight:lighter;font-size:small">@evaluation.ColorName   -   @evaluation.SizeName</span>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-3">
                                                         <div class="card-body h-100">
-                                                            <h5 class="card-title">@evaluation.EvaluationDate</h5>
-                                                            <p class="card-text">
-                                                                @evaluation.Grade
+                                                            <span style="font-weight:lighter;font-size:small">@evaluation.EvaluationDate</span>
+                                                            <p class="card-text py-md-2">
+                                                                @for (int i = 1; i <= evaluation.Grade; i++)
+                                                                {
+                                                                    <i class="fa fa-star" style="color:orange;font-size:2rem"></i>
+                                                                }
+                                                                @for (int i = 1; i <= evaluation.Other; i++)
+                                                                {
+                                                                    <i class="fa fa-star-o" style="font-size:2rem"></i>
+                                                                }
                                                             </p>
                                                         </div>
                                                     </div>
@@ -473,9 +489,9 @@
                             {
                                 <tr>
                                     <td class="border-0">
-                                        <div class="card w-100">
-                                            <div class="row">
-                                                <div class="col-md-12">此商品尚未有買家評論</div>
+                                        <div class="card w-100" style="background-color:rgba(217, 207, 191,.3)">
+                                            <div class="row" style="min-height: 10.7rem;text-align: center;line-height: 10.7rem;">
+                                                <div class="col-md-12" style="font-weight: bold;">此商品尚未有買家評論</div>
                                             </div>
                                         </div>
                                     </td>
@@ -488,10 +504,10 @@
         </div>
     </div>
 </div>
-<div class="note d-flex justify-content-center align-items-center"></div>
+@*<div class="note d-flex justify-content-center align-items-center"></div>*@
 @section scripts{
     <script src="~/Areas/ProductDisplay/Content/js/lightslider.js"></script>
-    @*<script src="~/Areas/ProductDisplay/Content/js/jquery.mlens-1.7.min.js"></script>*@
+    <script src="~/Areas/ProductDisplay/Content/dist/js/lightbox.js"></script>
     <script>
         let nowmid = @ViewBag.categorymid;
         let nowsid = @Model.CategorySID;
@@ -545,15 +561,15 @@
             $("#light-slider").lightSlider({
                 slideMargin: 3,
                 vertical: true,
-                //autoWidth:true
-                verticalHeight: 690
+                verticalHeight: 690,
             });
 
             $("#light-slider2").lightSlider({
                 item: 6,
-                vertical: false
+                vertical: false,
+                galleryMargin: 10,
             });
-
+            $("#light-slider2").addClass('light3')
             $('#light-slider>li').on('click', 'img', function () {
                 $('#mainpic').attr('src', `${$(this).attr('src')}`)
             });
@@ -569,7 +585,6 @@
             $('#ColorBox .box').click(function () {
                 $(this).addClass('active').siblings().removeClass('active');
                 $('#cnotice').text($(this).attr('title'));
-                //$('input[type=radio][name=SizeID]').removeAttr('disabled');
                 $('#ColorID').val($(this).data('cid'));
                 if ($('input[type=radio][name=SizeID]:checked').val() >0) {
                     $('#OrderQTY').removeAttr('disabled');
@@ -586,6 +601,23 @@
                     checkqty(0);
                 }
             });
+
+            $('#qty').on('click', 'div', function () {
+                checksizecolor();
+            });
+
+            function checksizecolor() {
+                if ($('#ColorID').val() == "") {
+                    let word = $('<h4 style="color:white" class="mb-md-0">  請選擇顏色</h4>');
+                    $('#message1').html([word]);
+                    note();
+                }
+                else if ($('input[type=radio][name=SizeID]:checked').val() == undefined) {
+                    let word = $('<h4 style="color:white" class="mb-md-0">  請選擇尺寸</h4>');
+                    $('#message1').html([word]);
+                    note();
+                }
+            }
 
             $('#qty').on('click','div.qbtn.minus.active',function () {
                 if ($('#OrderQTY').val() > 1) {
@@ -609,9 +641,21 @@
                     SUnitPrice: $('#SUnitPrice').val(),
                     UnitPrice: $('#UnitPrice').val(),
                     OrderQTY: parseInt($('#OrderQTY').val())
-                    }, function (datas) {
-                        generatecart(datas);
+                }, function (datas) {
+                        if (datas != "notmember") {
+                            generatecart(datas);
+                            $('#navcart>h6').text('已選擇商品');
+                            let icon = $('<h2><i class="fa fa-shopping-cart mx-3" style="color:white"></i></h2>');
+                            let word = $('<h4 style="color:white" class="mb-md-0">  加入購物車</h4>');
+                            $('#message1').html([icon, word]);
                         }
+                        else {
+                            //let word = $('<h4 style="color:white" class="mb-md-0">  請先登入會員</h4>');
+                            //$('#message1').html([word]);
+                            //setTimeout(delayjump, 1000);
+                            notmember();
+                        }
+                     }
                 );
             };
 
@@ -628,56 +672,57 @@
                     SizeID: parseInt($('input[type=radio][name=SizeID]:checked').val()),
                     StockQTY: qty
                     }, function (datas) {
-                        //console.log(datas);
                         if (datas == "preorder") {
                             $('#caution').removeClass('d-none');
                         }
                         else {
                             $('#caution').addClass('d-none');
                         }
-                        }
+                    }
                 );
             }
 
-            let timer;
+
             let url = "@Url.Action("Index", "Login", new { area = "Members" })";
             $('#btnfav').click(function () {
-                $.post('@Url.Action("AddFavorite", "Product", new { area = "ProductDisplay" })', {ProductID :$('#ProductID').val()}, function (datas) {
-                    //alert(datas);
-                    if (datas == "remove") {
-                        let icon = $('<h1><i class="fa fa-times mx-3" style="color:white"></i></h1>');
-                        let word = $('<h3 style="color:white;" class="mb-md-0">  移除最愛</h3>');
-                        $('.note').html([icon, word]);
-                    }
-                    else if (datas == "add") {
-                        let icon = $('<h1><i class="fa fa-check mx-3" style="color:white"></i></h1>');
-                        let word = $('<h3 style="color:white;" class="mb-md-0">  加入最愛</h3>');
-                        $('.note').html([icon, word]);
-                    }
-                    else {
-                        location.href = url;
-                    }
-                });
-                $(this).toggleClass('active');
+                if (username != "") {
+                    $.post('@Url.Action("AddFavorite", "Product", new { area = "ProductDisplay" })', { ProductID: $('#ProductID').val() }, function (datas) {
+                        if (datas == "remove") {
+                            let icon = $('<h2><i class="fa fa-times mx-3" style="color:white"></i></h2>');
+                            let word = $('<h4 style="color:white;" class="mb-md-0">  移除收藏</h4>');
+                            $('#message1').html([icon, word]);
+                            $('#btnfav').toggleClass('active');
+                        }
+                        else {
+                            let icon = $('<h2><i class="fa fa-check mx-3" style="color:white"></i></h2>');
+                            let word = $('<h4 style="color:white;" class="mb-md-0">  加入收藏</h4>');
+                            $('#message1').html([icon, word]);
+                            $('#btnfav').toggleClass('active');
+                        }
+                    });
+                }
+                else {
+                    //let word = $('<h4 style="color:white;" class="mb-md-0">  請先登入會員</h4>');
+                    //$('#message1').html([word]);
+                    //setTimeout(delayjump, 1000);
+                    notmember();
+                }
                 note();
             });
 
-            function note() {
-                $('.note').addClass('active');
-
-                clearInterval(timer);
-
-                timer = setInterval(function () {
-                    $('.note').removeClass('active');
-                }, 500);
-                timer;
-            }
-
             $('#btncart').on('click', function () {
-                add();
-                let icon = $('<h1><i class="fa fa-shopping-cart mx-3" style="color:white"></i></h1>');
-                let word = $('<h3 style="color:white" class="mb-md-0">  加入購物車</h3>');
-                $('.note').html([icon, word]);
+                if (username != "") {
+                    console.log($('#ColorID').val())
+                    console.log($('#ColorID').val())
+                    if ($('#ColorID').val() != "" && $('input[type=radio][name=SizeID]:checked').val() != undefined)
+                        add();
+                    else {
+                        checksizecolor();
+                    }
+                }
+                else {
+                    notmember();
+                }
                 note();
             });
 
@@ -685,38 +730,13 @@
                 $(this).toggleClass('active');
             })
 
-            //window.onresize = function () {
-            //}
-
-            @*$.get(`@Url.Action("LoadEvaluation", "Product", new { area = "ProductDisplay" })/@Model.ProductID`, function (datas) {
-                let doc = $(document.createDocumentFragment());
-                $.each(datas, function (index, data) {
-                    let tr = $('<tr></tr>');
-                    let td = $('<td></td>').addClass('border-0');
-                    let outd = $('<div></div>').addClass('card w-100');
-                    let ind = $('<div></div>').addClass('row');
-                    let ordernum = $('<h5></h5>').addClass('card-title').text(`訂單編號 :${(data.OrderNum)}`);
-                    let usercomment = $('<p></p>').addClass('card-text').text(data.Comment);
-                    let grade = $('<h5></h5>').addClass('card-title').text(data.Grade);
-                    let evaluationdate = $('<p></p>').addClass('card-text').text(`評價日期  :${data.EvaluationDate}`);
-                    let userphoto = $('<img></img>').attr('src', `data:Image/jpeg;base64,${data.UserPhoto}`).css({ 'border-radius': '50%' ,'width':'80%'});
-                    let d1 = $('<div></div>').addClass('col-md-2').append($('<div></div>').addClass('card-body h-100').append(userphoto));
-                    let d2 = $('<div></div>').addClass('col-md-7').append($('<div></div>').addClass('card-body h-100').append([ordernum, usercomment]));
-                    let d3 = $('<div></div>').addClass('col-md-3').append($('<div></div>').addClass('card-body h-100').append([evaluationdate, grade]));
-                    ind.append([d1,d2,d3]);
-                    outd.append(ind);
-                    td.append(outd);
-                    tr.append(td);
-                    doc.append(tr);
-                })
-                $('#comment').append(doc);
-            })*@
-
-            $('#zoom').click(function () {
-
-            })
-
-
-    });
+        });
+    </script>
+    <script>
+        //LIGHTBOX by Lokesh Dhakar
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true
+        })
     </script>
 }

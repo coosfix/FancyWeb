@@ -12,17 +12,22 @@ namespace FancyWeb.Areas.Members.Service
         private FancyStoreEntities db = new FancyStoreEntities();
         public static string upid { get; set; }
         #region 登入確認
-        public bool LoginCheck(string UserName, string Password)
+        public string LoginCheck(string UserName, string Password)
         {
             if (db.Users.Any(m => m.UserName == UserName))
             {
                 User LoginUser = db.Users.Where(m => m.UserName == UserName).FirstOrDefault();
                 byte[] pw = MemberMethod.HashPw(Password, LoginUser.GUID);
                 upid = LoginUser.UserID.ToString();
-                return BitConverter.ToString(pw) == BitConverter.ToString(LoginUser.UserPassword)
-                    && LoginUser.VerificationCode==String.Empty;
+                if (!LoginUser.Enabled) return "noenabled";
+                if (BitConverter.ToString(pw) == BitConverter.ToString(LoginUser.UserPassword) &&
+                    LoginUser.VerificationCode == String.Empty)
+                {
+                    return "islogin";
+                }
+                else { return "nologin"; }
             }
-            else { return false; }
+            else { return "nologin"; }
         }
         #endregion
 
@@ -47,6 +52,13 @@ namespace FancyWeb.Areas.Members.Service
         public bool isAdmin(string id)
         {
             return db.Users.Find(Convert.ToInt32(id)).Admin;
+        }
+        #endregion
+        #region 是否為Service
+        public bool isService(string id)
+        {
+            string su = db.Users.Where(x => x.UserName == "service").FirstOrDefault().UserID.ToString();
+            return su == id;
         }
         #endregion
         #region 更新密碼
@@ -152,7 +164,7 @@ namespace FancyWeb.Areas.Members.Service
         }
         #endregion
         #region 清空驗證
-        public  bool ClearV(string PV)
+        public bool ClearV(string PV)
         {
             var data = db.Users.Where(n => n.VerificationCode == PV).FirstOrDefault();
             if (data == null) return true;
@@ -202,7 +214,7 @@ namespace FancyWeb.Areas.Members.Service
                     FavoriteID = item.FavoriteID,
                     ProductID = item.ProductID,
                     ProductName = item.Product.ProductName,
-                    CompanyName = item.Product.Supplier.SupplierName + "-" + item.Product.SupplierID,
+                    CompanyName = item.Product.CategorySmall.CategorySName + "-" + item.Product.CategorySmall.CategorySID,
                     Activity = item.Product.ActivityProducts.Any(n => n.ProductID == item.ProductID) ?
                     item.Product.ActivityProducts.Where(n => n.ProductID == item.ProductID).FirstOrDefault().Activity.ActivityName + "-" + item.Product.ActivityProducts.Where(n => n.ProductID == item.ProductID).FirstOrDefault().Activity.ActivityID : null,
                     UnitePrice = item.Product.UnitPrice,
@@ -314,7 +326,7 @@ namespace FancyWeb.Areas.Members.Service
 
             if (filter.OrderDate != null)
             {
-                filterlist = filterlist.Where(n => filter.OrderDate.Contains(n.OrderDate.Year+"/"+n.OrderDate.Month)).ToList();
+                filterlist = filterlist.Where(n => filter.OrderDate.Contains(n.OrderDate.Year + "/" + n.OrderDate.Month)).ToList();
             }
             return filterlist;
         }
@@ -333,7 +345,7 @@ namespace FancyWeb.Areas.Members.Service
                     Size = item.ProductSize.Size.SizeName,
                     QTY = item.OrderQTY,
                     UnitPrice = item.UnitPrice,
-                    subtotal = item.OrderQTY* item.UnitPrice,
+                    subtotal = item.OrderQTY * item.UnitPrice,
                     Freight = item.OrderHeader.PayMethod.Freight,
                 });
             }

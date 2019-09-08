@@ -20,6 +20,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             return View();
         }
 
+        //商品顯示
         public ActionResult Browse(int id = 1, int? sid = 0)
         {
             ViewBag.categorymid = id;
@@ -33,32 +34,37 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             return View();
         }
 
+        //商品活動分類
         public ActionResult GetActivity(int id = 0)
         {
             var activities = db.Activities.Select(a => new { a.ActivityID, a.ActivityName });
             return Json(activities.ToList(), JsonRequestBehavior.AllowGet);
         }
 
+        //商品小類別分類
         public ActionResult GetCategory(int id = 1)
         {
-            //var categories = db.CategorySmalls.Where(c => c.CategoryMID == id).GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
-            var categories = db.CategorySmalls.GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
+            var categories = db.CategorySmalls.Where(c => c.CategoryMID == id).GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
+            //var categories = db.CategorySmalls.GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
             return Json(categories.ToList(), JsonRequestBehavior.AllowGet);
 
         }
 
-        public ActionResult GetProduct(int id = 1, int sid = 0, int orderid = 1)
+        //塊狀商品展示
+        public ActionResult GetProduct(int id = 1, int sid = 0, int orderid = 1, int page = 1)
         {
             IQueryable<ProductColor> preproducts = (sid != 0) ? db.ProductColors.Where(p => p.Product.CategorySID == sid) : db.ProductColors.Where(p => p.Product.CategorySmall.CategoryMID == id);
 
             var products = ProductMethod.CreateProductCells(preproducts);
+            int pages = products.Count();
 
-            var orderresult = ProductMethod.SetCellsByOrder(products, orderid);
+            var orderresult = ProductMethod.SetCellsByOrder(products, orderid).Skip((page - 1) * 16).Take(16);
 
-            return Json(orderresult.ToList(), JsonRequestBehavior.AllowGet);
+            return Json(new { pages = pages, datas = orderresult.ToList() }, JsonRequestBehavior.AllowGet);
 
         }
 
+        //判斷商品有無存在活動中
         public ActionResult GetSale(int id)
         {
             var sale = db.ActivityProducts.Where(a => a.ProductID == id).First().Activity.DiscountMethod.Discount;
@@ -66,6 +72,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
 
         }
 
+        //取得商品展示圖
         public ActionResult ByteImage(int id, int? colorid = 0)
         {
             if (colorid == 0)
@@ -78,6 +85,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
 
         }
 
+        //取得商品詳細資料
         public ActionResult GetProductDetail(int id = 1, int? colorid = 0)
         {
             //瀏覽過的紀錄
@@ -146,7 +154,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 ViewBag.fav = 0;
             }
 
-            var products = db.Products.Where(p => p.ProductID != id).OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+            var products = db.Products.Where(p => p.ProductID != id && p.CategorySID == prodcutDisplay.CategorySID).OrderBy(x => Guid.NewGuid()).Take(10).ToList();
 
             List<CartItem> citems = new List<CartItem>();
             CartItem citem;
@@ -171,12 +179,18 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             ViewBag.recommend = citems.ToList();
 
             var evaluation = ProductMethod.LoadEvaluation(id);
+            if (evaluation.Count > 0)
+            {
+                int score = evaluation.Sum(e => e.Grade) / evaluation.Count;
+                ViewBag.score = score;
+            }
             ViewBag.evaluation = evaluation.ToList();
 
             return View(prodcutDisplay);
 
         }
 
+        //查詢商品剩餘數量
         public ActionResult CheckQTY(int ProductID, int ColorID, int SizeID, int StockQTY)
         {
             var qty = db.ProductStocks.Where(s => s.ProductID == ProductID && s.ProductColor.ColorID == ColorID && s.ProductSize.SizeID == SizeID).FirstOrDefault().StockQTY;
@@ -184,9 +198,9 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 return Json("enough");
             else
                 return Json("preorder");
-
         }
 
+        //加入購物車
         public ActionResult AddCart(CartItem item)
         {
             List<CartItem> cart;
@@ -230,37 +244,38 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             //非會員
             else
             {
-                //已有購物車(非購買第一件商品)
-                if (Session["cart"] != null)
-                {
-                    cart = (List<CartItem>)Session["cart"];
-                    var incart = cart.Where(c => c.ProductID == item.ProductID && c.ColorID == item.ColorID && c.SizeID == item.SizeID).ToList();
-                    //購物車內已有相同款式商品
-                    if (incart.Count() > 0)
-                    {
-                        incart.First().OrderQTY += item.OrderQTY;
-                    }
-                    //購物車內無相同款式
-                    else
-                    {
-                        cart.Add(item);
-                    }
-                    Session.Add("cart", cart);
-                }
-                //尚未產生購物車(購買第一項商品)
-                else
-                {
-                    //建立購物車
-                    cart = new List<CartItem>();
-                    //加入商品
-                    cart.Add(item);
-                    Session.Add("cart", cart);
-                }
-                return Json(cart, JsonRequestBehavior.AllowGet);
+                ////已有購物車(非購買第一件商品)
+                //if (Session["cart"] != null)
+                //{
+                //    cart = (List<CartItem>)Session["cart"];
+                //    var incart = cart.Where(c => c.ProductID == item.ProductID && c.ColorID == item.ColorID && c.SizeID == item.SizeID).ToList();
+                //    //購物車內已有相同款式商品
+                //    if (incart.Count() > 0)
+                //    {
+                //        incart.First().OrderQTY += item.OrderQTY;
+                //    }
+                //    //購物車內無相同款式
+                //    else
+                //    {
+                //        cart.Add(item);
+                //    }
+                //    Session.Add("cart", cart);
+                //}
+                ////尚未產生購物車(購買第一項商品)
+                //else
+                //{
+                //    //建立購物車
+                //    cart = new List<CartItem>();
+                //    //加入商品
+                //    cart.Add(item);
+                //    Session.Add("cart", cart);
+                //}
+                return Json("notmember", JsonRequestBehavior.AllowGet);
             }
 
         }
 
+        //載入購物車
         public ActionResult LoadCart()
         {
             //會員
@@ -268,12 +283,13 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             {
                 List<CartItem> cart;
                 int uid = int.Parse(Request.Cookies["upid"].Value);
-                var usercart = db.Carts.Where(c => c.UserID == uid).ToList();
+                var usercart = db.Carts.Where(c => c.UserID == uid);
                 if (usercart.Count() > 0)
                 {
                     //把db.cart內容回傳cart>
-                    cart = ProductMethod.Cart(uid);
+                    cart = ProductMethod.Cart(uid).ToList();
                     return Json(cart, JsonRequestBehavior.AllowGet);
+
                 }
                 else
                 {
@@ -289,12 +305,55 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 }
                 else
                 {
-                    return Json(0, JsonRequestBehavior.AllowGet);
+                    List<CartItem> empty = new List<CartItem>();
+                    return Json(empty, JsonRequestBehavior.AllowGet);
                 }
             }
-
         }
 
+        //載入通知
+        public ActionResult LoadCaution()
+        {
+            if (Session["IsLogin"] != null || Request.Cookies["IsLogin"] != null)
+            {
+                int uid = int.Parse(Request.Cookies["upid"].Value);
+                var usernotice = db.UserNotices.Where(c => c.UserID == uid);
+                if (usernotice.Count() > 0)
+                {
+                    var notice = usernotice.OrderByDescending(u => u.NoticeDate).AsEnumerable().Select(s => new { s.Comment, NoticeDate = s.NoticeDate.ToString("yyyy/MM/dd"), s.NoticeID, s.IsRead }).ToList();
+                    var unread = usernotice.Where(u => u.IsRead == false).Count();
+                    return Json(new { unread = unread, notice = notice }, JsonRequestBehavior.AllowGet);
+                }
+                else
+                {
+                    return Json(new { unread = 0, notice = "nocaution" }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            else
+            {
+                return Json(new { unread = 0, notice = "nocaution" }, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public ActionResult ReadByNoticeId(int id)
+        {
+            if (Session["IsLogin"] != null || Request.Cookies["IsLogin"] != null)
+            {
+                int uid = int.Parse(Request.Cookies["upid"].Value);
+                var readstate = db.UserNotices.Find(id);
+                readstate.IsRead = true;
+                db.Entry(readstate).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+                var unread = db.UserNotices.Where(u => u.UserID == uid && u.IsRead == false).Count();
+                return Json(unread, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json("notmember");
+            }
+        }
+
+        //加入最愛
         public ActionResult AddFavorite(MyFavorite myFavorite)
         {
             if (Session["IsLogin"] != null || Request.Cookies["IsLogin"] != null)
@@ -318,7 +377,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             }
             else
             {
-                return RedirectToAction("Index", "Login", new { area = "Members" });
+                return Json(0);
             }
         }
     }

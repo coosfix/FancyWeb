@@ -4,6 +4,7 @@ using FancyWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,7 +14,7 @@ namespace FancyWeb.Areas.Members.Controllers
     {
 
         MemberService service = new MemberService();
-
+        private FancyStoreEntities db = new FancyStoreEntities();
         public ActionResult Index()
         {
             //if (Request.Cookies["IsLogin"] != null)
@@ -27,31 +28,39 @@ namespace FancyWeb.Areas.Members.Controllers
         {
             if (UserName == "" || Password == "")
             {
-                ViewBag.Message = "欄位不能為空";
-                return View();
+                return Json("none");
             }
-            if (service.LoginCheck(UserName, Password))
+            string status = service.LoginCheck(UserName, Password);
+            if (status == "islogin")
             {
-                if (AutoLogin)
-                {
-                    addcookie(7);
-                }
-                else
-                {
-                    addcookie(1);
-                }
-
+                if (AutoLogin) addcookie(7); else addcookie(1);
                 if (Session["RequestURL"] != null)
                 {
                     string[] CA = Session["RequestURL"].ToString().Split('-');
-                    return RedirectToAction(CA[1], CA[0]);
+                    UriBuilder url = new UriBuilder(Request.Url)
+                    {
+                        Path = Url.Action(CA[1], CA[0], new { area = CA[2] })
+                    };
+                    return Json(url.ToString());
                 }
-                else return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                else
+                {
+                    UriBuilder url = new UriBuilder(Request.Url)
+                    {
+                        Path = Url.Action("Index", "Home", new { area = "HomePage" })
+                    };
+                    return Json(url.ToString());
+                };
+            }
+            else if (status == "noenabled")
+            {
+                ViewBag.Message = "你的帳戶已被黑名單";
+                return Json("noenabled");
             }
             else
             {
                 ViewBag.Message = "帳號密碼錯誤";
-                return View();
+                return Json("nologin");
             }
         }
         [HttpPost]
@@ -65,7 +74,13 @@ namespace FancyWeb.Areas.Members.Controllers
             if (MemberMethod.IsValidEmail(RegisterMember.Email) && MemberMethod.IsValidPhone(RegisterMember.Phone))
             {
                 string guid = Guid.NewGuid().ToString("N");
-
+                Photo photo = new Photo
+                {
+                    Photo1 = db.Photos.Find(1).Photo1,
+                    CreateDate = DateTime.Now
+                };
+                db.Photos.Add(photo);
+                db.SaveChanges();
                 RegisterMember.newMember = new User()
                 {
                     UserName = RegisterMember.UserName,
@@ -77,7 +92,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     Enabled = true,
                     RegionID = RegisterMember.Region,
                     OauthType = "N",
-                    PhotoID = 1,
+                    PhotoID = photo.PhotoID,
                     Address = RegisterMember.Address,
                     Gender = RegisterMember.Gender.Equals("male"),
                     VerificationCode = String.Empty
@@ -201,7 +216,7 @@ namespace FancyWeb.Areas.Members.Controllers
                     default:
                         break;
                 }
-                if (service.LoginCheck(UserData["name"], UserData["ID"]))
+                if (service.LoginCheck(UserData["name"], UserData["ID"]) == "islogin")
                 {
                     addcookie(7);
                     HttpCookie userimg = new HttpCookie("userimg")
@@ -210,11 +225,18 @@ namespace FancyWeb.Areas.Members.Controllers
                         Expires = DateTime.Now.AddDays(7)
                     };
                     Response.Cookies.Add(userimg);
-                    return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                    return RedirectToAction("Index", "Home", new { area = "HomePage" });
                 }
                 else
                 {
                     string guid = Guid.NewGuid().ToString("N");
+                    Photo photo = new Photo
+                    {
+                        Photo1 = Encoding.UTF8.GetBytes(UserData["picture"]),
+                        CreateDate = DateTime.Now
+                    };
+                    db.Photos.Add(photo);
+                    db.SaveChanges();
                     Models.User user = new User()
                     {
                         UserName = UserData["name"],
@@ -222,14 +244,16 @@ namespace FancyWeb.Areas.Members.Controllers
                         Email = UserData["email"],
                         GUID = guid,
                         Phone = "0912345678",
+                        PhotoID = photo.PhotoID,
                         RegistrationDate = DateTime.Now,
                         Enabled = true,
                         RegionID = 1,
-                        Address = "NONE",
+                        Address = "",
                         OauthType = state.Split('-')[1].Substring(0, 1),
                         VerificationCode = String.Empty,
                         Gender = true
                     };
+
                     if (service.Register(user))
                     {
                         addcookie(7);
@@ -239,10 +263,10 @@ namespace FancyWeb.Areas.Members.Controllers
                             Expires = DateTime.Now.AddDays(7)
                         };
                         Response.Cookies.Add(userimg);
-                        return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                        return RedirectToAction("Index", "Home", new { area = "HomePage" });
                     }
                 }
-                return RedirectToAction("Browse", "Product", new { area = "ProductDisplay" });
+                return RedirectToAction("Index", "Login", new { area = "Members" });
             }
             else
             {
@@ -270,6 +294,15 @@ namespace FancyWeb.Areas.Members.Controllers
                     Expires = DateTime.Now.AddDays(day)
                 };
                 Response.Cookies.Add(isadmin);
+            }
+            if (service.isService(MemberService.upid))
+            {
+                HttpCookie isService = new HttpCookie("isService")
+                {
+                    Value = MemberService.upid,
+                    Expires = DateTime.Now.AddDays(day)
+                };
+                Response.Cookies.Add(isService);
             }
             Response.Cookies.Add(LoginCookie);
             Response.Cookies.Add(upid);
