@@ -63,7 +63,7 @@ namespace FancyWeb.Areas.Members.Service
         /// <param name="Email"></param>
         /// <param name="Username"></param>
         /// <param name="NewPassword"></param>
-        public static void SendEmail(string Email, string Username, string NewPassword,string tempmail)
+        public static void SendEmail(string title ,string Email, string Username, string NewPassword,string tempmail)
         {
             NetworkCredential login;
             MailMessage msg = new MailMessage();
@@ -74,7 +74,7 @@ namespace FancyWeb.Areas.Members.Service
             SmtpServer.Credentials = login;
             msg.From = new MailAddress("fancydayevery@gmail.com", "Fancy");//寄件者
             msg.To.Add(Email);//可多個
-            msg.Subject = "會員註冊確認信"; //設定信件主旨
+            msg.Subject = title; //設定信件主旨
             msg.IsBodyHtml = true;//設定信件內容為HTML格式 
             //string tempmail = System.IO.File.ReadAllText("../Email/mail.html");//讀取html
             msg.Body = tempmail; //設定信件內容 

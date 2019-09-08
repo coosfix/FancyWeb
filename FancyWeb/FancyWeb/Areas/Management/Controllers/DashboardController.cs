@@ -120,6 +120,10 @@ namespace FancyWeb.Areas.Management.Controllers
                     else if (m.text == "活動商品")
                     {
                         sm.text = linemesssage.GetActityP(url);
+                    }else if (m.text.Split(' ')[0] == "!訂單取消")
+                    {
+                         string[] vs = m.text.Split(' ');
+                        sm.text = linemesssage.CancelOrder(vs[1], vs[2]);
                     }
                     break;
                 default:

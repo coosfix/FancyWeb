@@ -14,8 +14,8 @@ namespace FancyWeb.Areas.Management.Service
         public string Getpupp()
         {
             var pupp = db.OrderDetails.AsEnumerable().GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).Take(3).ToList();
-            string LineMessage="";
-            string[] i = { "1⃣" , "2⃣", "3⃣" };
+            string LineMessage = "";
+            string[] i = { "1⃣", "2⃣", "3⃣" };
             int j = 0;
             foreach (var item in pupp)
             {
@@ -28,14 +28,18 @@ namespace FancyWeb.Areas.Management.Service
 
         public string GetActityP(string url)
         {
-            var Activity = db.ActivityProducts.OrderBy(n => Guid.NewGuid()).Take(3).Select(n=> new {
-                Pid = n.ProductID, pname = n.Product.ProductName,Avname = n.Activity.ActivityName,
-                oup = n.Product.UnitPrice ,nup = n.Product.UnitPrice*n.Activity.DiscountMethod.Discount
+            var Activity = db.ActivityProducts.OrderBy(n => Guid.NewGuid()).Take(3).Select(n => new
+            {
+                Pid = n.ProductID,
+                pname = n.Product.ProductName,
+                Avname = n.Activity.ActivityName,
+                oup = n.Product.UnitPrice,
+                nup = n.Product.UnitPrice * n.Activity.DiscountMethod.Discount
             }).ToList();
             string LineMessage = "🔥活動商品! 還不快出手🔥\n\n";
             foreach (var item in Activity)
             {
-                LineMessage += $"🔸[{item.Avname}] = >    {item.pname}\n原價: NT$ {item.oup} 優惠價: NT$ {item.nup.ToString("C0")}\n商品連接  → {url}/{item.Pid} \n\n";
+                LineMessage += $"🔸[{item.Avname}] = >    {item.pname}\n原價: NT$ {item.oup} 優惠價: {item.nup.ToString("C0")}\n商品連接  → {url}/{item.Pid} \n\n";
             }
             LineMessage += "活動期間好康大放送，加緊你的腳步❗❗\n";
             return LineMessage;
@@ -44,8 +48,9 @@ namespace FancyWeb.Areas.Management.Service
 
         public List<Line_Template> Line_Templates(string url)
         {
-            var romd = db.Products.OrderBy(n => Guid.NewGuid()).Take(3).Select(n => new {
-                pname =n.ProductName,
+            var romd = db.Products.OrderBy(n => Guid.NewGuid()).Take(3).Select(n => new
+            {
+                pname = n.ProductName,
                 pup = n.UnitPrice,
                 pid = n.ProductID
             }).ToList();
@@ -63,8 +68,8 @@ namespace FancyWeb.Areas.Management.Service
                 columns.Add(new Columns
                 {
                     thumbnailImageUrl = "https://msit12201.azurewebsites.net/ProductDisplay/Product/ByteImage/" + item.pid,
-                    title = item.pname ,
-                    text = "NT$ "+item.pup.ToString(),
+                    title = item.pname,
+                    text = "NT$ " + item.pup.ToString(),
                     actions = actions
                 });
             }
@@ -80,6 +85,25 @@ namespace FancyWeb.Areas.Management.Service
             _Templates.Add(ddd);
 
             return _Templates;
+        }
+
+        public string CancelOrder(string uname, string ordernum)
+        {
+            var haveorder = db.OrderHeaders.Where(n => n.OrderNum == ordernum && n.User.UserName == uname).FirstOrDefault();
+            if (haveorder == null)
+            {
+                return "無此訂單";
+            }
+            else if (haveorder.OrderStatusID != 1)
+            {
+                return "訂單狀態無法取消";
+            }
+            else
+            {
+                haveorder.OrderStatusID = 3;
+                db.SaveChanges();
+                return "成功取消訂單";
+            }
         }
     }
 }
