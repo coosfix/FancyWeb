@@ -265,7 +265,7 @@
                 border-radius: 0 !important;
             }
 
-        #zoom {
+        /*#zoom {
             position: absolute;
             bottom: 1rem;
             right: 1rem;
@@ -275,10 +275,18 @@
             #zoom:hover {
                 width: 12%;
                 cursor: pointer;
-            }
+            }*/
 
         #recommend .light3 {
             height: 197px !important
+        }
+
+        #aname {
+            right: 0;
+            top: 0;
+            color: wheat;
+            background-color: crimson;
+            font-size: 2rem;
         }
     </style>
 }
@@ -316,12 +324,19 @@
                 </div>
                 <div class="col-md-3 px-md-2">
                     <ul id="light-slider">
-                        @foreach (var image in ViewBag.images)
-                        {
-                            <li>
-                                <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
-                                <a data-lightbox="test" href="data:Image/jpeg;base64,@image" hidden></a>
-                            </li>
+                        @{
+                            int count = 0;
+                            foreach (var image in ViewBag.images)
+                            {
+                                <li>
+                                    <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
+                                    @if (count != 0)
+                                    {
+                                        <a data-lightbox="test" href="data:Image/jpeg;base64,@image" hidden></a>
+                                    }
+                                </li>
+                                count += 1;
+                            }
                         }
                     </ul>
                 </div>
@@ -332,8 +347,11 @@
                     <input class="pinput" type="hidden" value="@Model.ProductID" id="ProductID" name="ProductID" />
                     @if (Model.SUnitPrice > 0)
                     {
-                        <h5 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h5>
-                        <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                        <div class="position-relative">
+                            <h5 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h5>
+                            <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                            <span class="position-absolute px-md-3" id="aname">@ViewBag.activityname</span>
+                        </div>
                         <h5 style="color:red">@Html.DisplayFor(p => Model.SUnitPrice)</h5>
                         <input class="pinput" type="hidden" value="@Model.SUnitPrice" id="SUnitPrice" name="SUnitPrice" />
                     }
@@ -361,7 +379,7 @@
                                 <label class="custom-control-label" for="size_@size.SizeID"><span>@size.SizeName</span></label>
                             </div>
                         }
-                        <div class="position-absolute d-none" id="caution" style="top: 0.25rem;left:18rem;color:red;font-size:1.2rem;">
+                        <div class="position-absolute d-none" id="caution" style="top: 0.25rem;left:18rem;color:red;font-size:1.2rem;font-weight:bold">
                             此商品庫存不足將轉為預購
                         </div>
                     </div>
