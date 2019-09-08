@@ -158,7 +158,7 @@ namespace FancyWeb.Areas.Members.Controllers
                                 AuthCode = newv
                             })
                         };
-                        MemberMethod.SendEmail(Email, Account, np, MemberMethod.VerificationCodeMailBody(tempmail, Account,
+                        MemberMethod.SendEmail("Fancy忘記密碼㊙️", Email, Account, np, MemberMethod.VerificationCodeMailBody(tempmail, Account,
                             np, ValidateUrl.ToString().Replace("%3F", "?")));
                         return Json("done");
                     }

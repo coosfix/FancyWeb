@@ -16,7 +16,7 @@ namespace FancyWeb.Areas.Management.Service
         public DashboardViewModel GetallData()
         {
             DashboardViewModel dashboard = new DashboardViewModel();
-            dashboard.DaytotalReven = db.OrderHeaders.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).Sum(n => n.OrderAmount);
+            dashboard.DaytotalReven = db.OrderDetails.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).Sum(n => n.OrderQTY*n.UnitPrice);
             dashboard.DayMembers = db.Users.AsEnumerable().Where(n => n.RegistrationDate.ToShortDateString() == DateTime.Now.ToShortDateString()).Count();
             dashboard.DayOrders = db.OrderHeaders.AsEnumerable().Where(n => n.CreateDate.Value.ToShortDateString() == DateTime.Now.ToShortDateString()).Count();
             dashboard.WaitShip = db.OrderHeaders.Count(n => n.OrderStatusID == 1);

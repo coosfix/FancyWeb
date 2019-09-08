@@ -69,7 +69,7 @@ namespace FancyWeb.Areas.Management.Service
                 user.UserPassword = MemberMethod.HashPw(NewPW, guid);
                 user.GUID = guid;
                 db.SaveChanges();
-                MemberMethod.SendEmail(user.Email, user.UserName, NewPW, MemberMethod.VerificationCodeMailBody(tempmail, user.UserName,
+                MemberMethod.SendEmail("使用者資料修改通知📝", user.Email, user.UserName, NewPW, MemberMethod.VerificationCodeMailBody(tempmail, user.UserName,
                 NewPW, ValidateUrl.Replace("%3F", "?")));
                 return true;
             }
@@ -117,7 +117,7 @@ namespace FancyWeb.Areas.Management.Service
         {
             try
             {
-                Members.Service.MemberMethod.SendEmail(Email, UserName, content, tempmail);
+                Members.Service.MemberMethod.SendEmail("管理員通知✉️", Email, UserName, content, tempmail);
                 return true;
             }
             catch (Exception)

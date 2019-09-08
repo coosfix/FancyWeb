@@ -41,22 +41,7 @@ namespace FancyWeb.Areas.Management.Controllers
             }
             else { return Json("Fail"); }
         }
-
-        ////管理員針對使用者重新寄送驗證碼
-        //[HttpPost]
-        //public ActionResult AdminControllsAcode(int id)
-        //{
-        //    AdminService admin = new AdminService();
-        //    string tempmail = System.IO.File.ReadAllText(Server.MapPath(@"~/Areas/Members/Email/mail.html"));//讀取html
-        //    string r = Members.Service.MemberMethod.GetNewPW();
-        //    Members.Service.MemberMethod.SendEmail(user.Email, user.UserName, NewPW, tempmail);
-
-        //    if (admin.AdminUserControl(id, tempmail, r))
-        //    {
-        //        return Json("驗證碼已重新發送給使用者");
-        //    }
-        //    else { return Json("Fail"); }
-        //}
+      
         //黑名單會員
         [HttpPost]
         public ActionResult BanControl(int id)
@@ -76,7 +61,14 @@ namespace FancyWeb.Areas.Management.Controllers
         public ActionResult SendEmail(string UserName, string Email, string content)
         {
             AdminService admin = new AdminService();
-            string tempmail = System.IO.File.ReadAllText(Server.MapPath(@"~/Areas/Members/Email/mail.html"));//讀取html
+            string tempmail = System.IO.File.ReadAllText(Server.MapPath(@"~/Areas/Management/Email/template_Message.html"));//讀取html
+
+            tempmail = tempmail.Replace("{{使用者名稱}}", UserName);
+            tempmail = tempmail.Replace("{{內容}}", content);
+            UriBuilder uriBuilder = new UriBuilder(Request.Url) {
+                Path = Url.Action("Index","Login",new { area = "Members"})
+            };
+            tempmail = tempmail.Replace("{{網址}}", uriBuilder.ToString());
             if (admin.SendEmail(tempmail, Email, UserName, content))
             {
                 return Json("Success");
