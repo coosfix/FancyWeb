@@ -9,7 +9,7 @@ namespace FancyWeb.Areas.ProductDisplay.Functions
 {
     public class SearchMethod
     {
-        public static IEnumerable<ProductCell> ClassifyResult(SearchFilters searchFilters)
+        public static IQueryable<ProductCell> ClassifyResult(SearchFilters searchFilters)
         {
             FancyStoreEntities db = new FancyStoreEntities();
 
