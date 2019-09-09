@@ -11,7 +11,7 @@ namespace FancyWeb.Areas.Management.Service
     {
         private FancyStoreEntities db = new FancyStoreEntities();
 
-        public string Getpupp()
+        public string Getpupp(string url)
         {
             var pupp = db.OrderDetails.AsEnumerable().GroupBy(n => n.ProductID).Select(n => new { n.Key, sum = n.Sum(m => m.OrderQTY) }).OrderByDescending(n => n.sum).Take(3).ToList();
             string LineMessage = "";
@@ -20,7 +20,7 @@ namespace FancyWeb.Areas.Management.Service
             foreach (var item in pupp)
             {
                 var product = db.Products.Find(item.Key);
-                LineMessage += i[j] + product.ProductName + "\n";
+                LineMessage += $"🔶{i[j]} {product.ProductName}\n【價格】:{product.UnitPrice}\n[商品連接]➡️{url}/{product.ProductID}\n";
                 j++;
             }
             return LineMessage;
@@ -45,7 +45,7 @@ namespace FancyWeb.Areas.Management.Service
             return LineMessage;
         }
 
-
+        //推薦
         public List<Line_Template> Line_Templates(string url)
         {
             var romd = db.Products.OrderBy(n => Guid.NewGuid()).Take(3).Select(n => new
@@ -86,7 +86,7 @@ namespace FancyWeb.Areas.Management.Service
 
             return _Templates;
         }
-
+        //取消訂單
         public string CancelOrder(string uname, string ordernum)
         {
             var haveorder = db.OrderHeaders.Where(n => n.OrderNum == ordernum && n.User.UserName == uname).FirstOrDefault();
@@ -104,6 +104,37 @@ namespace FancyWeb.Areas.Management.Service
                 db.SaveChanges();
                 return "成功取消訂單";
             }
+        }
+        //查詢訂單
+        public List<LineOrderHeader> SearchOrder(string uname, string count)
+        {
+            List<LineOrderHeader> data = new List<LineOrderHeader>();
+            data = db.OrderHeaders.Where(n=>n.User.UserName == uname).OrderByDescending(n=>n.CreateDate).Take(Convert.ToInt32(count)).Select(n => new LineOrderHeader
+            {
+                ordernum = n.OrderNum,
+                orderstatus = n.OrderStatusList.OrderStatusName,
+                amount = n.OrderAmount,
+                orderdetail = n.OrderDetails.Select(m => new LineOrderDetail
+                {
+                    pname = m.Product.ProductName,
+                    pQTY = m.OrderQTY,
+                    pUP = m.UnitPrice
+                }).ToList()
+            }).ToList();
+            return data;
+        }
+        public class LineOrderHeader
+        {
+            public string ordernum { get; set; }
+            public string orderstatus { get; set; }
+            public int amount { get; set; }
+            public List<LineOrderDetail> orderdetail { get; set; }
+        }
+        public class LineOrderDetail
+        {
+            public string pname { get; set; }
+            public int pQTY { get; set; }
+            public int pUP { get; set; }
         }
     }
 }
