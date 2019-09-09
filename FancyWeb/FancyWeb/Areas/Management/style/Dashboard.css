@@ -136,3 +136,6 @@
 #totalre tbody tr td:last-child{
     color:red;
 }
+#regionre {
+    width:1200px;
+}
