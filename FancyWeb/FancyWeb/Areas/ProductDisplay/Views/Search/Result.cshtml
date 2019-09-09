@@ -225,8 +225,8 @@
 
         let asame = null;
         $('input[type = radio][name = activity]').click(function () {
-            console.log($(this));
-            console.log(asame);
+            //console.log($(this));
+            //console.log(asame);
             if ($(this)[0] == asame)
                 $(this).prop('checked', false);
             asame = $('input[type = radio][name = activity]:checked')[0];
@@ -234,8 +234,8 @@
 
         let psame = null;
         $('input[type = radio][name = price]').click(function () {
-            console.log($(this));
-            console.log(psame);
+            //console.log($(this));
+            //console.log(psame);
             if ($(this)[0] == psame)
                 $(this).prop('checked', false);
             psame= $('input[type = radio][name = price]:checked')[0];
@@ -273,7 +273,7 @@
                 MinSunitPrice: $('input[type=radio][name=price]:checked').data('min'),
                 ActivityID: $('input[type=radio][name=activity]:checked').val()
             };
-            //console.log(searchfilters.ActivityID);
+            //console.log(searchfilters);
             display(1);
         });
 

@@ -136,7 +136,6 @@
         .tle1 {
             background-color: rgb(88, 89, 91);
             line-height: 190%;
-            text-align-last: center;
             margin-bottom: 0;
             border-top-left-radius: 0.5rem;
             border-top-right-radius: 0.5rem;
@@ -151,9 +150,25 @@
         #member, #buyer {
             background-color: rgba(217, 207, 191,.2);
         }
+
+        .prenote {
+            position: absolute;
+            right: 0;
+            top: 0rem;
+            color: crimson;
+            font-weight: bold;
+        }
     </style>
 }
-<div class="">
+<div class="position-fixed d-none justify-content-center align-items-center" style="width:100%;height:100%;top: 0;left: 0;z-index: 10;background-color: rgba(0,0,0,.6);" id="mask">
+    <div class="top:30rem;left:70rem">
+        <div class="spinner-border text-danger" style="font-size:2rem" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <span class="px-md-2" style="font-size:2rem;font-weight:bold;color: crimson;">訂單寄送中...</span>
+    </div>
+</div>
+<div>
     <div class="d-inline-flex justify-content-sm-between w-100 position-relative" style="height:15rem">
         <div class="line"></div>
         <div class="inline"></div>
@@ -193,7 +208,7 @@
                                     <div class="col-md-6 d-flex justify-content-center align-items-center">
                                         <div class="card-body">
                                             <h5 class="card-title">@cartItem.ProductName</h5>
-                                            <p class="card-text">
+                                            <p class="card-text position-relative">
                                                 <label>@cartItem.ColorName</label><br />
                                                 <label>@cartItem.SizeName</label><br />
                                                 @{
@@ -205,6 +220,10 @@
                                                     else
                                                     {
                                                         <label><label id="price">@cartItem.UnitPrice.ToString("C0")</label></label><br />
+                                                    }
+                                                    if (cartItem.Enough != true)
+                                                    {
+                                                        <span class="prenote" data-en="false">本商品將轉為預購</span>
                                                     }
                                                 }
                                                 <label id="aname" class="text-center" style="color:wheat;background-color:crimson;width:50%">@cartItem.ActivityName</label>
@@ -251,7 +270,7 @@
         </div>
         <hr />
         <form id="member" style="height:15rem;overflow:hidden">
-            <h3 class="tle1">會 員 資 料</h3>
+            <h3 class="tle1 text-center">會 員 資 料</h3>
             <div>
                 <div>
                     <div class="col-md-5 offset-md-1 pt-md-4">
@@ -282,7 +301,7 @@
         </form>
         <hr />
         <form id="buyer" style="height: 25rem;overflow:hidden">
-            <h3 class="tle1">訂 購 人 資 料</h3>
+            <h3 class="tle1 text-center">訂 購 人 資 料</h3>
             <div>
                 <div>
                     <div class="col-md-5 offset-md-1 pt-md-4">
@@ -314,10 +333,10 @@
                         <label for="buyerregion">訂購人地區  :</label>
                         <select class="form-control" id="buyerregion">
                             <option selected value="0" disabled="disabled">請選擇地區</option>
-                            @foreach (var region in ViewBag.region)
-                            {
-                                <option value="@region.RegionID">@region.RegionName</option>
-                            }
+                            @*@foreach (var region in ViewBag.region)
+                                {
+                                    <option value="@region.RegionID">@region.RegionName</option>
+                                }*@
                         </select>
                         <div class="d-none formcheck">地區未選擇</div>
                     </div>
@@ -382,6 +401,21 @@
             $('#buyer div.formcheck').addClass('d-none');
         })
 
+        $('#buyercity').change(function () {
+            let cityid = $('#buyercity option:selected').val();
+            //console.log(cityid);
+            if (cityid != 0) {
+                $.get(`@Url.Action("GetRegionByID", "Check")/${cityid}`, function (datas) {
+                    let Docfrag = $(document.createDocumentFragment());
+                    $.each(datas, function (index, region) {
+                        let opt = $('<option></option>').attr('value', `${region.RegionID}`).text(`${region.RegionName}`).appendTo(Docfrag);
+                    })
+                    $('#buyerregion').html(Docfrag);
+                })
+                //console.log(132)
+            }
+        })
+
         $('#next1').click(function () {
             if ($('#same').prop("checked")) {
                 address = $('#CityName').text() + $('#RegionName').text() + $('#Address').text();
@@ -392,6 +426,7 @@
                 Phone: $('#Phone').text(),
                 Address: address
                 };
+                $('#mask').removeClass('d-none').addClass('d-flex');
                 send();
             }
             else {
@@ -413,6 +448,7 @@
                         Phone: $('#buyerphone').val(),
                         Address: address
                     }
+                    $('#mask').removeClass('d-none').addClass('d-flex');
                     send();
                 };
             }

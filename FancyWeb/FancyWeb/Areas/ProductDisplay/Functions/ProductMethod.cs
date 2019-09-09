@@ -34,6 +34,11 @@ namespace FancyWeb.Areas.ProductDisplay.Models
                     OrderQTY = uitem.Quantity,
                     UnitPrice = uitem.UnitPrice,
                 };
+
+                var stock = db.ProductStocks.Where(s => s.ProductID == cartItem.ProductID && s.ProductSizeID == cartItem.ProductSizeID && s.ProductColorID == cartItem.ProductColorID).FirstOrDefault().StockQTY;
+
+                cartItem.Enough = (stock < cartItem.OrderQTY) ? false : true;
+
                 var inactivity = db.ActivityProducts.Where(a => a.ProductID == uitem.ProductID).ToList();
                 if (inactivity.Count() > 0)
                 {
