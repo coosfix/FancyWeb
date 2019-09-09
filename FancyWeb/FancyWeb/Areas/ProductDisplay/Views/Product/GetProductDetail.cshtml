@@ -92,7 +92,7 @@
         #OrderQTY {
             width: 25rem;
             display: inline-block;
-            text-align-last: center;
+            text-align: center;
             position: absolute;
             left: 5rem;
             border-radius: 0.3rem;
@@ -213,8 +213,8 @@
             position: absolute;
             background-color: crimson;
             top: 0;
-            left: 10px;
-            width: 20px;
+            left: 1rem;
+            width: 2rem;
             text-align: center;
             color: wheat;
             font-family: "微軟正黑體";
@@ -265,20 +265,27 @@
                 border-radius: 0 !important;
             }
 
-        #zoom {
-            position: absolute;
-            bottom: 1rem;
-            right: 1rem;
-            width: 10%;
+        #recommend .light3 {
+            height: 197px !important
         }
 
-            #zoom:hover {
-                width: 12%;
-                cursor: pointer;
-            }
+        #aname {
+            right: 0;
+            top: 0;
+            color: wheat;
+            background-color: crimson;
+            font-size: 2rem;
+            border-radius: 0.3rem;
+        }
 
-        #recommend  .light3 {
-            height: 240px !important
+        #zoom {
+            bottom: 2rem;
+            position: absolute !important;
+            right: 1rem;
+            z-index: 10;
+            background-color: black;
+            border-radius: 0.3rem;
+            color: ghostwhite;
         }
     </style>
 }
@@ -310,18 +317,20 @@
                     <a data-lightbox="test" href="@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=@ViewBag.colorid">
                         <img src="@Url.Action("ByteImage", "Product", new { area = "ProductDisplay" })/@Model.ProductID?colorid=@ViewBag.colorid" id="mainpic" />
                     </a>
-                    <div>
-                        @*<img src="~/Areas/ProductDisplay/Images/zoom_icon.png" id="zoom" />*@
-                    </div>
+                    <a class="px-md-2" id="zoom">
+                        <i class="fa fa-search-plus pr-md-2" style="color: lightslategrey;"></i>點擊大圖可觀看原尺寸圖片
+                    </a>
                 </div>
                 <div class="col-md-3 px-md-2">
                     <ul id="light-slider">
-                        @foreach (var image in ViewBag.images)
-                        {
-                            <li>
-                                <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
-                                <a data-lightbox="test" href="data:Image/jpeg;base64,@image" hidden></a>
-                            </li>
+                        @{
+                            foreach (var image in ViewBag.images)
+                            {
+                                <li>
+                                    <img src="data:Image/jpeg;base64,@image" class="h-100 w-100 alpha border-0" style="object-fit: cover;" />
+                                    <a data-lightbox="test" href="data:Image/jpeg;base64,@image" hidden></a>
+                                </li>
+                            }
                         }
                     </ul>
                 </div>
@@ -332,8 +341,11 @@
                     <input class="pinput" type="hidden" value="@Model.ProductID" id="ProductID" name="ProductID" />
                     @if (Model.SUnitPrice > 0)
                     {
-                        <h5 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h5>
-                        <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                        <div class="position-relative">
+                            <h5 style="text-decoration:line-through">@Html.DisplayFor(p => Model.UnitPrice)</h5>
+                            <input class="pinput" type="hidden" value="@Model.UnitPrice" id="UnitPrice" name="UnitPrice" />
+                            <span class="position-absolute px-md-3" id="aname">@ViewBag.activityname</span>
+                        </div>
                         <h5 style="color:red">@Html.DisplayFor(p => Model.SUnitPrice)</h5>
                         <input class="pinput" type="hidden" value="@Model.SUnitPrice" id="SUnitPrice" name="SUnitPrice" />
                     }
@@ -361,7 +373,7 @@
                                 <label class="custom-control-label" for="size_@size.SizeID"><span>@size.SizeName</span></label>
                             </div>
                         }
-                        <div class="position-absolute d-none" id="caution" style="top: 0.25rem;left:18rem;color:red;font-size:1.2rem;">
+                        <div class="position-absolute d-none" id="caution" style="top: 0.25rem;left:18rem;color:red;font-size:1.2rem;font-weight:bold">
                             此商品庫存不足將轉為預購
                         </div>
                     </div>
@@ -712,8 +724,8 @@
 
             $('#btncart').on('click', function () {
                 if (username != "") {
-                    console.log($('#ColorID').val())
-                    console.log($('#ColorID').val())
+                    //console.log($('#ColorID').val())
+                    //console.log($('#ColorID').val())
                     if ($('#ColorID').val() != "" && $('input[type=radio][name=SizeID]:checked').val() != undefined)
                         add();
                     else {

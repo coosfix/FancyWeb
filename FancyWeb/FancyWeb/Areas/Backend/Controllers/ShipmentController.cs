@@ -153,6 +153,7 @@ namespace FancyWeb.Areas.Backend.Controllers
                 }
                 var oh = db.OrderHeaders.Find(orderid);
                 oh.OrderStatusID = 2;
+                oh.ShipDate = DateTime.Now;
                 db.Entry(oh).State = System.Data.Entity.EntityState.Modified;
 
                 db.SaveChanges();

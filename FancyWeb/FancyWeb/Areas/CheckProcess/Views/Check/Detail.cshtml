@@ -249,6 +249,14 @@
             color: crimson;
             cursor: pointer
         }
+
+        .prenote {
+            position: absolute;
+            right: 0;
+            top: 0rem;
+            color: crimson;
+            font-weight: bold;
+        }
     </style>
 }
 @*<div id="top" class="container">*@
@@ -294,7 +302,7 @@
                                         <div class="col-md-6 d-flex justify-content-center align-items-center">
                                             <div class="card-body ">
                                                 <h5 class="card-title">@item.ProductName</h5>
-                                                <p class="card-text">
+                                                <p class="card-text position-relative">
                                                     <label>@item.ColorName</label><br />
                                                     <label>@item.SizeName</label><br />
                                                     @{
@@ -306,6 +314,14 @@
                                                         else
                                                         {
                                                             <label><label id="price">@item.UnitPrice.ToString("C0")</label></label><br />
+                                                        }
+                                                        if (item.Enough != true)
+                                                        {
+                                                            <span class="prenote" data-en="false">本商品將轉為預購</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="prenote d-none" data-en="true">本商品將轉為預購</span>
                                                         }
                                                     }
                                                     <label id="aname" class="text-center" style="color:wheat;background-color:crimson;width:50%">@item.ActivityName</label>
@@ -475,8 +491,23 @@
             let part = $(this).data('price') * $(this).val();
             $(this).parent().parent().next().children(1).children().filter('label').text(`${part}`);
             calc(0);
-            change($(this).closest('tr').data('pid'), $(this).closest('tr').data('pcid'), $(this).closest('tr').data('psid'), $(this).val());
+            let pid = $(this).closest('tr').data('pid');
+            let pcid = $(this).closest('tr').data('pcid');
+            let psid = $(this).closest('tr').data('psid');
+            let qty = $(this).val();
+            let stock = $(this).closest('tr').find('span.prenote');
+            change(pid, pcid, psid, qty);
             count();
+            $.get(`@Url.Action("CheckStock","Check",new { area="CheckProcess"})/?id=${pid}&cid=${pcid}&sid=${psid}&qty=${qty}`, function (datas) {
+                console.log(datas)
+                if (datas == false) {
+                    stock.removeClass('d-none');
+                }
+                else {
+                    stock.addClass('d-none');
+                }
+                stock.data('en', datas);
+            })
         });
 
         function change(pid, pcid, psid, qty) {
@@ -599,6 +630,8 @@
         function sendcart() {
             let cartitems = new Array();
             $.each($('#cartitems  tr'), function () {
+                let stock = ($(this).find('span.prenote').data('en') != false) ? true : false;
+
                 let cartitem={
                     ProductID: $(this).data('pid'),
                     ProductName: $(this).data('pname'),
@@ -612,6 +645,7 @@
                     SUnitPrice: $(this).data('sprice'),
                     ActivityName: $(this).data('aname'),
                     OrderQTY: $(this).find('input.qty').val(),
+                    Enough: stock,
                     DiscountID: $(this).data('did')
                 }
                 cartitems.push(cartitem);

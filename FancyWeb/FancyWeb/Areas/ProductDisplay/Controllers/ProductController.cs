@@ -127,7 +127,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             var inactivity = db.ActivityProducts.Where(a => a.ProductID == id).ToList();
             if (inactivity.Count() > 0)
             {
-                ViewBag.activityname = inactivity.First().Activity.ActivityName;
+                ViewBag.activityname = inactivity.FirstOrDefault().Activity.ActivityName;
                 prodcutDisplay.SUnitPrice = Convert.ToInt32(Math.Floor(inactivity.First().Activity.DiscountMethod.Discount * product.UnitPrice));
             }
 

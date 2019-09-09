@@ -18,6 +18,7 @@ namespace FancyWeb.Areas.ProductDisplay.Models
         public int UnitPrice { get; set; }
         public int SUnitPrice { get; set; }
         public int OrderQTY { get; set; }
+        public bool Enough { get; set; }
         public int DiscountID { get; set; }
         public string ActivityName { get; set; }
     }
