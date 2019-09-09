@@ -163,6 +163,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HomePage\Scripts\InstagramApI.js" />
+    <Content Include="Areas\Management\Email\template_Message.html" />
     <Content Include="Areas\ProductDisplay\Content\css\GetProductDetail.css" />
     <Content Include="Areas\ProductDisplay\Images\activity_icon.svg" />
     <Content Include="Areas\ProductDisplay\Images\color_icon.svg" />
@@ -800,8 +801,12 @@
     <Compile Include="Areas\Management\Service\AdminService.cs" />
     <Compile Include="Areas\Management\Service\DashboardService.cs" />
     <Compile Include="Areas\Management\Service\EmailDataList.cs" />
+    <Compile Include="Areas\Management\Service\LineBotService.cs" />
     <Compile Include="Areas\Management\ViewModels\AllPrdlist.cs" />
     <Compile Include="Areas\Management\ViewModels\DashboardViewModel.cs" />
+    <Compile Include="Areas\Management\ViewModels\LINEModel.cs" />
+    <Compile Include="Areas\Management\ViewModels\LINE_Reply.cs" />
+    <Compile Include="Areas\Management\ViewModels\Line_Template.cs" />
     <Compile Include="Areas\Management\ViewModels\RegionSell.cs" />
     <Compile Include="Areas\Management\ViewModels\RegisterAdminModel.cs" />
     <Compile Include="Areas\Management\ViewModels\Top3YearGrowing.cs" />

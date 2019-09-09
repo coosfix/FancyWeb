@@ -68,7 +68,7 @@
                             <a href="@Url.Action("OAuthLogin",new { Method="Google"})" class="btn btn-Google btn-block rounded-0"><i class="fab fa-google fa-lg mr-2"></i>登入</a>
                             <div class="btn-group mt-5" role="group" aria-label="First group">
                                 <button type="button" class="btn btn-outline-primary">一般會員</button>
-                                <button type="button" class="btn btn-outline-info">管理員</button>
+                                <button type="button" class="btn btn-outline-info adm">管理員</button>
                                 <button type="button" class="btn btn-outline-warning">客服中心</button>
                             </div>
                         </div>
@@ -191,6 +191,7 @@
                     <i class="fas fa-arrow-right"></i>
                 </button>
             </div>
+            <button id="fogot_demo" class="btn btn-outline-info">DEMO</button>
         </div>
         <div id="forgot_Account" class="d-none justify-content-around align-items-center flex-column h-100">
             <i class="fas fa-arrow-left"></i>
@@ -264,7 +265,7 @@
             $("#UserName").val("Mary");
             $("#Password").val("123");
         });
-        $(".btn-outline-info").click(function () {
+        $(".btn-outline-info.adm").click(function () {
             $("#UserName").val("Jay");
             $("#Password").val("222");
         });
@@ -280,6 +281,9 @@
             $("#rAddress").val("合順街八巷三弄十七號99樓");
             $("#gender2").attr("checked", true);
             $(".rblock").css("transform", "translateX(-100%)");
+        });
+        $("#fogot_demo").click(function () {
+            $("#forgot_Email input").val("stepmania003@gmail.com")
         });
     </script>
     <script>

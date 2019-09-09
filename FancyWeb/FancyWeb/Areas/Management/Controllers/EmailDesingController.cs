@@ -33,7 +33,7 @@ namespace FancyWeb.Areas.Management.Controllers
             UriBuilder uriBuilder = new UriBuilder(Request.Url);
             string imgurl = $"{uriBuilder.Scheme}://{uriBuilder.Host}:{uriBuilder.Port}";
             string emailbody = num.Replace("{{imgurl}}", imgurl);
-            MemberMethod.SendEmail("stepmania003@gmail.com", "", "", emailbody);
+            MemberMethod.SendEmail("Fancy電子報📰", "stepmania003@gmail.com", "", "", emailbody);
             return Json("done");
         }
 
