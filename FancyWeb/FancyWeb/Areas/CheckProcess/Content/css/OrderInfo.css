@@ -1,0 +1,189 @@
+﻿
+body {
+    font-family: "微軟正黑體";
+}
+
+.cbtn {
+    color: white !important;
+    font-size: 17px;
+}
+
+    .cbtn:hover {
+        color: crimson !important;
+    }
+
+#table * {
+    font-size: 15px;
+}
+
+.process {
+    border: 5px solid wheat;
+    position: relative;
+    border-radius: 50%;
+    width: 8rem;
+    height: 8rem;
+    background-color: rgb(217, 207, 191);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.processimg {
+    position: absolute;
+    font-size: 4.5rem;
+    color: rgb(88, 89, 91);
+    top: 23%;
+}
+
+    .processimg.active {
+        color: rgb(209, 0, 36);
+    }
+
+        .processimg.active.done {
+            color: rgb(88, 89, 91);
+        }
+
+.processtext {
+    position: absolute;
+    font-family: "微軟正黑體";
+    font-size: 1.75rem;
+    font-weight: bold;
+    top: 120%;
+    left: -8%;
+    background-color: rgb(217, 207, 191);
+    border-radius: 1rem;
+    width: 115%;
+    color: rgb(88, 89, 91);
+}
+
+    .processtext.active {
+        color: rgb(209, 0, 36);
+    }
+
+        .processtext.active.done {
+            color: rgb(88, 89, 91);
+        }
+
+.line {
+    position: absolute;
+    background-color: rgba(88, 89, 91,0.7);
+    top: 3rem;
+    left: 0;
+    width: 100%;
+    height: 2rem;
+    border-radius: 1rem;
+}
+
+.inline {
+    position: absolute;
+    background-color: wheat;
+    top: 3.65rem;
+    left: 0;
+    height: 0.75rem;
+    width: 80%;
+    transition: .5s;
+    border-radius: 1rem;
+}
+
+.note {
+    position: fixed;
+    background-color: black;
+    border-radius: 5%;
+    width: 350px;
+    height: 200px;
+    top: 30%;
+    left: 40%;
+    opacity: 0;
+    transition: .5s;
+    z-index: -1;
+}
+
+    .note.active {
+        opacity: 0.5;
+        z-index: 1;
+    }
+
+.Trapezoid {
+    border-right: 90rem solid transparent;
+    border-bottom: 30rem solid rgba(217, 207, 191,.5);
+    top: 0;
+    z-index: -1;
+}
+
+#member, #buyer label, text {
+    font-size: 17px;
+}
+
+.formcheck {
+    color: red;
+    position: absolute;
+}
+
+.tle1 {
+    background-color: rgb(88, 89, 91);
+    line-height: 190%;
+    margin-bottom: 0;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+    color: white;
+}
+
+#bigtable {
+    padding: 1rem
+}
+
+#member, #buyer {
+    background-color: rgba(217, 207, 191,.2);
+}
+
+.prenote {
+    position: absolute;
+    right: 0;
+    top: 0rem;
+    color: crimson;
+    font-weight: bold;
+}
+
+@media(max-width: 500px) {
+    #member {
+        height: 17rem !important;
+    }
+
+        #member > div > div:nth-child(1) {
+            padding-top: 0.5rem;
+        }
+
+    #buyer {
+        height: 32rem !important;
+    }
+
+        #buyer > div > div {
+            padding-top: 0.5rem;
+        }
+
+    .process {
+        width: 7.5rem;
+        height: 7.5rem;
+    }
+
+    .line, .inline {
+        display: none;
+    }
+
+    .btn {
+        margin-top: 1.5rem;
+    }
+
+    .Trapezoid {
+        display: none;
+    }
+
+    div.row.mt-md-3>h4:nth-child(2) {
+        margin-left: 0.8rem !important;
+    }
+
+    .formcheck {
+        left: 20rem;
+        top: 3rem;
+    }
+}
