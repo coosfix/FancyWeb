@@ -162,10 +162,24 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\CheckProcess\Content\css\Detail.css" />
+    <Content Include="Areas\CheckProcess\Content\css\OrderInfo.css" />
     <Content Include="Areas\HomePage\Scripts\InstagramApI.js" />
     <Content Include="Areas\Management\Email\template_Message.html" />
     <Content Include="Areas\ProductDisplay\Content\css\GetProductDetail.css" />
+    <Content Include="Areas\ProductDisplay\Content\css\ProductBrowse.css" />
+    <Content Include="Areas\ProductDisplay\Content\dist\css\lightbox.css" />
+    <Content Include="Areas\ProductDisplay\Content\dist\css\lightbox.min.css" />
+    <Content Include="Areas\ProductDisplay\Content\dist\images\close.png" />
+    <Content Include="Areas\ProductDisplay\Content\dist\images\loading.gif" />
+    <Content Include="Areas\ProductDisplay\Content\dist\images\next.png" />
+    <Content Include="Areas\ProductDisplay\Content\dist\images\prev.png" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox-plus-jquery.js" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox-plus-jquery.min.js" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox.js" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox.min.js" />
     <Content Include="Areas\ProductDisplay\Images\activity_icon.svg" />
+    <Content Include="Areas\ProductDisplay\Images\arrow-left-01-128.png" />
     <Content Include="Areas\ProductDisplay\Images\color_icon.svg" />
     <Content Include="Areas\ProductDisplay\Images\cate_icon{2}.svg" />
     <Content Include="Areas\ProductDisplay\Images\cate_icon{3}.svg" />
@@ -653,6 +667,8 @@
     <Content Include="Areas\Rating\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Rating\Views\web.config" />
     <Content Include="Areas\Rating\Views\_ViewStart.cshtml" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox-plus-jquery.min.map" />
+    <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox.min.map" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy1.pubxml" />

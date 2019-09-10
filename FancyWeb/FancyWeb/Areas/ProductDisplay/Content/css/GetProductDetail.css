@@ -1,5 +1,4 @@
 ﻿
-
 body {
     font-family: "微軟正黑體";
 }
@@ -37,8 +36,8 @@ body {
 
 /*選項內容*/
 .custom-control-label span {
-    font-size: 17px;
-    margin-left: 10px;
+    font-size: 1.3rem;
+    margin-left: 1.25rem;
     font-weight: normal
 }
 
@@ -79,19 +78,22 @@ body {
 
 #mainpic {
     width: auto;
+    /*width: 100%;*/
     height: 690px;
     border: 0px;
 }
 
 #OrderQTY {
-    width: 80%;
+    width: 25rem;
     display: inline-block;
-    text-align-last: center;
+    text-align: center;
     position: absolute;
-    left: 50px;
+    left: 5rem;
     border-radius: 0.3rem;
     border-color: transparent;
-    background-color: #dee2e6
+    background-color: #dee2e6;
+    padding: 0;
+    height: 2.45rem;
 }
 
 .pinput {
@@ -121,30 +123,30 @@ body {
     text-align-last: center;
     border: none;
     background-color: #a2babb;
-    height: 26px;
-    width: 50px;
+    height: 2.45rem;
+    width: 4rem;
     color: white;
-    line-height: 10px;
+    line-height: 1rem;
     /*font-size: 23px;*/
     border-radius: 0;
 }
 
     .qbtn.minus {
         top: 0;
-        left: 50px;
+        left: 5rem;
         border-top-left-radius: 0.3rem;
         border-bottom-left-radius: 0.3rem;
     }
 
     .qbtn.add {
         top: 0;
-        left: 80%;
+        left: 26rem;
         border-top-right-radius: 0.3rem;
         border-bottom-right-radius: 0.3rem;
     }
 
     .qbtn:hover {
-        cursor: not-allowed
+        /*cursor: not-allowed*/
     }
 
     .qbtn.active:hover {
@@ -205,8 +207,8 @@ a.card, #route span a {
     position: absolute;
     background-color: crimson;
     top: 0;
-    left: 10px;
-    width: 20px;
+    left: 1rem;
+    width: 2rem;
     text-align: center;
     color: wheat;
     font-family: "微軟正黑體";
@@ -219,10 +221,10 @@ a.card, #route span a {
 .note {
     position: fixed;
     background-color: black;
-    border-radius: 5%;
-    width: 350px;
-    height: 200px;
-    top: 30%;
+    border-radius: 0.5rem;
+    width: 30rem;
+    height: 10rem;
+    top: 30rem;
     left: 40%;
     opacity: 0;
     transition: .5s;
@@ -231,11 +233,11 @@ a.card, #route span a {
 
     .note.active {
         opacity: 0.5;
-        z-index: 1;
+        z-index: 10;
     }
 
 .col-md-2 a, #route span, #olist {
-    font-size: 17px;
+    font-size: 15px;
 }
 
 .tle1 {
@@ -252,8 +254,115 @@ a.card, #route span a {
     border-radius: 0 !important;
 }
 
-@media screen and (max-width:500px) {
+    #activity > a:hover, #category > a:hover {
+        background-color: rgba(217, 207, 191,.7);
+        border-radius: 0 !important;
+    }
+
+#recommend .light3 {
+    height: 23rem !important
+}
+
+#aname {
+    right: 0;
+    top: 0;
+    color: wheat;
+    background-color: crimson;
+    font-size: 2rem;
+    border-radius: 0.3rem;
+}
+
+#zoom {
+    bottom: 2rem;
+    position: absolute !important;
+    right: 1rem;
+    z-index: 10;
+    background-color: black;
+    border-radius: 0.3rem;
+    color: ghostwhite;
+}
+
+@media(max-width: 500px) {
+    .row .col-md-2 {
+        display: none;
+    }
+
+    .cart .dropdown-menumy2:before {
+        right: 17.5rem;
+    }
+
+    .cart .dropdown-menu-right {
+        min-width: 360px !important;
+        left: -8rem !important;
+    }
+
+    .caution .dropdown-menu-right {
+        min-width: 360px !important;
+        left: 2rem;
+    }
+
+    .caution .dropdown-menumy2:before {
+        right: 27.5rem;
+    }
+
     #mainpic {
-        margin-bottom: 10px;
+        width: 100%;
+        height: auto;
+        padding-top: 1rem
+    }
+
+    .qbtn.minus {
+        left: 4rem;
+    }
+
+    .qbtn.add {
+        left: 18.5rem;
+    }
+
+    #OrderQTY {
+        width: 16rem;
+    }
+
+    #zoom {
+        right: 2rem;
+        bottom: 1rem;
+    }
+
+    #zoom i{
+        padding-left:0.5rem;
+        padding-right:0.5rem;
+    } 
+
+    #light-slider {
+        display: none;
+    }
+
+    #recommend .light3 {
+        height: 15rem !important
+    }
+
+    .card-img-top {
+        height: 20vw;
+    }
+
+    #display > .col-md-5 h3 {
+        font-size: 20px;
+    }
+
+    table.w-75 {
+        width: 100% !important;
+    }
+
+    #comment img {
+        width: 7rem !important;
+    }
+
+    .sale {
+        width: 1.5rem;
+        font-size: 1rem;
+    }
+
+    .card-body {
+        height: 7rem;
     }
 }

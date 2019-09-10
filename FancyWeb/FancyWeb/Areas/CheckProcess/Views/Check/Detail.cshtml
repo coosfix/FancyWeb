@@ -3,261 +3,7 @@
     ViewBag.Title = "Fancy";
 }
 @section styles{
-    <style>
-
-        body {
-            font-family: "微軟正黑體";
-        }
-
-        /*外框*/
-        .custom-radio .custom-control-label::before {
-            width: 20px;
-            height: 20px;
-            top: 1px;
-            border-radius: 0;
-        }
-
-        /*離開圈圈*/
-        .custom-control-input:checked ~ .custom-control-label::before {
-            background-color: white;
-            border-color: white;
-            border-radius: 0;
-        }
-
-        /*白點和外圓*/
-        .custom-radio .custom-control-input:checked ~ .custom-control-label::after {
-            width: 20px;
-            height: 20px;
-            background-color: rgb(188, 171, 143);
-            border-color: rgb(188, 171, 143);
-            /*border-radius: 50%;*/
-        }
-
-        /*外圓*/
-        .custom-control-label::after {
-            width: 2rem;
-            height: 2rem;
-            top: 1px;
-        }
-
-        /*選項內容*/
-        .custom-control-label span {
-            font-size: 17px;
-            margin-left: 10px;
-            font-weight: normal
-        }
-
-        i.active {
-            color: brown;
-        }
-
-        .text {
-            font-size: 17px;
-            margin-bottom: 0
-        }
-
-        .fee {
-            display: table;
-            border-collapse: separate;
-            border-spacing: 15px;
-        }
-
-        .feecontent {
-            background-color: rgb(217, 207, 191);
-            width: 100%;
-            height: 7rem;
-            overflow: hidden;
-            transition: 0.5s;
-        }
-
-            .feecontent.active {
-                height: 18rem;
-            }
-
-        .qty {
-            text-align-last: center;
-            width: 80px
-        }
-
-        .cbtn {
-            color: white !important;
-            vertical-align: middle;
-        }
-
-            .cbtn:hover {
-                color: crimson !important;
-            }
-
-        .total:before {
-            content: "NT$";
-        }
-
-        .amount:before {
-            content: "NT$";
-        }
-
-        .transcharge:before {
-            content: "NT$";
-        }
-
-        .card-img {
-            height: auto;
-            width: 100%;
-        }
-
-        .card-img-top {
-            width: 100%;
-            height: 10vw;
-            object-fit: cover;
-        }
-
-        .card-body {
-            padding: 10px;
-        }
-
-        .card-title {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .i1 {
-            flex: 0 0 25%;
-            max-width: 20%;
-        }
-
-        .card.active {
-            box-shadow: 0 .5rem 1rem rgba(0,0,0,.30) !important;
-            background-color: rgba(188, 171, 143,0.7);
-            transition: .5s;
-        }
-
-        a.card, #route span a {
-            /*text-decoration: none;*/
-            color: black;
-        }
-
-        .sale {
-            position: absolute;
-            background-color: crimson;
-            top: 0;
-            left: 10px;
-            width: 20px;
-            text-align: center;
-            color: wheat;
-        }
-
-        #table * {
-            font-size: 15px;
-        }
-
-        .process {
-            border: 5px solid wheat;
-            position: relative;
-            border-radius: 50%;
-            width: 8rem;
-            height: 8rem;
-            background-color: rgb(217, 207, 191);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .processimg {
-            position: absolute;
-            font-size: 4.5rem;
-            color: rgb(88, 89, 91);
-            top: 23%;
-        }
-
-            .processimg.active {
-                color: rgb(209, 0, 36);
-            }
-
-                .processimg.active.done {
-                    color: rgb(88, 89, 91);
-                }
-
-        .processtext {
-            position: absolute;
-            font-family: "微軟正黑體";
-            font-size: 1.75rem;
-            font-weight: bold;
-            top: 120%;
-            left: -8%;
-            background-color: rgb(217, 207, 191);
-            border-radius: 1rem;
-            width: 115%;
-            color: rgb(88, 89, 91);
-        }
-
-            .processtext.active {
-                color: rgb(209, 0, 36);
-            }
-
-                .processtext.active.done {
-                    color: rgb(88, 89, 91);
-                }
-
-        .line {
-            position: absolute;
-            background-color: rgba(88, 89, 91,0.7);
-            top: 3rem;
-            left: 0;
-            width: 100%;
-            height: 2rem;
-            border-radius: 1rem;
-        }
-
-        .inline {
-            position: absolute;
-            background-color: wheat;
-            top: 3.65rem;
-            left: 0;
-            height: 0.75rem;
-            width: 20%;
-            transition: .5s;
-            border-radius: 1rem;
-        }
-
-        /*.note {
-            position: fixed;
-            background-color: black;
-            border-radius: 0.5rem;
-            width: 30rem;
-            height: 10rem;
-            top: 30rem;
-            left: 40%;
-            opacity: 0;
-            transition: .5s;
-            z-index: -1;
-        }
-
-            .note.active {
-                opacity: 0.5;
-                z-index: 1;
-            }*/
-
-        .Trapezoid {
-            border-right: 90rem solid transparent;
-            border-bottom: 30rem solid rgb(208, 196, 176);
-            top: 0;
-            z-index: -1;
-        }
-
-        #payform label:hover {
-            color: crimson;
-            cursor: pointer
-        }
-
-        .prenote {
-            position: absolute;
-            right: 0;
-            top: 0rem;
-            color: crimson;
-            font-weight: bold;
-        }
-    </style>
+    <link href="~/Areas/CheckProcess/Content/css/Detail.css" rel="stylesheet" />
 }
 @*<div id="top" class="container">*@
 <div id="top" class="">
@@ -410,11 +156,11 @@
             <table class="fee my-md-1">
                 <tbody>
                     <tr class="m-md-3">
-                        <td><label class="text">商品總額:</label></td>
+                        <td><label class="text">商品總額 :</label></td>
                         <td><label class="amount text mx-md-5 my-md-0" id="pamount"></label></td>
                     </tr>
                     <tr class="m-md-3">
-                        <td><label class="text">商品運費:</label></td>
+                        <td><label class="text">商品運費 :</label></td>
                         <td><label class="transcharge text mx-md-5 my-md-0" id="pcharge">0</label></td>
                     </tr>
                     <tr>
@@ -423,7 +169,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label class="text ">訂單總額:</label></td>
+                        <td><label class="text ">訂單總額 :</label></td>
                         <td><label class="text mx-md-5 my-md-0 amount" id="camount"></label></td>
                     </tr>
                 </tbody>
@@ -432,7 +178,7 @@
         <div class="Trapezoid"></div>
     </div>
     <div class="note d-flex justify-content-center align-items-center"></div>
-    <div class="text-md-center">
+    <div class="text-center">
         <a class="btn btn-dark m-md-3 cbtn" href="@Url.Action("Browse","Product",new {area="ProductDisplay", id=1})" id="last1">繼續購物</a>
         <a class="btn btn-dark m-md-3 cbtn" href="#header" id="next1">下一步</a>
         <a class="btn btn-dark m-md-3 cbtn d-none" href="#" id="last2">回到購物車</a>
