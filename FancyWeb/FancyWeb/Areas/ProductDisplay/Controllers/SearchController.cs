@@ -63,7 +63,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
         public ActionResult ActivityFilter()
         {
             CategoryFilter activityFilter = new CategoryFilter();
-            var activities = db.Activities.ToList();
+            var activities = db.Activities.Where(a => a.EndDate >= DateTime.Now).ToList();
             return PartialView(activities);
         }
 

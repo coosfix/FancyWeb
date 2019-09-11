@@ -55,7 +55,6 @@ namespace FancyWeb.Areas.ProductDisplay.Models
         {
             FancyStoreEntities db = new FancyStoreEntities();
 
-            //var products = preproducts.Select(p => new ProductCell
             var products = preproducts.Where(p => p.Product.ProductInDate <= DateTime.Now && p.Product.ProductOutDate >= DateTime.Now).Select(p => new ProductCell
             {
                 ProductID = p.Product.ProductID,
@@ -67,9 +66,9 @@ namespace FancyWeb.Areas.ProductDisplay.Models
                 G = p.Color.G,
                 B = p.Color.B,
                 UnitPrice = p.Product.UnitPrice,
-                SUnitPrice = p.Product.ActivityProducts.Where(a => a.ProductID == p.ProductID).Count() > 0 ? Math.Floor(p.Product.ActivityProducts.Where(a => a.ProductID == p.ProductID).FirstOrDefault().Activity.DiscountMethod.Discount * p.Product.UnitPrice) : p.Product.UnitPrice,
+                SUnitPrice = p.Product.ActivityProducts.Where(a => a.ProductID == p.ProductID && a.Activity.EndDate >= DateTime.Now).Count() > 0 ? Math.Floor(p.Product.ActivityProducts.Where(a => a.ProductID == p.ProductID && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.DiscountMethod.Discount * p.Product.UnitPrice) : p.Product.UnitPrice,
                 ProductInDate = p.Product.ProductInDate,
-                ActivityName = p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityName
+                ActivityName = p.Product.ActivityProducts.Where(a => a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.ActivityName
             });
 
             return products;

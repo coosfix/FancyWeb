@@ -34,8 +34,8 @@ namespace FancyWeb.Areas.CheckProcess.Controllers
                     string activityname;
                     if (db.ActivityProducts.Where(a => a.ProductID == pd).Count() > 0)
                     {
-                        sprice = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.DiscountMethod.Discount;
-                        activityname = db.ActivityProducts.Where(a => a.ProductID == pd).FirstOrDefault().Activity.ActivityName;
+                        sprice = db.ActivityProducts.Where(a => a.ProductID == pd && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.DiscountMethod.Discount;
+                        activityname = db.ActivityProducts.Where(a => a.ProductID == pd && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.ActivityName;
                     }
                     else
                     {
