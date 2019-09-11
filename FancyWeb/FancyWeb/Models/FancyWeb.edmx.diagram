@@ -92,6 +92,7 @@
         <AssociationConnector Association="FancyStoreModel.FK_Users_Region" />
         <EntityTypeShape EntityType="FancyStoreModel.UserNotice" Width="1.5" PointX="0.75" PointY="9.75" />
         <AssociationConnector Association="FancyStoreModel.FK_UserNotice_User" />
+        <AssociationConnector Association="FancyStoreModel.FK_Activity_Photo" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
