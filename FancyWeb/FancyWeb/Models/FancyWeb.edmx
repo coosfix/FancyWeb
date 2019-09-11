@@ -15,6 +15,7 @@
           <Property Name="EndDate" Type="datetime" />
           <Property Name="DiscountID" Type="int" Nullable="false" />
           <Property Name="CreateDate" Type="datetime" />
+          <Property Name="PhotoID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="ActivityProduct">
           <Key>
@@ -449,6 +450,18 @@
             </Principal>
             <Dependent Role="Activity">
               <PropertyRef Name="DiscountID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Activity_Photo">
+          <End Role="Photo" Type="Self.Photo" Multiplicity="1" />
+          <End Role="Activity" Type="Self.Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photo">
+              <PropertyRef Name="PhotoID" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="PhotoID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1084,6 +1097,10 @@
             <End Role="DiscountMethod" EntitySet="DiscountMethod" />
             <End Role="Activity" EntitySet="Activity" />
           </AssociationSet>
+          <AssociationSet Name="FK_Activity_Photo" Association="Self.FK_Activity_Photo">
+            <End Role="Photo" EntitySet="Photo" />
+            <End Role="Activity" EntitySet="Activity" />
+          </AssociationSet>
           <AssociationSet Name="FK_ActivityProduct_Activity" Association="Self.FK_ActivityProduct_Activity">
             <End Role="Activity" EntitySet="Activity" />
             <End Role="ActivityProduct" EntitySet="ActivityProduct" />
@@ -1285,6 +1302,8 @@
           <Property Name="CreateDate" Type="DateTime" Precision="3" />
           <NavigationProperty Name="DiscountMethod" Relationship="Self.FK_Activity_DiscountMethod" FromRole="Activity" ToRole="DiscountMethod" />
           <NavigationProperty Name="ActivityProducts" Relationship="Self.FK_ActivityProduct_Activity" FromRole="Activity" ToRole="ActivityProduct" />
+          <Property Name="PhotoID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Photo" Relationship="FancyStoreModel.FK_Activity_Photo" FromRole="Activity" ToRole="Photo" />
         </EntityType>
         <EntityType Name="ActivityProduct">
           <Key>
@@ -1500,6 +1519,7 @@
           <NavigationProperty Name="NewsLists" Relationship="Self.FK_News_Photo" FromRole="Photo" ToRole="NewsList" />
           <NavigationProperty Name="ProductPhotoes" Relationship="Self.FK_ProductPhoto_Photo" FromRole="Photo" ToRole="ProductPhoto" />
           <NavigationProperty Name="Users" Relationship="FancyStoreModel.FK_User_Photo" FromRole="Photo" ToRole="User" />
+          <NavigationProperty Name="Activities" Relationship="FancyStoreModel.FK_Activity_Photo" FromRole="Photo" ToRole="Activity" />
         </EntityType>
         <EntityType Name="Product">
           <Key>
@@ -2355,6 +2375,10 @@
             <End Role="User" EntitySet="Users" />
             <End Role="UserNotice" EntitySet="UserNotices" />
           </AssociationSet>
+          <AssociationSet Name="FK_Activity_Photo" Association="FancyStoreModel.FK_Activity_Photo">
+            <End Role="Photo" EntitySet="Photos" />
+            <End Role="Activity" EntitySet="Activities" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="VW_EW_CategorySM">
           <Key>
@@ -2586,6 +2610,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Activity_Photo">
+          <End Type="FancyStoreModel.Photo" Role="Photo" Multiplicity="1" />
+          <End Type="FancyStoreModel.Activity" Role="Activity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Photo">
+              <PropertyRef Name="PhotoID" />
+            </Principal>
+            <Dependent Role="Activity">
+              <PropertyRef Name="PhotoID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2595,6 +2631,7 @@
           <EntitySetMapping Name="Activities">
             <EntityTypeMapping TypeName="FancyStoreModel.Activity">
               <MappingFragment StoreEntitySet="Activity">
+                <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />
                 <ScalarProperty Name="ActivityID" ColumnName="ActivityID" />
                 <ScalarProperty Name="ActivityName" ColumnName="ActivityName" />
                 <ScalarProperty Name="BeginDate" ColumnName="BeginDate" />

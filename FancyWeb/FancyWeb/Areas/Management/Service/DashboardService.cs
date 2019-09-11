@@ -146,8 +146,7 @@ namespace FancyWeb.Areas.Management.Service
         //地區銷售
         public RegionSell RegionSell()
         {
-            var regionsell = db.OrderDetails.AsEnumerable().Where(n => n.OrderHeader.OrderStatusID == 2
-            && n.OrderHeader.CreateDate.Value.Year == DateTime.Now.Year).GroupBy(n => n.CreateDate.Value.Month.ToString() + "月")
+            var regionsell = db.OrderDetails.AsEnumerable().GroupBy(n => n.CreateDate.Value.Month.ToString() + "月")
             .Select(n => new
             {
                 n.Key,

@@ -71,6 +71,7 @@ namespace FancyWeb.Areas.Members.Service
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
             SmtpServer.Port = 587;
             SmtpServer.EnableSsl = true;
+            SmtpServer.UseDefaultCredentials = false;
             SmtpServer.Credentials = login;
             msg.From = new MailAddress("fancydayevery@gmail.com", "Fancy");//寄件者
             msg.To.Add(Email);//可多個

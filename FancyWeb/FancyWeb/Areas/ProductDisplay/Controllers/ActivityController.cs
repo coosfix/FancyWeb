@@ -22,13 +22,16 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
             ViewBag.activityid = id;
             ViewBag.activityname = db.Activities.Find(id).ActivityName;
             TempData["activityoid"] = (Request.Cookies["activityoid"] == null) ? "1" : Request.Cookies["activityoid"].Values[0].ToString();
+            int activitypicid = db.Activities.Find(id).PhotoID;
+
+            ViewBag.activitypic =Convert.ToBase64String(db.Photos.Where(p => p.PhotoID == activitypicid).FirstOrDefault().Photo1);
 
             return View();
         }
 
         public ActionResult GetProduct(int id = 0, int orderid = 1, int page = 1)
         {
-            var preproducts = db.ProductColors.Where(p => p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityID == id && p.Product.ActivityProducts.FirstOrDefault().Activity.ActivityName != null);
+            var preproducts = db.ProductColors.Where(p => p.Product.ActivityProducts.Where(a => a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.ActivityID == id && p.Product.ActivityProducts.Where(a => a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.ActivityName != null);
 
             var products = ProductMethod.CreateProductCells(preproducts);
             int pages = products.Count();

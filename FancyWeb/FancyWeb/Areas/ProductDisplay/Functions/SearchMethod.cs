@@ -55,7 +55,7 @@ namespace FancyWeb.Areas.ProductDisplay.Functions
                 }
                 if (searchFilters.ActivityID != 0)
                 {
-                    var activityname = db.Activities.Where(a => a.ActivityID == searchFilters.ActivityID).FirstOrDefault().ActivityName;
+                    var activityname = db.Activities.Where(a => a.ActivityID == searchFilters.ActivityID && a.EndDate >= DateTime.Now).FirstOrDefault().ActivityName;
                     result = result.Where(p => p.ActivityName == activityname);
                 }
             }

@@ -37,15 +37,15 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
         //商品活動分類
         public ActionResult GetActivity(int id = 0)
         {
-            var activities = db.Activities.Select(a => new { a.ActivityID, a.ActivityName });
+            var activities = db.Activities.Where(a => a.EndDate >= DateTime.Now).Select(a => new { a.ActivityID, a.ActivityName });
             return Json(activities.ToList(), JsonRequestBehavior.AllowGet);
         }
 
         //商品小類別分類
         public ActionResult GetCategory(int id = 1)
         {
-            var categories = db.CategorySmalls.Where(c => c.CategoryMID == id).GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
-            //var categories = db.CategorySmalls.GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Count() });
+            var categories = db.CategorySmalls.Where(c => c.CategoryMID == id).GroupBy(c => c.CategorySID).Select(g => new { CategorySID = g.Key, g.FirstOrDefault().CategoryMID, g.FirstOrDefault().CategorySName, count = g.FirstOrDefault().Products.Where(p => p.ProductOutDate >= DateTime.Now && p.ProductInDate <= DateTime.Now).Count() });
+
             return Json(categories.ToList(), JsonRequestBehavior.AllowGet);
 
         }
@@ -67,7 +67,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
         //判斷商品有無存在活動中
         public ActionResult GetSale(int id)
         {
-            var sale = db.ActivityProducts.Where(a => a.ProductID == id).First().Activity.DiscountMethod.Discount;
+            var sale = db.ActivityProducts.Where(a => a.ProductID == id && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.DiscountMethod.Discount;
             return Json(sale, JsonRequestBehavior.AllowGet);
 
         }
@@ -124,7 +124,7 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
                 Sizes = db.ProductSizes.Where(s => s.ProductID == id).AsEnumerable().Select(s => new Size { SizeID = s.SizeID, SizeName = s.Size.SizeName }).ToList()
             };
 
-            var inactivity = db.ActivityProducts.Where(a => a.ProductID == id).ToList();
+            var inactivity = db.ActivityProducts.Where(a => a.ProductID == id && a.Activity.EndDate >= DateTime.Now).ToList();
             if (inactivity.Count() > 0)
             {
                 ViewBag.activityname = inactivity.FirstOrDefault().Activity.ActivityName;
@@ -161,9 +161,9 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
 
             foreach (var pd in products)
             {
-                decimal discountpercent = (db.ActivityProducts.Where(a => a.ProductID == pd.ProductID).Count() > 0) ? db.ActivityProducts.Where(a => a.ProductID == pd.ProductID).FirstOrDefault().Activity.DiscountMethod.Discount : 0;
+                decimal discountpercent = (db.ActivityProducts.Where(a => a.ProductID == pd.ProductID && a.Activity.EndDate >= DateTime.Now).Count() > 0) ? db.ActivityProducts.Where(a => a.ProductID == pd.ProductID && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.DiscountMethod.Discount : 0;
 
-                string activityname = (db.ActivityProducts.Where(a => a.ProductID == pd.ProductID).Count() > 0) ? db.ActivityProducts.Where(a => a.ProductID == pd.ProductID).FirstOrDefault().Activity.ActivityName : null;
+                string activityname = (db.ActivityProducts.Where(a => a.ProductID == pd.ProductID && a.Activity.EndDate >= DateTime.Now).Count() > 0) ? db.ActivityProducts.Where(a => a.ProductID == pd.ProductID && a.Activity.EndDate >= DateTime.Now).FirstOrDefault().Activity.ActivityName : null;
 
                 citem = new CartItem()
                 {
