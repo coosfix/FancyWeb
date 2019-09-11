@@ -164,6 +164,7 @@
   <ItemGroup>
     <Content Include="Areas\CheckProcess\Content\css\Detail.css" />
     <Content Include="Areas\CheckProcess\Content\css\OrderInfo.css" />
+    <Content Include="Areas\CheckProcess\Email\ordersucess.html" />
     <Content Include="Areas\HomePage\Scripts\InstagramApI.js" />
     <Content Include="Areas\Management\Email\template_Message.html" />
     <Content Include="Areas\ProductDisplay\Content\css\GetProductDetail.css" />
