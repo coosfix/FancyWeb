@@ -25,7 +25,7 @@ namespace FancyWeb.Areas.Management.Service
             }
             return LineMessage;
         }
-
+        //活動商品
         public string GetActityP(string url)
         {
             var Activity = db.ActivityProducts.OrderBy(n => Guid.NewGuid()).Take(3).Select(n => new
@@ -86,10 +86,11 @@ namespace FancyWeb.Areas.Management.Service
 
             return _Templates;
         }
+
         //取消訂單
-        public string CancelOrder(string uname, string ordernum)
+        public string CancelOrder(string destination, string ordernum)
         {
-            var haveorder = db.OrderHeaders.Where(n => n.OrderNum == ordernum && n.User.UserName == uname).FirstOrDefault();
+            var haveorder = db.OrderHeaders.Where(n => n.OrderNum == ordernum && n.User.Destination == destination).FirstOrDefault();
             if (haveorder == null)
             {
                 return "無此訂單";
@@ -106,23 +107,72 @@ namespace FancyWeb.Areas.Management.Service
             }
         }
         //查詢訂單
-        public List<LineOrderHeader> SearchOrder(string uname, string count)
+        public string SearchOrder(string destination, string ordernum)
         {
-            List<LineOrderHeader> data = new List<LineOrderHeader>();
-            data = db.OrderHeaders.Where(n=>n.User.UserName == uname).OrderByDescending(n=>n.CreateDate).Take(Convert.ToInt32(count)).Select(n => new LineOrderHeader
+            var data = db.OrderHeaders.Where(n => n.User.Destination == destination && n.OrderNum == ordernum).FirstOrDefault();
+            if (data != null)
             {
-                ordernum = n.OrderNum,
-                orderstatus = n.OrderStatusList.OrderStatusName,
-                amount = n.OrderAmount,
-                orderdetail = n.OrderDetails.Select(m => new LineOrderDetail
+                string orderheaderstring = $"📜訂單編號:{data.OrderNum}\n訂單狀態:{data.OrderStatusList.OrderStatusName}\n訂單總額:NT${data.OrderAmount}\n" +
+                                $"=============";
+                foreach (var item in data.OrderDetails)
                 {
-                    pname = m.Product.ProductName,
-                    pQTY = m.OrderQTY,
-                    pUP = m.UnitPrice
-                }).ToList()
-            }).ToList();
-            return data;
+                    orderheaderstring += $"\n📋商品名稱:{item.Product.ProductName}\n購買數量:{item.OrderQTY}\n價格:NT$ {item.UnitPrice}\n------------";
+                }
+                return orderheaderstring;
+            }
+            else
+            {
+                return "無此訂單，請輸入正確";
+            }
+
         }
+
+        //查詢最近五筆
+        public List<LineOrderHeader> SearchOrder5(string destination)
+        {
+            if (db.Users.Any(n => n.Destination == destination))
+            {
+                List<LineOrderHeader> data = new List<LineOrderHeader>();
+                data = db.OrderHeaders.Where(n => n.User.Destination == destination).OrderByDescending(n => n.CreateDate).Take(5).Select(n => new LineOrderHeader
+                {
+                    ordernum = n.OrderNum,
+                    orderstatus = n.OrderStatusList.OrderStatusName,
+                    amount = n.OrderAmount,
+                    orderdetail = n.OrderDetails.Select(m => new LineOrderDetail
+                    {
+                        pname = m.Product.ProductName,
+                        pQTY = m.OrderQTY,
+                        pUP = m.UnitPrice
+                    }).ToList()
+                }).ToList();
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+        //綁定帳號
+        public string LineBinding(string id, string uname)
+        {
+            var user = db.Users.Where(n => n.UserName == uname).FirstOrDefault();
+            if (user != null)
+            {
+                user.Destination = id;
+                db.SaveChanges();
+                return $"使用者 {uname} 您好:\n已經成功成功綁定帳號";
+            }
+            else
+            {
+                return $"找不到改用戶綁定";
+            }
+        }
+
+
+
+
+
         public class LineOrderHeader
         {
             public string ordernum { get; set; }

@@ -67,9 +67,10 @@
                             <a href="@Url.Action("OAuthLogin",new { Method="LINE"})" class="btn btn-Line btn-block text-white rounded-0"><i class="fab fa-line fa-lg mr-2"></i>登入</a>
                             <a href="@Url.Action("OAuthLogin",new { Method="Google"})" class="btn btn-Google btn-block rounded-0"><i class="fab fa-google fa-lg mr-2"></i>登入</a>
                             <div class="btn-group mt-5" role="group" aria-label="First group">
-                                <button type="button" class="btn btn-outline-primary">一般會員</button>
+                                <button type="button" class="btn btn-outline-dark">Tom</button>
+                                <button type="button" class="btn btn-outline-primary">Mary</button>
                                 <button type="button" class="btn btn-outline-info adm">管理員</button>
-                                <button type="button" class="btn btn-outline-warning">客服中心</button>
+                                <button type="button" class="btn btn-outline-warning">客服</button>
                             </div>
                         </div>
 
@@ -263,7 +264,11 @@
         //demo
         $(".btn-outline-primary").click(function () {
             $("#UserName").val("Mary");
-            $("#Password").val("123");
+            $("#Password").val("222");
+        });
+        $(".btn-outline-dark").click(function () {
+            $("#UserName").val("Tom");
+            $("#Password").val("222");
         });
         $(".btn-outline-info.adm").click(function () {
             $("#UserName").val("Jay");
@@ -277,13 +282,13 @@
             $("#rUserName").val("Tom");
             $("#rUserPassword").val("222");
             $("#rPhone").val("0979325992");
-            $("#rEmail").val("email@gmail.com");
+            $("#rEmail").val("Tombuyfancy@gmail.com");
             $("#rAddress").val("合順街八巷三弄十七號99樓");
-            $("#gender2").attr("checked", true);
+            $("#gender1").attr("checked", true);
             $(".rblock").css("transform", "translateX(-100%)");
         });
         $("#fogot_demo").click(function () {
-            $("#forgot_Email input").val("marybuyfancy@gmail.com")
+            $("#forgot_Email input").val("Tombuyfancy@gmail.com")
         });
     </script>
     <script>
