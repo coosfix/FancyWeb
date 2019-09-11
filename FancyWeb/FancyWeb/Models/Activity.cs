@@ -26,9 +26,11 @@ namespace FancyWeb.Models
         public Nullable<System.DateTime> EndDate { get; set; }
         public int DiscountID { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }
+        public int PhotoID { get; set; }
     
         public virtual DiscountMethod DiscountMethod { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ActivityProduct> ActivityProducts { get; set; }
+        public virtual Photo Photo { get; set; }
     }
 }

@@ -21,6 +21,7 @@ namespace FancyWeb.Models
             this.NewsLists = new HashSet<NewsList>();
             this.ProductPhotoes = new HashSet<ProductPhoto>();
             this.Users = new HashSet<User>();
+            this.Activities = new HashSet<Activity>();
         }
     
         public int PhotoID { get; set; }
@@ -35,5 +36,7 @@ namespace FancyWeb.Models
         public virtual ICollection<ProductPhoto> ProductPhotoes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> Users { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Activity> Activities { get; set; }
     }
 }
