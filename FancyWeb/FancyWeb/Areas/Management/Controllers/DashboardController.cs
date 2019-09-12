@@ -126,12 +126,12 @@ namespace FancyWeb.Areas.Management.Controllers
                     else if (m.text.Split(' ')[0] == "!訂單取消")
                     {
                         string[] vs = m.text.Split(' ');
-                        sm.text = linemesssage.CancelOrder(destination, vs[1]);
+                        sm.text = linemesssage.CancelOrder(destination, vs.Length < 2 ? "GD999" : vs[1]);
                     }
                     else if (m.text.Split(' ')[0] == "!訂單查詢")
                     {
                         string[] vs = m.text.Split(' ');
-                        sm.text = linemesssage.SearchOrder(destination, vs[1]);
+                        sm.text = linemesssage.SearchOrder(destination, vs.Length < 2 ? "GD999" : vs[1]);
                     }
                     else if (m.text.Split(' ')[0] == "!最近訂單")
                     {

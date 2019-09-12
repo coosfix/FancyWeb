@@ -15,7 +15,7 @@ namespace FancyWeb.Areas.Members.Service
     {
         //static string redirect_uri = "https://localhost:44395/Login/callback";
         //static string redirect_uri = "https://192.168.39.25:7000/Login/callback";
-        static string redirect_uri = "https://msit12201.azurewebsites.net/Login/callback";
+        static string redirect_uri = "https://fancystore.azurewebsites.net/Login/callback";
         static public Dictionary<string, string> LineResponse(string code, string state)
         {
             Dictionary<string, string> keyValues = new Dictionary<string, string>();

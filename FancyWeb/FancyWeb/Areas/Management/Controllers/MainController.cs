@@ -103,7 +103,8 @@ namespace FancyWeb.Areas.Management.Controllers
                 VerificationCode = "",
                 Address = "",
                 OauthType = "N",
-                Gender = data.Gender.Equals("male")
+                Gender = data.Gender.Equals("male"),
+                Destination="."
             };
             string uid = admin.Register(user).ToString();
             return uid != "0" ? Json(uid) : Json("Fail");

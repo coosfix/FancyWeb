@@ -157,7 +157,11 @@ namespace FancyWeb.Areas.Management.Service
         public string LineBinding(string id, string uname)
         {
             var user = db.Users.Where(n => n.UserName == uname).FirstOrDefault();
-            if (user != null)
+            if (user.Destination != ".")
+            {
+                return $"該用戶已經綁定";
+            }
+            else if (user != null)
             {
                 user.Destination = id;
                 db.SaveChanges();
