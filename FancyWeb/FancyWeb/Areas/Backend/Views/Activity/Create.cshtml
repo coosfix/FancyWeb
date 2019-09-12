@@ -10,7 +10,7 @@
 </div>
 <div class="container">
     <hr />
-    @using (Html.BeginForm("Create", "Activity", new { area = "Backend" }, FormMethod.Post, new { novalidate = "novalidate" }))
+    @using (Html.BeginForm("Create", "Activity", new { area = "Backend"}, FormMethod.Post, new { novalidate = "novalidate", enctype = "multipart/form-data" }))
     {
         @*@Html.HiddenFor(p => p.ActivityID)*@
 
@@ -44,6 +44,12 @@
                 @Html.DropDownListFor(p => p.DiscountID, discounts, "請選擇", new { @class = "form-control" })
                 @Html.ValidationMessageFor(p => p.DiscountID, "", new { @class = "text-danger" })
             </div>
+        </div>
+        <div class="form-group row">
+                @Html.LabelFor(p => p.PhotoFile, new { @class = "col-sm-2 col-form-label", style = "text-align:right;" })
+                <div class="col-sm-9">
+                    @Html.EditorFor(p => p.PhotoFile, new { htmlAttributes = new { type = "file", @class = "form-control", placeholder = "選擇圖檔", accept = ".jpeg,.jpg,.gif,.png" } })
+                </div>
         </div>
 
 
