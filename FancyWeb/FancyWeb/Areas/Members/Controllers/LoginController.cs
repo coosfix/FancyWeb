@@ -252,7 +252,8 @@ namespace FancyWeb.Areas.Members.Controllers
                         Address = "",
                         OauthType = state.Split('-')[1].Substring(0, 1),
                         VerificationCode = String.Empty,
-                        Gender = true
+                        Gender = true,
+                        Destination = "."
                     };
 
                     if (service.Register(user))
