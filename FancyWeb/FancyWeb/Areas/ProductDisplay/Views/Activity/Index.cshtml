@@ -1,0 +1,119 @@
+﻿@model IEnumerable<FancyWeb.Models.Activity>
+@{
+    ViewBag.Title = "Fancy  |   活動專區";
+}
+@section styles{
+    <style>
+        .card-img-top {
+            width: 80%;
+            border-top-left-radius: calc(.25rem - 1px);
+            border-top-right-radius: calc(.25rem - 1px);
+            border-bottom-left-radius: calc(.25rem - 1px);
+            border-bottom-right-radius: calc(.25rem - 1px);
+        }
+
+        #route span a {
+            color: black;
+            font-weight: bold;
+        }
+
+            #route span a:hover {
+                color: red;
+            }
+
+        .col-md-2 a, #route span, #olist {
+            font-size: 17px;
+        }
+
+        .acttext {
+            position: absolute;
+            cursor: pointer;
+            z-index: 10;
+            color: white !important;
+        }
+
+            .acttext.date {
+                top: 10%;
+                left: 15%;
+                font-size: 2rem;
+                font-style: italic;
+                transition: .5s;
+            }
+
+            .acttext.name {
+                top: 45%;
+                left: 40%;
+                font-size: 4rem;
+                font-style: italic;
+                transition: .5s;
+            }
+
+            .acttext.sale {
+                top: 45%;
+                left: 60%;
+                font-size: 4rem;
+                font-style: italic;
+                transition: .5s;
+            }
+
+        .go {
+            top: 80%;
+            opacity: 0;
+            font-size: 3rem;
+            transition: 0.5s;
+            right: 4rem;
+            background-color: crimson;
+            color: white;
+            padding-left: 1rem;
+            padding-right: 1rem;
+            border-top-left-radius: 0.3rem;
+            border-bottom-left-radius: 0.3rem;
+        }
+
+        .activity:hover .acttext {
+            color: crimson !important;
+        }
+
+        .activity:hover .go {
+            opacity: 1;
+            transform: translateX(-8.3rem);
+        }
+
+        .background {
+            position: absolute;
+            background-color: rgba(0,0,0,0.5);
+            left: 12.2rem;
+            width: 80%;
+            height: 100%
+        }
+
+        .activity:hover .background {
+            background-color: rgba(0,0,0,0.1);
+        }
+    </style>
+}
+
+<div class="text-center">
+    <div id="route" class="align-items-start d-flex">
+        <span class=""><a href="@Url.Action("Index", "Home", new { area = "HomePage" })">首頁</a></span>
+        <span class="">><a href="~/ProductDisplay/Activity/?id=1">活動專區</a></span>
+    </div>
+    @foreach (var activity in Model)
+    {
+        <div class="my-5 position-relative" style="overflow:hidden">
+            <a href="@Url.Action("Browse","Activity", new { area = "ProductDisplay" })/?id=@activity.ActivityID" class="activity">
+                <label class="acttext date">@activity.BeginDate.Value.ToString("yyyy/MM/dd") ~  @activity.EndDate.Value.ToString("yyyy/MM/dd")</label>
+                <label class="acttext name">@activity.ActivityName</label>
+                <label class="acttext sale">@((1 - activity.DiscountMethod.Discount).ToString("P0")) off</label>
+                <div class="background"></div>
+                <img src="data:Image/jpeg;base64,@Convert.ToBase64String(activity.Photo.Photo1)" class="card-img-top" alt="...">
+                <span class="position-absolute go">前往活動</span>
+            </a>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+    </script>
+}
+
