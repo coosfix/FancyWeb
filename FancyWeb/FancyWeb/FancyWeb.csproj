@@ -672,10 +672,6 @@
     <Content Include="Areas\ProductDisplay\Content\dist\js\lightbox.min.map" />
     <Content Include="Areas\ProductDisplay\Views\Activity\Index.cshtml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
-    <None Include="Properties\PublishProfiles\FancyStore - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
-    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy1.pubxml" />
-    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy2.pubxml" />
     <Content Include="Areas\Members\Views\Login\AccountOpen.cshtml" />
     <Content Include="Areas\Management\Views\EmailDesign\Index.cshtml" />
     <Content Include="Areas\Management\Views\EmailDesign\template.cshtml" />
@@ -700,6 +696,7 @@
     <Content Include="Areas\Management\Views\EmailDesign\template_newitem2.cshtml" />
     <Content Include="Areas\HomePage\Views\web.config" />
     <Content Include="Areas\HomePage\Views\Home\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\msit12201 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
