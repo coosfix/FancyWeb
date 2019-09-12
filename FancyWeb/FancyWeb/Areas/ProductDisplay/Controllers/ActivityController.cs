@@ -15,16 +15,19 @@ namespace FancyWeb.Areas.ProductDisplay.Controllers
         // GET: ProductDisplay/Activity
         public ActionResult Index()
         {
-            return View();
+            var activities = db.Activities.Where(a => a.EndDate >= DateTime.Now).ToList();
+            return View(activities);
         }
         public ActionResult Browse(int id = 0)
         {
+            if (id == 0)
+                id = db.Activities.Where(a => a.EndDate >= DateTime.Now).FirstOrDefault().ActivityID;
             ViewBag.activityid = id;
             ViewBag.activityname = db.Activities.Find(id).ActivityName;
             TempData["activityoid"] = (Request.Cookies["activityoid"] == null) ? "1" : Request.Cookies["activityoid"].Values[0].ToString();
             int activitypicid = db.Activities.Find(id).PhotoID;
 
-            ViewBag.activitypic =Convert.ToBase64String(db.Photos.Where(p => p.PhotoID == activitypicid).FirstOrDefault().Photo1);
+            ViewBag.activitypic = Convert.ToBase64String(db.Photos.Find(activitypicid).Photo1);
 
             return View();
         }

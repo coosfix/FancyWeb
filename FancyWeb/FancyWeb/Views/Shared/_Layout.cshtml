@@ -220,9 +220,7 @@
                     <li class="active"><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 1 })">衣料品</a></li>
                     <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 2 })">下半身</a></li>
                     <li><a href="@Url.Action("Browse", "Product", new { area = "ProductDisplay", id = 5 })">配件</a></li>
-                    <li><a href="~/ProductDisplay/Activity/?id=1">活動專區</a></li>
-                    @*<li><a href="#">包包</a></li>*@
-                    @*<li><a href="#">熱門商品</a></li>*@
+                    <li><a href="@Url.Action("Index", "Activity", new { area = "ProductDisplay" })">活動專區</a></li>
                 </ul>
                 <!-- /NAV -->
             </div>
