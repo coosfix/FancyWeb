@@ -1,9 +1,10 @@
 ﻿@*@model  IEnumerable<FancyWeb.Areas.ProductDisplay.Models.ProductCell>*@
 @{
-    ViewBag.Title = "Browse";
+    ViewBag.Title = "Fancy  |   活動專區    -   " + ViewBag.activityname;
 }
 @section styles{
     <style>
+
 
         body {
             font-family: "微軟正黑體"
@@ -117,6 +118,7 @@
         #pagelist li {
             cursor: pointer;
         }
+
     </style>
 }
 <div class="row">
@@ -132,8 +134,8 @@
     <div class="col-md-10" id="showarea">
         <div class="d-md-flex justify-content-md-between mb-md-2">
             <div id="route" class="align-items-center d-flex">
-                <span class=""><a href="">首頁</a></span>
-                <span class="">><a href="~/ProductDisplay/Activity/?id=1">活動專區</a></span>
+                <span class=""><a href="@Url.Action("Index", "Home", new { area = "HomePage" })">首頁</a></span>
+                <span class="">><a href="@Url.Action("Index", "Activity", new { area = "ProductDisplay" })">活動專區</a></span>
                 <span class="">><a href="~/ProductDisplay/Activity/?id=@ViewBag.activityid">@ViewBag.activityname</a></span>
             </div>
             <div class="search-field">
@@ -149,9 +151,8 @@
                 </select>
             </div>
         </div>
-        <div class="mb-md-3 overflow-hidden w-100" style="height:30%">
-            @*<img class=" w-100" src="~/Areas/ProductDisplay/Images/sale_banner{@ViewBag.activityid}.jpg" />*@
-            <img class=" w-100" src="data:Image/jpeg;base64,@ViewBag.activitypic" />
+        <div class="mb-md-3 overflow-hidden w-100" style="height:22rem">
+            <img class=" w-100" src="data:Image/jpeg;base64,@ViewBag.activitypic"/>
         </div>
         <div class="flex-md-row" id="display">
         </div>
