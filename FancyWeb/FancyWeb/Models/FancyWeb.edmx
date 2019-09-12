@@ -358,6 +358,7 @@
           <Property Name="PhotoID" Type="int" />
           <Property Name="Enabled" Type="bit" Nullable="false" />
           <Property Name="OauthType" Type="nvarchar" MaxLength="1" />
+          <Property Name="Destination" Type="nvarchar" MaxLength="100" Nullable="false" />
         </EntityType>
         <EntityType Name="UserNotice">
           <Key>
@@ -2478,6 +2479,7 @@
           <NavigationProperty Name="Questions" Relationship="FancyStoreModel.FK_Questions_Users" FromRole="User" ToRole="Question" />
           <NavigationProperty Name="Region" Relationship="FancyStoreModel.FK_Users_Region" FromRole="User" ToRole="Region" />
           <NavigationProperty Name="UserNotices" Relationship="FancyStoreModel.FK_UserNotice_User" FromRole="User" ToRole="UserNotice" />
+          <Property Name="Destination" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_BrowseHistory_User">
           <End Type="FancyStoreModel.User" Role="User" Multiplicity="1" />
@@ -3054,6 +3056,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="FancyStoreModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Destination" ColumnName="Destination" />
                 <ScalarProperty Name="OauthType" ColumnName="OauthType" />
                 <ScalarProperty Name="Enabled" ColumnName="Enabled" />
                 <ScalarProperty Name="PhotoID" ColumnName="PhotoID" />

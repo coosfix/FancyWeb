@@ -96,7 +96,7 @@
 <div class="text-center">
     <div id="route" class="align-items-start d-flex">
         <span class=""><a href="@Url.Action("Index", "Home", new { area = "HomePage" })">首頁</a></span>
-        <span class="">><a href="~/ProductDisplay/Activity/?id=1">活動專區</a></span>
+        <span class="">><a href="@Url.Action("Index", "Activity", new { area = "ProductDisplay" })">活動專區</a></span>
     </div>
     @foreach (var activity in Model)
     {

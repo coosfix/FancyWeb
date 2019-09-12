@@ -95,7 +95,8 @@ namespace FancyWeb.Areas.Members.Controllers
                     PhotoID = photo.PhotoID,
                     Address = RegisterMember.Address,
                     Gender = RegisterMember.Gender.Equals("male"),
-                    VerificationCode = String.Empty
+                    VerificationCode = String.Empty,
+                    Destination = "."
                 };
                 if (service.Register(RegisterMember.newMember))
                 {

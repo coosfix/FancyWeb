@@ -43,6 +43,7 @@ namespace FancyWeb.Models
         public Nullable<int> PhotoID { get; set; }
         public bool Enabled { get; set; }
         public string OauthType { get; set; }
+        public string Destination { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<BrowseHistory> BrowseHistories { get; set; }
