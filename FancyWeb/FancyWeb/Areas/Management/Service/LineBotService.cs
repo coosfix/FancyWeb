@@ -62,12 +62,12 @@ namespace FancyWeb.Areas.Management.Service
                 {
                     type = "uri",
                     label = "前往商品頁面",
-                    uri = "https://msit12201.azurewebsites.net/ProductDisplay/Product/GetProductDetail/" + item.pid,
+                    uri = "https://fancystore.azurewebsites.net/ProductDisplay/Product/GetProductDetail/" + item.pid,
 
                 });
                 columns.Add(new Columns
                 {
-                    thumbnailImageUrl = "https://msit12201.azurewebsites.net/ProductDisplay/Product/ByteImage/" + item.pid,
+                    thumbnailImageUrl = "https://fancystore.azurewebsites.net/ProductDisplay/Product/ByteImage/" + item.pid,
                     title = item.pname,
                     text = "NT$ " + item.pup.ToString(),
                     actions = actions
