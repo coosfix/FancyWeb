@@ -696,7 +696,7 @@
     <Content Include="Areas\Management\Views\EmailDesign\template_newitem2.cshtml" />
     <Content Include="Areas\HomePage\Views\web.config" />
     <Content Include="Areas\HomePage\Views\Home\Index.cshtml" />
-    <None Include="Properties\PublishProfiles\FancyWeb - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\FancyStore - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\msit12201 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
