@@ -34,12 +34,13 @@ namespace FancyWeb.Areas.Backend.Controllers
                 av.BeginDate = item.BeginDate;
                 av.EndDate = item.EndDate;
                 av.CreateDate = item.CreateDate;
+                av.PhotoID = item.PhotoID;
                 av.DiscountName = dis.Where(x => x.DiscountID == item.DiscountID).FirstOrDefault().DiscountName;
 
                 activityList.Add(av);
             }
 
-            return View(activityList.OrderByDescending(x=>x.ActivityID).ToPagedList(page ?? 1, 5));
+            return View(activityList.OrderByDescending(x => x.ActivityID).ToPagedList(page ?? 1, 5));
         }
 
         [HttpGet]
@@ -51,20 +52,40 @@ namespace FancyWeb.Areas.Backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(ActivityViewModel avm)
+        public ActionResult Create(ActivityViewModel avm, HttpPostedFileBase PhotoFile)
         {
-            Activity av = new Activity()
+            try
             {
-                ActivityID = avm.ActivityID,
-                ActivityName = avm.ActivityName,
-                BeginDate = avm.BeginDate,
-                EndDate = avm.EndDate,
-                DiscountID = avm.DiscountID,
-                CreateDate = DateTime.Now
-            };
+                //將圖檔轉成2進位資料
+                var imgSize = PhotoFile.ContentLength;
+                byte[] imgByte = new byte[imgSize];
+                PhotoFile.InputStream.Read(imgByte, 0, imgSize);
 
-            db.Activities.Add(av);
-            db.SaveChanges();
+                Photo ph = new Photo
+                {
+                    Photo1 = imgByte,
+                    CreateDate = DateTime.Now
+                };
+
+                db.Photos.Add(ph);
+
+                Activity av = new Activity()
+                {
+                    ActivityID = avm.ActivityID,
+                    ActivityName = avm.ActivityName,
+                    BeginDate = avm.BeginDate,
+                    EndDate = avm.EndDate,
+                    DiscountID = avm.DiscountID,
+                    CreateDate = DateTime.Now,
+                    PhotoID = ph.PhotoID
+                };
+
+                db.Activities.Add(av);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+            }
 
             return RedirectToAction("Index");
         }
@@ -87,6 +108,7 @@ namespace FancyWeb.Areas.Backend.Controllers
             aevm.DiscountID = av.DiscountID;
             aevm.DiscountName = db.DiscountMethods.Find(av.DiscountID).DiscountName;
             aevm.CreateDate = av.CreateDate;
+            aevm.PhotoID = av.PhotoID;
 
             var ap = db.ActivityProducts.Where(x => x.ActivityID == id);
             List<Product> prod = db.Products.ToList();

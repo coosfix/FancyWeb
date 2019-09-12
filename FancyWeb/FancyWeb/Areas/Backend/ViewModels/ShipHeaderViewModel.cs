@@ -31,7 +31,10 @@ namespace FancyWeb.Areas.Backend.ViewModels
 
         //隱藏欄位
         public int OrderID { get; set; }
+
+        [DisplayName("運送公司")]
         public int ShippingID { get; set; }
+
         public int PayMethodID { get; set; }
         public int OrderStatusID { get; set; }
     }
