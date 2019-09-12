@@ -11,7 +11,7 @@
         </div>
     </div>
 
-    <div>
+    <td>
         @using (Html.BeginForm("Edit", "Activity", new { area = "Backend", page = TempData["savepage"] }, FormMethod.Post, new { novalidate = "novalidate" }))
         {
             @Html.HiddenFor(p => p.ActivityID)
@@ -23,6 +23,7 @@
                         <th>@Html.DisplayNameFor(p => p.BeginDate)</th>
                         <th>@Html.DisplayNameFor(p => p.EndDate)</th>
                         <th>@Html.DisplayNameFor(p => p.DiscountName)</th>
+                        <th>@Html.DisplayNameFor(p => p.PhotoID)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,9 @@
                                 var discounts = new SelectList(ViewBag.datas, "DiscountID", "DiscountName");
                             }
                             @Html.DropDownListFor(p => p.DiscountID, discounts, "請選擇", new { @class = "form-control" })
+                        </td>
+                        <td>
+                            <img src="@Url.Action("GetImageByte","AddStock",new { id=Model.PhotoID})" class="card-img-top" style="width:160px;height:60px">
                         </td>
                     </tr>
                 </tbody>

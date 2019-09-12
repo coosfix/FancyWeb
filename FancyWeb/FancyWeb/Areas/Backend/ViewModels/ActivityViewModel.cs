@@ -36,5 +36,11 @@ namespace FancyWeb.Areas.Backend.ViewModels
 
         [DisplayName("建立日期")]
         public Nullable<System.DateTime> CreateDate { get; set; }
+
+        [DisplayName("選擇圖檔")]
+        public string PhotoFile { get; set; }
+
+        [DisplayName("圖片")]
+        public int PhotoID { get; set; }
     }
 }

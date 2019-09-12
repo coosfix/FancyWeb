@@ -37,6 +37,13 @@ namespace FancyWeb.Areas.Backend.ViewModels
         [DisplayName("建立日期")]
         public Nullable<System.DateTime> CreateDate { get; set; }
 
+        [DisplayName("圖片")]
+        [Required(ErrorMessage = "沒有檔案,不可上傳")]
+        public string FileInfo { get; set; }
+
+        [DisplayName("圖片")]
+        public int PhotoID { get; set; }
+
 
         public IEnumerable<ActivityProdViewModel> producstList;
     }

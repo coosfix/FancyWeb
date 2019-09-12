@@ -60,6 +60,8 @@ namespace FancyWeb.Areas.Management.Controllers
         }
 
         LineBotService linemesssage = new LineBotService();
+
+
         [HttpPost]
         public ActionResult LineBot(string destination, LINEModel data)
         {
@@ -85,7 +87,7 @@ namespace FancyWeb.Areas.Management.Controllers
                 ReplyBody<SendMessage> _Reply = new ReplyBody<SendMessage>()
                 {
                     replyToken = replyToken,
-                    messages = procMessage(data.events[0].message)
+                    messages = procMessage(data.events[0].message, destination)
                 };
                 LINE_Reply<SendMessage> reply = new LINE_Reply<SendMessage>(_Reply);
                 reply.send();
@@ -94,7 +96,7 @@ namespace FancyWeb.Areas.Management.Controllers
             return Json("Hi", JsonRequestBehavior.AllowGet);
         }
 
-        private List<SendMessage> procMessage(ReceiveMessage m)
+        private List<SendMessage> procMessage(ReceiveMessage m, string destination)
         {
             List<SendMessage> msgs = new List<SendMessage>();
             UriBuilder uriBuilder = new UriBuilder(Request.Url)
@@ -124,28 +126,43 @@ namespace FancyWeb.Areas.Management.Controllers
                     else if (m.text.Split(' ')[0] == "!訂單取消")
                     {
                         string[] vs = m.text.Split(' ');
-                        sm.text = linemesssage.CancelOrder(vs[1], vs[2]);
+                        sm.text = linemesssage.CancelOrder(destination, vs.Length < 2 ? "GD999" : vs[1]);
                     }
                     else if (m.text.Split(' ')[0] == "!訂單查詢")
                     {
-
                         string[] vs = m.text.Split(' ');
-                        var data = linemesssage.SearchOrder(vs[1], vs[2]);
-                        foreach (var item in data)
+                        sm.text = linemesssage.SearchOrder(destination, vs.Length < 2 ? "GD999" : vs[1]);
+                    }
+                    else if (m.text.Split(' ')[0] == "!最近訂單")
+                    {
+                        var data = linemesssage.SearchOrder5(destination);
+                        if (data != null)
                         {
-                            SendMessage smm = new SendMessage()
+                            foreach (var item in data)
                             {
-                                type = Enum.GetName(typeof(MessageType), m.type)
-                            };
-                            smm.text = $"📜訂單編號:{item.ordernum}\n訂單狀態:{item.orderstatus}\n訂單總額:NT${item.amount}\n" +
-                                $"=============";
-                            foreach (var item2 in item.orderdetail)
-                            {
-                                smm.text += $"\n📋商品名稱:{item2.pname}\n購買數量:{item2.pQTY}\n價格:NT$ {item2.pUP}\n------------";
+                                SendMessage smm = new SendMessage()
+                                {
+                                    type = Enum.GetName(typeof(MessageType), m.type)
+                                };
+                                smm.text = $"📜訂單編號:{item.ordernum}\n訂單狀態:{item.orderstatus}\n訂單總額:NT${item.amount}\n" +
+                                    $"=============";
+                                foreach (var item2 in item.orderdetail)
+                                {
+                                    smm.text += $"\n📋商品名稱:{item2.pname}\n購買數量:{item2.pQTY}\n價格:NT$ {item2.pUP}\n------------";
+                                }
+                                msgs.Add(smm);
                             }
-                            msgs.Add(smm);
+                            return msgs;
                         }
-                        return msgs;
+                        else
+                        {
+                            sm.text = "請先綁定";
+                        }
+                    }
+                    else if (m.text.Split(' ')[0] == "!帳號綁定")
+                    {
+                        string[] vs = m.text.Split(' ');
+                        sm.text = linemesssage.LineBinding(destination, vs[1]);
                     }
                     break;
                 default:
